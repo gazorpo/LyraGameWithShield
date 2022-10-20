@@ -11,11 +11,13 @@
 struct FDamageStatics
 {
 	FGameplayEffectAttributeCaptureDefinition HealthDef;
+	FGameplayEffectAttributeCaptureDefinition ShieldDef;
 	FGameplayEffectAttributeCaptureDefinition BaseDamageDef;
 
 	FDamageStatics()
 	{
 		HealthDef = FGameplayEffectAttributeCaptureDefinition(ULyraHealthSet::GetHealthAttribute(), EGameplayEffectAttributeCaptureSource::Target, false);
+		ShieldDef = FGameplayEffectAttributeCaptureDefinition(ULyraHealthSet::GetShieldAttribute(), EGameplayEffectAttributeCaptureSource::Target, false);
 		BaseDamageDef = FGameplayEffectAttributeCaptureDefinition(ULyraCombatSet::GetBaseDamageAttribute(), EGameplayEffectAttributeCaptureSource::Source, true);
 	}
 };
@@ -30,10 +32,12 @@ static FDamageStatics& DamageStatics()
 ULyraDamageExecution::ULyraDamageExecution()
 {
 	RelevantAttributesToCapture.Add(DamageStatics().HealthDef);
+	RelevantAttributesToCapture.Add(DamageStatics().ShieldDef);
 	RelevantAttributesToCapture.Add(DamageStatics().BaseDamageDef);
 
 #if WITH_EDITORONLY_DATA
 	InvalidScopedModifierAttributes.Add(DamageStatics().HealthDef);
+	InvalidScopedModifierAttributes.Add(DamageStatics().ShieldDef);
 #endif // #if WITH_EDITORONLY_DATA
 }
 
@@ -53,6 +57,9 @@ void ULyraDamageExecution::Execute_Implementation(const FGameplayEffectCustomExe
 
 	float CurrentHealth = 0.0f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().HealthDef, EvaluateParameters, CurrentHealth);
+
+	float CurrentShield = 0.0f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ShieldDef, EvaluateParameters, CurrentShield);
 
 	float BaseDamage = 0.0f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BaseDamageDef, EvaluateParameters, BaseDamage);
@@ -133,12 +140,16 @@ void ULyraDamageExecution::Execute_Implementation(const FGameplayEffectCustomExe
 	}
 	DistanceAttenuation = FMath::Max(DistanceAttenuation, 0.0f);
 
-	// This clamp prevents us from doing more damage than there is health available.
-	const float DamageDone = FMath::Clamp(BaseDamage * DistanceAttenuation * PhysicalMaterialAttenuation * DamageInteractionAllowedMultiplier, 0.0f, CurrentHealth);
+	// This clamp prevents us from doing more damage than there is health and shield available.
+	const float DamageDone = FMath::Clamp(BaseDamage * DistanceAttenuation * PhysicalMaterialAttenuation * DamageInteractionAllowedMultiplier, 0.0f, CurrentHealth + CurrentShield);
 
 	if (DamageDone > 0.0f)
 	{
-		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(ULyraHealthSet::GetHealthAttribute(), EGameplayModOp::Additive, -DamageDone));
+		const float ShieldDamageDone = FMath::Clamp(DamageDone, 0.0f, CurrentShield);
+		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(ULyraHealthSet::GetShieldAttribute(), EGameplayModOp::Additive, -ShieldDamageDone));
+
+		const float HealthDamageDone = FMath::Clamp(DamageDone - ShieldDamageDone, 0.0f, CurrentHealth);
+		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(ULyraHealthSet::GetHealthAttribute(), EGameplayModOp::Additive, -HealthDamageDone));
 	}
 #endif // #if WITH_SERVER_CODE
 }
