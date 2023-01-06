@@ -4,6 +4,8 @@
 #include "LyraEquipmentInstance.h"
 #include "Inventory/LyraInventoryItemInstance.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraGameplayAbility_FromEquipment)
+
 ULyraGameplayAbility_FromEquipment::ULyraGameplayAbility_FromEquipment(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -13,7 +15,7 @@ ULyraEquipmentInstance* ULyraGameplayAbility_FromEquipment::GetAssociatedEquipme
 {
 	if (FGameplayAbilitySpec* Spec = UGameplayAbility::GetCurrentAbilitySpec())
 	{
-		return Cast<ULyraEquipmentInstance>(Spec->SourceObject);
+		return Cast<ULyraEquipmentInstance>(Spec->SourceObject.Get());
 	}
 
 	return nullptr;

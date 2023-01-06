@@ -5,6 +5,8 @@
 #include "AbilitySystem/Attributes/LyraHealthSet.h"
 #include "AbilitySystem/Attributes/LyraCombatSet.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraHealExecution)
+
 
 struct FHealStatics
 {
@@ -47,7 +49,9 @@ void ULyraHealExecution::Execute_Implementation(const FGameplayEffectCustomExecu
 
 	if (HealingDone > 0.0f)
 	{
-		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(ULyraHealthSet::GetHealthAttribute(), EGameplayModOp::Additive, HealingDone));
+		// Apply a healing modifier, this gets turned into + health on the target
+		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(ULyraHealthSet::GetHealingAttribute(), EGameplayModOp::Additive, HealingDone));
 	}
 #endif // #if WITH_SERVER_CODE
 }
+

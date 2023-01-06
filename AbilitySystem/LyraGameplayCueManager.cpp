@@ -9,6 +9,9 @@
 #include "UObject/UObjectThreadContext.h"
 #include "System/LyraAssetManager.h"
 #include "Async/Async.h"
+#include "Algo/Transform.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraGameplayCueManager)
 
 //////////////////////////////////////////////////////////////////////
 
@@ -397,8 +400,9 @@ void ULyraGameplayCueManager::RefreshGameplayCuePrimaryAsset()
 	}
 
 	FAssetBundleData BundleData;
-	BundleData.AddBundleAssets(UFortAssetManager_LoadStateClient, CuePaths);
+	BundleData.AddBundleAssetsTruncated(UFortAssetManager_LoadStateClient, CuePaths);
 
 	FPrimaryAssetId PrimaryAssetId = FPrimaryAssetId(UFortAssetManager_GameplayCueRefsType, UFortAssetManager_GameplayCueRefsName);
 	UAssetManager::Get().AddDynamicAsset(PrimaryAssetId, FSoftObjectPath(), BundleData);
 }
+

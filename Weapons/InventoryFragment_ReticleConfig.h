@@ -2,11 +2,15 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Containers/Array.h"
 #include "Inventory/LyraInventoryItemDefinition.h"
-#include "UI/Weapons/LyraReticleWidgetBase.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "InventoryFragment_ReticleConfig.generated.h"
+
+class ULyraReticleWidgetBase;
+class UObject;
 
 UCLASS()
 class UInventoryFragment_ReticleConfig : public ULyraInventoryItemFragment

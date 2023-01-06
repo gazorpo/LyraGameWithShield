@@ -2,13 +2,22 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "LyraInventoryItemDefinition.h"
+#include "Containers/Array.h"
+#include "HAL/Platform.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
+#include "Templates/SubclassOf.h"
 #include "UObject/Interface.h"
+#include "UObject/ScriptInterface.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "IPickupable.generated.h"
 
+class AActor;
+class ULyraInventoryItemDefinition;
 class ULyraInventoryItemInstance;
 class ULyraInventoryManagerComponent;
+class UObject;
+struct FFrame;
 
 USTRUCT(BlueprintType)
 struct FPickupTemplate
@@ -30,7 +39,7 @@ struct FPickupInstance
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	ULyraInventoryItemInstance* Item = nullptr;
+	TObjectPtr<ULyraInventoryItemInstance> Item = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -73,9 +82,9 @@ public:
 	UPickupableStatics();
 
 public:
-	UFUNCTION(BlueprintPure, meta = (WorldContext = "Ability"))
-	static TScriptInterface<IPickupable> GetIPickupableFromActorInfo(UGameplayAbility* Ability);
+	UFUNCTION(BlueprintPure)
+	static TScriptInterface<IPickupable> GetFirstPickupableFromActor(AActor* Actor);
 
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, meta = (WorldContext = "Ability"))
-	static void AddPickupInventory(ULyraInventoryManagerComponent* InventoryComponent, TScriptInterface<IPickupable> Pickupable);
+	static void AddPickupToInventory(ULyraInventoryManagerComponent* InventoryComponent, TScriptInterface<IPickupable> Pickup);
 };

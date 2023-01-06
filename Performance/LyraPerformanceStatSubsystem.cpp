@@ -1,12 +1,21 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraPerformanceStatSubsystem.h"
+
+#include "Engine/Engine.h"
+#include "Engine/GameInstance.h"
+#include "Engine/NetConnection.h"
+#include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/PlayerState.h"
-#include "Engine/World.h"
-#include "Engine/Engine.h"
-#include "Engine/NetConnection.h"
 #include "GameModes/LyraGameState.h"
+#include "HAL/Platform.h"
+#include "Performance/LyraPerformanceStatTypes.h"
+#include "Templates/Casts.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraPerformanceStatSubsystem)
+
+class FSubsystemCollectionBase;
 
 //////////////////////////////////////////////////////////////////////
 // FLyraPerformanceStatCache
@@ -121,3 +130,4 @@ double ULyraPerformanceStatSubsystem::GetCachedStat(ELyraDisplayablePerformanceS
 {
 	return Tracker->GetCachedStat(Stat);
 }
+

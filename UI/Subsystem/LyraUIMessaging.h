@@ -2,10 +2,17 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Messaging/CommonMessagingSubsystem.h"
-#include "Messaging/CommonGameDialog.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/SoftObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraUIMessaging.generated.h"
+
+class FSubsystemCollectionBase;
+class UCommonGameDialog;
+class UCommonGameDialogDescriptor;
+class UObject;
 
 /**
  * 

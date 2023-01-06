@@ -11,6 +11,8 @@
 #include "AbilitySystem/LyraGameplayCueManager.h"
 #include "Misc/ScopedSlowTask.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraAssetManager)
+
 const FName FLyraBundles::Equipped("Equipped");
 
 //////////////////////////////////////////////////////////////////////

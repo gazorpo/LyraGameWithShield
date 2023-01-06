@@ -2,13 +2,17 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "AttributeSet.h"
-#include "AbilitySystemComponent.h"
+#include "Delegates/Delegate.h"
+#include "HAL/PlatformMisc.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraAttributeSet.generated.h"
 
-
+class AActor;
 class ULyraAbilitySystemComponent;
+class UObject;
+class UWorld;
 struct FGameplayEffectSpec;
 
 

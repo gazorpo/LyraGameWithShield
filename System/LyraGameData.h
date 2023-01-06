@@ -2,11 +2,14 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "UObject/SoftObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraGameData.generated.h"
 
 class UGameplayEffect;
+class UObject;
 
 /**
  * ULyraGameData

@@ -7,7 +7,11 @@
 #include "Interaction/InteractionStatics.h"
 #include "Interaction/InteractionQuery.h"
 #include "AbilitySystemComponent.h"
+#include "DrawDebugHelpers.h"
+#include "Engine/World.h"
 #include "TimerManager.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(AbilityTask_WaitForInteractableTargets_SingleLineTrace)
 
 UAbilityTask_WaitForInteractableTargets_SingleLineTrace::UAbilityTask_WaitForInteractableTargets_SingleLineTrace(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -37,10 +41,12 @@ void UAbilityTask_WaitForInteractableTargets_SingleLineTrace::Activate()
 
 void UAbilityTask_WaitForInteractableTargets_SingleLineTrace::OnDestroy(bool AbilityEnded)
 {
-	Super::OnDestroy(AbilityEnded);
+	if (UWorld* World = GetWorld())
+	{
+		World->GetTimerManager().ClearTimer(TimerHandle);
+	}
 
-	UWorld* World = GetWorld();
-	World->GetTimerManager().ClearTimer(TimerHandle);
+	Super::OnDestroy(AbilityEnded);
 }
 
 void UAbilityTask_WaitForInteractableTargets_SingleLineTrace::PerformTrace()
@@ -88,3 +94,4 @@ void UAbilityTask_WaitForInteractableTargets_SingleLineTrace::PerformTrace()
 	}
 #endif // ENABLE_DRAW_DEBUG
 }
+

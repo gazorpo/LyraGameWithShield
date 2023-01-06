@@ -2,17 +2,27 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "CommonInputBaseTypes.h"
+#include "Containers/Array.h"
+#include "Containers/Map.h"
+#include "Containers/UnrealString.h"
+#include "Delegates/Delegate.h"
 #include "GameFramework/GameUserSettings.h"
 #include "Input/LyraMappableConfigPair.h"
+#include "InputCoreTypes.h"
 #include "Performance/LyraPerformanceStatTypes.h"
+#include "Scalability.h"
+#include "UObject/NameTypes.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraSettingsLocal.generated.h"
 
+class ULyraLocalPlayer;
+class UObject;
+class UPlayerMappableInputConfig;
 class USoundControlBus;
 class USoundControlBusMix;
-class UPlayerMappableInputConfig;
-class ULyraLocalPlayer;
+struct FFrame;
 
 USTRUCT()
 struct FLyraScalabilitySnapshot
@@ -362,12 +372,6 @@ public:
 	/** Unregister the given input config. Returns the number of configs removed. */
 	int32 UnregisterInputConfig(const UPlayerMappableInputConfig* ConfigToRemove);
 
-	/** Set a registered input config as active */
-	void ActivateInputConfig(const UPlayerMappableInputConfig* Config);
-
-	/** Deactivate a registered config */
-	void DeactivateInputConfig(const UPlayerMappableInputConfig* Config);
-
 	/** Get an input config with a certain name. If the config doesn't exist then nullptr will be returned. */
 	UFUNCTION(BlueprintCallable)
 	const UPlayerMappableInputConfig* GetInputConfigByName(FName ConfigName) const;
@@ -382,14 +386,36 @@ public:
 	 * @param OutArray	Array to be populated with the current registered input configs that match the type
 	 */
 	void GetRegisteredInputConfigsOfType(ECommonInputType Type, OUT TArray<FLoadedMappableConfigPair>& OutArray) const;
-	
+
 	/**
-	 * Maps the given keyboard setting to the 
+	 * Returns the display name of any actions with that key bound to it
+	 * 
+	 * @param InKey The key to check for current mappings of
+	 * @param OutActionNames Array to store display names of actions of bound keys
+	 */
+	void GetAllMappingNamesFromKey(const FKey InKey, TArray<FName>& OutActionNames);
+
+	/**
+	 * Maps the given keyboard setting to the new key
 	 * 
 	 * @param MappingName	The name of the FPlayerMappableKeyOptions that you would like to change
 	 * @param NewKey		The new key to bind this option to
+	 * @param LocalPlayer   local player to reset the keybinding on
 	 */
 	void AddOrUpdateCustomKeyboardBindings(const FName MappingName, const FKey NewKey, ULyraLocalPlayer* LocalPlayer);
+
+	/**
+	 * Resets keybinding to its default value in its input mapping context 
+	 * 
+	 * @param MappingName	The name of the FPlayerMappableKeyOptions that you would like to change
+	 * @param LocalPlayer   local player to reset the keybinding on
+	 */
+	void ResetKeybindingToDefault(const FName MappingName, ULyraLocalPlayer* LocalPlayer);
+
+	/** Resets all keybindings to their default value in their input mapping context
+	 * @param LocalPlayer   local player to reset the keybinding on
+	 */
+	void ResetKeybindingsToDefault(ULyraLocalPlayer* LocalPlayer);
 
 	const TMap<FName, FKey>& GetCustomPlayerInputConfig() const { return CustomKeyboardConfig; }
 
@@ -408,10 +434,10 @@ private:
 	float VoiceChatVolume = 1.0f;
 
 	UPROPERTY(Transient)
-	TMap<FName/*SoundClassName*/, USoundControlBus*> ControlBusMap;
+	TMap<FName/*SoundClassName*/, TObjectPtr<USoundControlBus>> ControlBusMap;
 
 	UPROPERTY(Transient)
-	USoundControlBusMix* ControlBusMix = nullptr;
+	TObjectPtr<USoundControlBusMix> ControlBusMix = nullptr;
 
 	UPROPERTY(Transient)
 	bool bSoundControlBusMixLoaded;

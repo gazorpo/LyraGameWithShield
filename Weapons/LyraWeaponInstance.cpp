@@ -1,8 +1,15 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraWeaponInstance.h"
-#include "Net/UnrealNetwork.h"
+
 #include "Engine/World.h"
+#include "Math/UnrealMathUtility.h"
+#include "Misc/AssertionMacros.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraWeaponInstance)
+
+class UAnimInstance;
+struct FGameplayTagContainer;
 
 ULyraWeaponInstance::ULyraWeaponInstance(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -52,3 +59,4 @@ TSubclassOf<UAnimInstance> ULyraWeaponInstance::PickBestAnimLayer(bool bEquipped
 	const FLyraAnimLayerSelectionSet& SetToQuery = (bEquipped ? EquippedAnimSet : UneuippedAnimSet);
 	return SetToQuery.SelectBestLayer(CosmeticTags);
 }
+

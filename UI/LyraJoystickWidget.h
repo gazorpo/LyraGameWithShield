@@ -2,11 +2,17 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Input/Reply.h"
+#include "Math/Vector2D.h"
 #include "UI/LyraSimulatedInputWidget.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraJoystickWidget.generated.h"
 
 class UImage;
+class UObject;
+struct FGeometry;
+struct FPointerEvent;
 
 /**
  *  A UMG wrapper for the lyra virtual joystick.
@@ -54,11 +60,11 @@ protected:
 
 	/** Image to be used as the background of the joystick */
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UImage* JoystickBackground;
+	TObjectPtr<UImage> JoystickBackground;
 
 	/** Image to be used as the foreground of the joystick */
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UImage* JoystickForeground;
+	TObjectPtr<UImage> JoystickForeground;
 
 	/** Should we negate the Y-axis value of the joystick? This is common for "movement" sticks */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)

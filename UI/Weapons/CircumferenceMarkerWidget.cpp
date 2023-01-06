@@ -1,12 +1,20 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CircumferenceMarkerWidget.h"
-#include "SCircumferenceMarkerWidget.h"
+
+#include "Components/SlateWrapperTypes.h"
+#include "Misc/Attribute.h"
+#include "UI/Weapons/SCircumferenceMarkerWidget.h"
+#include "Widgets/DeclarativeSyntaxSupport.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(CircumferenceMarkerWidget)
+
+class SWidget;
 
 UCircumferenceMarkerWidget::UCircumferenceMarkerWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	Visibility = ESlateVisibility::HitTestInvisible;
+	SetVisibility(ESlateVisibility::HitTestInvisible);
 	bIsVolatile = true;
 }
 

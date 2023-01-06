@@ -1,11 +1,21 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraGameState.h"
-#include "Net/UnrealNetwork.h"
+
 #include "AbilitySystem/LyraAbilitySystemComponent.h"
-#include "GameModes/LyraExperienceManagerComponent.h"
-#include "GameFramework/PlayerState.h"
+#include "AbilitySystemComponent.h"
+#include "Containers/Array.h"
+#include "Engine/EngineBaseTypes.h"
 #include "GameFramework/GameplayMessageSubsystem.h"
+#include "GameModes/LyraExperienceManagerComponent.h"
+#include "HAL/Platform.h"
+#include "Misc/AssertionMacros.h"
+#include "Net/UnrealNetwork.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraGameState)
+
+class APlayerState;
+class FLifetimeProperty;
 
 extern ENGINE_API float GAverageFPS;
 

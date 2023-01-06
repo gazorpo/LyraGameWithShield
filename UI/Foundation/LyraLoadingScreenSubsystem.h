@@ -2,10 +2,16 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Delegates/Delegate.h"
 #include "Subsystems/GameInstanceSubsystem.h"
-#include "Blueprint/UserWidget.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraLoadingScreenSubsystem.generated.h"
+
+class UObject;
+class UUserWidget;
+struct FFrame;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLoadingScreenWidgetChangedDelegate, TSubclassOf<UUserWidget>, NewWidgetClass);
 

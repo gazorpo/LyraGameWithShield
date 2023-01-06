@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
 #include "UObject/Interface.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraAbilitySourceInterface.generated.h"
 
-class AActor;
-struct FGameplayTagContainer;
+class UObject;
 class UPhysicalMaterial;
+struct FGameplayTagContainer;
 
 /** Base interface for anything acting as a ability calculation source */
 UINTERFACE()

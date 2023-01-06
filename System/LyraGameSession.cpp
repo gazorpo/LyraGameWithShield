@@ -2,6 +2,8 @@
 
 #include "LyraGameSession.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraGameSession)
+
 
 ALyraGameSession::ALyraGameSession(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -17,3 +19,4 @@ void ALyraGameSession::HandleMatchHasEnded()
 {
 	Super::HandleMatchHasEnded();
 }
+

@@ -1,8 +1,19 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "AsyncAction_QueryReplays.h"
-#include "LyraReplaySubsystem.h"
+#include "Replays/AsyncAction_QueryReplays.h"
+
+#include "Containers/Array.h"
+#include "Containers/UnrealString.h"
+#include "CoreTypes.h"
 #include "GameFramework/PlayerController.h"
+#include "LyraReplaySubsystem.h"
+#include "Misc/DateTime.h"
+#include "Misc/NetworkVersion.h"
+#include "NetworkReplayStreaming.h"
+#include "Templates/Sorting.h"
+#include "UObject/WeakObjectPtr.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(AsyncAction_QueryReplays)
 
 UAsyncAction_QueryReplays::UAsyncAction_QueryReplays(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -61,3 +72,4 @@ void UAsyncAction_QueryReplays::OnEnumerateStreamsComplete(const FEnumerateStrea
 
 	QueryComplete.Broadcast(ResultList);
 }
+

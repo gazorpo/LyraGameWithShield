@@ -13,6 +13,8 @@
 #include "Settings/LyraSettingsLocal.h"
 #include "LyraLogChannels.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraExperienceManagerComponent)
+
 //@TODO: Async load the experience definition itself
 //@TODO: Handle failures explicitly (go into a 'completed but failed' state rather than check()-ing)
 //@TODO: Do the action phases at the appropriate times instead of all at once
@@ -218,7 +220,7 @@ void ULyraExperienceManagerComponent::OnExperienceLoadComplete()
 		for (const FString& PluginName : FeaturePluginList)
 		{
 			FString PluginURL;
-			if (UGameFeaturesSubsystem::Get().GetPluginURLForBuiltInPluginByName(PluginName, /*out*/ PluginURL))
+			if (UGameFeaturesSubsystem::Get().GetPluginURLByName(PluginName, /*out*/ PluginURL))
 			{
 				This->GameFeaturePluginURLs.AddUnique(PluginURL);
 			}
@@ -232,7 +234,7 @@ void ULyraExperienceManagerComponent::OnExperienceLoadComplete()
 		// 		if (!CurrentPlaylistData->GameFeaturePluginToActivateUntilDownloadedContentIsPresent.IsEmpty())
 		// 		{
 		// 			FString PluginURL;
-		// 			if (UGameFeaturesSubsystem::Get().GetPluginURLForBuiltInPluginByName(CurrentPlaylistData->GameFeaturePluginToActivateUntilDownloadedContentIsPresent, PluginURL))
+		// 			if (UGameFeaturesSubsystem::Get().GetPluginURLByName(CurrentPlaylistData->GameFeaturePluginToActivateUntilDownloadedContentIsPresent, PluginURL))
 		// 			{
 		// 				GameFeaturePluginURLs.AddUnique(PluginURL);
 		// 			}
@@ -454,3 +456,4 @@ void ULyraExperienceManagerComponent::OnAllActionsDeactivated()
 	CurrentExperience = nullptr;
 	//@TODO:	GEngine->ForceGarbageCollection(true);
 }
+

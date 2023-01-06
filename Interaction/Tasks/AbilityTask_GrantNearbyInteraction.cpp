@@ -1,14 +1,34 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "AbilityTask_GrantNearbyInteraction.h"
-#include "GameFramework/Actor.h"
-#include "Physics/LyraCollisionChannels.h"
-#include "Interaction/IInteractableTarget.h"
-#include "Interaction/InteractionStatics.h"
-#include "Interaction/InteractionQuery.h"
+
+#include "Abilities/GameplayAbility.h"
 #include "AbilitySystemComponent.h"
-#include "TimerManager.h"
+#include "CollisionQueryParams.h"
+#include "CollisionShape.h"
+#include "Containers/Array.h"
+#include "Delegates/Delegate.h"
+#include "Engine/OverlapResult.h"
+#include "Engine/World.h"
+#include "GameFramework/Actor.h"
 #include "GameFramework/Controller.h"
+#include "GameplayAbilitySpec.h"
+#include "Interaction/IInteractableTarget.h"
+#include "Interaction/InteractionOption.h"
+#include "Interaction/InteractionQuery.h"
+#include "Interaction/InteractionStatics.h"
+#include "Math/Quat.h"
+#include "Physics/LyraCollisionChannels.h"
+#include "Stats/Stats2.h"
+#include "Templates/Casts.h"
+#include "Templates/SubclassOf.h"
+#include "TimerManager.h"
+#include "UObject/ObjectKey.h"
+#include "UObject/ScriptInterface.h"
+#include "UObject/WeakObjectPtr.h"
+#include "UObject/WeakObjectPtrTemplates.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(AbilityTask_GrantNearbyInteraction)
 
 UAbilityTask_GrantNearbyInteraction::UAbilityTask_GrantNearbyInteraction(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -33,10 +53,12 @@ void UAbilityTask_GrantNearbyInteraction::Activate()
 
 void UAbilityTask_GrantNearbyInteraction::OnDestroy(bool AbilityEnded)
 {
-	Super::OnDestroy(AbilityEnded);
+	if (UWorld* World = GetWorld())
+	{
+		World->GetTimerManager().ClearTimer(QueryTimerHandle);
+	}
 
-	UWorld* World = GetWorld();
-	World->GetTimerManager().ClearTimer(QueryTimerHandle);
+	Super::OnDestroy(AbilityEnded);
 }
 
 void UAbilityTask_GrantNearbyInteraction::QueryInteractables()
@@ -85,3 +107,4 @@ void UAbilityTask_GrantNearbyInteraction::QueryInteractables()
 		}
 	}
 }
+

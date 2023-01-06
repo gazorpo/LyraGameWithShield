@@ -2,13 +2,19 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Containers/Array.h"
+#include "Containers/UnrealString.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "InputActionValue.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraDevelopmentStatics.generated.h"
 
+class UClass;
+class UObject;
 class UWorld;
+struct FAssetData;
+struct FFrame;
 
 UCLASS()
 class ULyraDevelopmentStatics : public UBlueprintFunctionLibrary

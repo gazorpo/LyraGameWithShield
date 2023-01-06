@@ -2,6 +2,10 @@
 
 #include "Tests/LyraTestControllerBootTest.h"
 
+#include "HAL/PlatformTime.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraTestControllerBootTest)
+
 bool ULyraTestControllerBootTest::IsBootProcessComplete() const
 {
 	static double StartTime = FPlatformTime::Seconds();

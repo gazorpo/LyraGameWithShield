@@ -3,9 +3,21 @@
 #include "LyraUIManagerSubsystem.h"
 
 #include "CommonLocalPlayer.h"
+#include "Components/SlateWrapperTypes.h"
+#include "Containers/Array.h"
+#include "Delegates/Delegate.h"
+#include "Engine/GameInstance.h"
+#include "Engine/LocalPlayer.h"
+#include "Equipment/LyraEquipmentDefinition.h"
+#include "GameFramework/HUD.h"
+#include "GameFramework/PlayerController.h"
 #include "GameUIPolicy.h"
 #include "PrimaryGameLayout.h"
-#include "GameFramework/HUD.h"
+#include "Templates/Casts.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraUIManagerSubsystem)
+
+class FSubsystemCollectionBase;
 
 ULyraUIManagerSubsystem::ULyraUIManagerSubsystem()
 {

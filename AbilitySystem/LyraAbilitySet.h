@@ -2,18 +2,23 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "GameplayTagContainer.h"
+#include "Containers/Array.h"
+#include "Engine/DataAsset.h"
 #include "GameplayAbilitySpec.h"
 #include "GameplayEffectTypes.h"
-#include "Engine/DataAsset.h"
+#include "GameplayTagContainer.h"
+#include "HAL/Platform.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraAbilitySet.generated.h"
 
-
+class UAttributeSet;
+class UGameplayEffect;
 class ULyraAbilitySystemComponent;
 class ULyraGameplayAbility;
-class UGameplayEffect;
+class UObject;
 
 
 /**

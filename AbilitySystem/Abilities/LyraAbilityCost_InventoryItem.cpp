@@ -4,6 +4,8 @@
 #include "LyraGameplayAbility.h"
 #include "Inventory/LyraInventoryManagerComponent.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraAbilityCost_InventoryItem)
+
 ULyraAbilityCost_InventoryItem::ULyraAbilityCost_InventoryItem()
 {
 	Quantity.SetValue(1.0f);
@@ -48,3 +50,4 @@ void ULyraAbilityCost_InventoryItem::ApplyCost(const ULyraGameplayAbility* Abili
 	}
 #endif
 }
+

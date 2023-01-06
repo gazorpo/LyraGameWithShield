@@ -2,10 +2,17 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Equipment/LyraEquipmentInstance.h"
 #include "Cosmetics/LyraCosmeticAnimationTypes.h"
+#include "Equipment/LyraEquipmentInstance.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraWeaponInstance.generated.h"
+
+class UAnimInstance;
+class UObject;
+struct FFrame;
+struct FGameplayTagContainer;
 
 /**
  * ULyraWeaponInstance

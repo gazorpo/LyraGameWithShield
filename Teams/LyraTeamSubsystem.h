@@ -2,17 +2,28 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Subsystems/WorldSubsystem.h"
+#include "Containers/Array.h"
+#include "Containers/Map.h"
+#include "Delegates/Delegate.h"
 #include "GameplayTagContainer.h"
+#include "HAL/Platform.h"
+#include "Subsystems/WorldSubsystem.h"
+#include "UObject/Object.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
+#include "UObject/WeakObjectPtr.h"
 
 #include "LyraTeamSubsystem.generated.h"
 
-class ALyraTeamInfoBase;
-class ALyraTeamPublicInfo;
-class ALyraTeamPrivateInfo;
+class AActor;
 class ALyraPlayerState;
+class ALyraTeamInfoBase;
+class ALyraTeamPrivateInfo;
+class ALyraTeamPublicInfo;
+class FSubsystemCollectionBase;
 class ULyraTeamDisplayAsset;
+struct FFrame;
+struct FGameplayTag;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLyraTeamDisplayAssetChangedDelegate, const ULyraTeamDisplayAsset*, DisplayAsset);
 
@@ -23,10 +34,10 @@ struct FLyraTeamTrackingInfo
 
 public:
 	UPROPERTY()
-	ALyraTeamPublicInfo* PublicInfo = nullptr;
+	TObjectPtr<ALyraTeamPublicInfo> PublicInfo = nullptr;
 
 	UPROPERTY()
-	ALyraTeamPrivateInfo* PrivateInfo = nullptr;
+	TObjectPtr<ALyraTeamPrivateInfo> PrivateInfo = nullptr;
 
 	UPROPERTY()
 	TObjectPtr<ULyraTeamDisplayAsset> DisplayAsset = nullptr;

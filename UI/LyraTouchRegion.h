@@ -2,9 +2,16 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Input/Reply.h"
 #include "UI/LyraSimulatedInputWidget.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraTouchRegion.generated.h"
+
+class UObject;
+struct FFrame;
+struct FGeometry;
+struct FPointerEvent;
 
 /**
  * A "Touch Region" is used to define an area on the screen that should trigger some

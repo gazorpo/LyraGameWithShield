@@ -7,6 +7,8 @@
 #include "CommonUIExtensions.h"
 #include "Engine/Engine.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(GameFeatureAction_AddWidget)
+
 #define LOCTEXT_NAMESPACE "LyraGameFeatures"
 
 //////////////////////////////////////////////////////////////////////
@@ -28,7 +30,7 @@ void UGameFeatureAction_AddWidgets::AddAdditionalAssetBundleData(FAssetBundleDat
 {
 	for (const FLyraHUDElementEntry& Entry : Widgets)
 	{
-		AssetBundleData.AddBundleAsset(UGameFeaturesSubsystemSettings::LoadStateClient, Entry.WidgetClass.ToSoftObjectPath());
+		AssetBundleData.AddBundleAsset(UGameFeaturesSubsystemSettings::LoadStateClient, Entry.WidgetClass.ToSoftObjectPath().GetAssetPath());
 	}
 }
 #endif
@@ -169,3 +171,4 @@ void UGameFeatureAction_AddWidgets::RemoveWidgets(AActor* Actor, FPerContextData
 }
 
 #undef LOCTEXT_NAMESPACE
+

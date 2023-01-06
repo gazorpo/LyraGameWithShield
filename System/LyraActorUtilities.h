@@ -2,9 +2,14 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "HAL/Platform.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraActorUtilities.generated.h"
+
+class UObject;
+struct FFrame;
 
 UENUM()
 enum class EBlueprintExposedNetMode : uint8

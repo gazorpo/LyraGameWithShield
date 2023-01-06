@@ -2,12 +2,15 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "CommonUserWidget.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraWeaponUserInterface.generated.h"
 
 class ULyraWeaponInstance;
+class UObject;
+struct FGeometry;
 
 UCLASS()
 class ULyraWeaponUserInterface : public UCommonUserWidget

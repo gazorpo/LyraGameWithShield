@@ -2,17 +2,17 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "GameplayTagContainer.h"
+#include "GameplayEffectTypes.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "LyraVerbMessage.h"
-#include "GameplayEffectTypes.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraVerbMessageHelpers.generated.h"
 
-class APlayerState;
 class APlayerController;
-struct FGameplayCueParameters;
+class APlayerState;
+class UObject;
+struct FFrame;
 
 
 UCLASS()

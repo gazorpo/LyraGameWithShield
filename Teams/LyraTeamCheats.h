@@ -2,10 +2,14 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "GameFramework/CheatManager.h"
+#include "HAL/Platform.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraTeamCheats.generated.h"
+
+class UObject;
+struct FFrame;
 
 /** Cheats related to teams */
 UCLASS()

@@ -2,9 +2,13 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Engine/RuntimeOptionsBase.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraRuntimeOptions.generated.h"
+
+class UObject;
+struct FFrame;
 
 /**
  * ULyraRuntimeOptions: Supports checking at runtime whether features are enabled/disabled, changing

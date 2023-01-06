@@ -2,12 +2,16 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Templates/SubclassOf.h"
-#include "UObject/ObjectMacros.h"
+#include "Containers/Map.h"
 #include "LyraWidgetFactory.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/SoftObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraWidgetFactory_Class.generated.h"
+
+class UObject;
+class UUserWidget;
 
 UCLASS()
 class LYRAGAME_API ULyraWidgetFactory_Class : public ULyraWidgetFactory

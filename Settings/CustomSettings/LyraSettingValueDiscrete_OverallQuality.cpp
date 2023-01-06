@@ -1,9 +1,16 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraSettingValueDiscrete_OverallQuality.h"
-#include "GameFramework/GameUserSettings.h"
+
+#include "CoreTypes.h"
 #include "Engine/Engine.h"
+#include "GameFramework/GameUserSettings.h"
+#include "GameSettingFilterState.h"
+#include "Internationalization/Internationalization.h"
 #include "Settings/LyraSettingsLocal.h"
+#include "Templates/Casts.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraSettingValueDiscrete_OverallQuality)
 
 #define LOCTEXT_NAMESPACE "LyraSettings"
 

@@ -2,10 +2,17 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "SubtitleDisplaySubsystem.h"
+#include "Containers/UnrealString.h"
+#include "Delegates/Delegate.h"
 #include "GameFramework/SaveGame.h"
+#include "HAL/Platform.h"
+#include "SubtitleDisplayOptions.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraSettingsShared.generated.h"
+
+class UObject;
+struct FFrame;
 
 UENUM(BlueprintType)
 enum class EColorBlindMode : uint8
@@ -367,5 +374,5 @@ private:
 	bool bIsDirty = false;
 
 	UPROPERTY(Transient)
-	ULyraLocalPlayer* OwningPlayer = nullptr;
+	TObjectPtr<ULyraLocalPlayer> OwningPlayer = nullptr;
 };

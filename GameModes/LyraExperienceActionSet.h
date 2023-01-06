@@ -34,7 +34,7 @@ public:
 public:
 	// List of actions to perform as this experience is loaded/activated/deactivated/unloaded
 	UPROPERTY(EditAnywhere, Instanced, Category="Actions to Perform")
-	TArray<UGameFeatureAction*> Actions;
+	TArray<TObjectPtr<UGameFeatureAction>> Actions;
 
 	// List of Game Feature Plugins this experience wants to have active
 	UPROPERTY(EditAnywhere, Category="Feature Dependencies")

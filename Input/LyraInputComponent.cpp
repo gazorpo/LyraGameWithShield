@@ -1,10 +1,19 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraInputComponent.h"
-#include "Player/LyraLocalPlayer.h"
+
+#include "Containers/Map.h"
 #include "EnhancedInputSubsystems.h"
+#include "Input/LyraMappableConfigPair.h"
+#include "InputCoreTypes.h"
+#include "Player/LyraLocalPlayer.h"
 #include "Settings/LyraSettingsLocal.h"
-#include "PlayerMappableInputConfig.h"
+#include "UObject/NameTypes.h"
+#include "UObject/UnrealNames.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraInputComponent)
+
+class ULyraInputConfig;
 
 ULyraInputComponent::ULyraInputComponent(const FObjectInitializer& ObjectInitializer)
 {
@@ -20,26 +29,8 @@ void ULyraInputComponent::AddInputMappings(const ULyraInputConfig* InputConfig, 
 
 	// Add any registered input mappings from the settings!
 	if (ULyraSettingsLocal* LocalSettings = ULyraSettingsLocal::Get())
-	{
-		// We don't want to ignore keys that were "Down" when we add the mapping context
-		// This allows you to die holding a movement key, keep holding while waiting for respawn,
-		// and have it be applied after you respawn immediately. Leaving bIgnoreAllPressedKeysUntilRelease
-		// to it's default "true" state would require the player to release the movement key,
-		// and press it again when they respawn
-		FModifyContextOptions Options = {};
-		Options.bIgnoreAllPressedKeysUntilRelease = false;
-		
-		// Add all registered configs, which will add every input mapping context that is in it
-		const TArray<FLoadedMappableConfigPair>& Configs = LocalSettings->GetAllRegisteredInputConfigs();
-		for (const FLoadedMappableConfigPair& Pair : Configs)
-		{
-			if (Pair.bIsActive)
-			{
-				InputSubsystem->AddPlayerMappableConfig(Pair.Config, Options);	
-			}
-		}
-		
-		// Tell enhanced input about any custom keymappings that we have set
+	{	
+		// Tell enhanced input about any custom keymappings that the player may have customized
 		for (const TPair<FName, FKey>& Pair : LocalSettings->GetCustomPlayerInputConfig())
 		{
 			if (Pair.Key != NAME_None && Pair.Value.IsValid())
@@ -82,22 +73,4 @@ void ULyraInputComponent::RemoveBinds(TArray<uint32>& BindHandles)
 		RemoveBindingByHandle(Handle);
 	}
 	BindHandles.Reset();
-}
-
-void ULyraInputComponent::AddInputConfig(const FLoadedMappableConfigPair& ConfigPair, UEnhancedInputLocalPlayerSubsystem* InputSubsystem)
-{
-	check(InputSubsystem);
-	if (ensure(ConfigPair.bIsActive))
-	{
-		InputSubsystem->AddPlayerMappableConfig(ConfigPair.Config);	
-	}
-}
-
-void ULyraInputComponent::RemoveInputConfig(const FLoadedMappableConfigPair& ConfigPair, UEnhancedInputLocalPlayerSubsystem* InputSubsystem)
-{
-	check(InputSubsystem);
-	if (!ConfigPair.bIsActive)
-	{
-		InputSubsystem->AddPlayerMappableConfig(ConfigPair.Config);	
-	}	
 }

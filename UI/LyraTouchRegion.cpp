@@ -1,7 +1,14 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "UI/LyraTouchRegion.h"
-#include "CommonHardwareVisibilityBorder.h"
+
+#include "Math/MathFwd.h"
+#include "Math/Vector.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraTouchRegion)
+
+struct FGeometry;
+struct FPointerEvent;
 
 FReply ULyraTouchRegion::NativeOnTouchStarted(const FGeometry& InGeometry, const FPointerEvent& InGestureEvent)
 {
@@ -32,3 +39,4 @@ void ULyraTouchRegion::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 		InputKeyValue(FVector::OneVector);
 	}
 }
+

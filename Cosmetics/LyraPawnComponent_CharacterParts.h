@@ -2,19 +2,34 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Net/Serialization/FastArraySerializer.h"
 #include "Components/PawnComponent.h"
-#include "LyraCharacterPartTypes.h"
-#include "GameplayTagContainer.h"
+#include "Containers/Array.h"
+#include "Containers/ArrayView.h"
+#include "Containers/Map.h"
+#include "Containers/Set.h"
+#include "Containers/SparseArray.h"
+#include "Containers/UnrealString.h"
+#include "CoreTypes.h"
 #include "Cosmetics/LyraCosmeticAnimationTypes.h"
+#include "Delegates/Delegate.h"
+#include "Engine/EngineTypes.h"
+#include "GameplayTagContainer.h"
+#include "LyraCharacterPartTypes.h"
+#include "Net/Serialization/FastArraySerializer.h"
+#include "Templates/UnrealTemplate.h"
+#include "UObject/Class.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraPawnComponent_CharacterParts.generated.h"
 
-class USkeletalMeshComponent;
+class AActor;
 class UChildActorComponent;
-class ULyraPawnComponent_CharacterParts;
-struct FLyraCharacterPartList;
+class UObject;
+class USceneComponent;
+class USkeletalMeshComponent;
+struct FFrame;
+struct FNetDeltaSerializeInfo;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLyraSpawnedCharacterPartsChanged, ULyraPawnComponent_CharacterParts*, ComponentWithChangedParts);
 
@@ -96,8 +111,8 @@ private:
 	TArray<FLyraAppliedCharacterPartEntry> Entries;
 
 	// The component that contains this list
-	UPROPERTY()
-	ULyraPawnComponent_CharacterParts* OwnerComponent;
+	UPROPERTY(NotReplicated)
+	TObjectPtr<ULyraPawnComponent_CharacterParts> OwnerComponent;
 
 	// Upcounter for handles
 	int32 PartHandleCounter = 0;

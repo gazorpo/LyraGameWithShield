@@ -2,16 +2,21 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "UObject/Interface.h"
+#include "Engine/HitResult.h"
 #include "GameplayTagContainer.h"
-#include "Engine/EngineTypes.h"
+#include "Math/MathFwd.h"
+#include "Math/Rotator.h"
+#include "Math/Vector.h"
+#include "UObject/Interface.h"
+#include "UObject/NameTypes.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraContextEffectsInterface.generated.h"
 
-class UStaticMeshComponent;
 class UAnimSequenceBase;
-class ULyraContextEffectsLibrary;
+class UObject;
+class USceneComponent;
+struct FFrame;
 
 /**
  *

@@ -2,10 +2,17 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Engine/HitResult.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Math/Rotator.h"
+#include "Math/UnrealMathSSE.h"
 #include "NativeGameplayTags.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraCharacterMovementComponent.generated.h"
+
+class UObject;
+struct FFrame;
 
 LYRAGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Gameplay_MovementStopped);
 

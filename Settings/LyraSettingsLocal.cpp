@@ -27,6 +27,8 @@
 #include "Audio/LyraAudioSettings.h"
 #include "Audio/LyraAudioMixEffectsSubsystem.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraSettingsLocal)
+
 UE_DEFINE_GAMEPLAY_TAG_STATIC(TAG_Platform_Trait_BinauralSettingControlledByOS, "Platform.Trait.BinauralSettingControlledByOS");
 
 //////////////////////////////////////////////////////////////////////
@@ -952,7 +954,7 @@ void ULyraSettingsLocal::SetOverallVolume(float InVolume)
 	ensureMsgf(bSoundControlBusMixLoaded, TEXT("UserControlBusMix Settings Failed to Load."));
 
 	// Locate the locally cached bus and set the volume on it
-	if (USoundControlBus** ControlBusDblPtr = ControlBusMap.Find(TEXT("Overall")))
+	if (TObjectPtr<USoundControlBus>* ControlBusDblPtr = ControlBusMap.Find(TEXT("Overall")))
 	{
 		if (USoundControlBus* ControlBusPtr = *ControlBusDblPtr)
 		{
@@ -982,7 +984,7 @@ void ULyraSettingsLocal::SetMusicVolume(float InVolume)
 	ensureMsgf(bSoundControlBusMixLoaded, TEXT("UserControlBusMix Settings Failed to Load."));
 
 	// Locate the locally cached bus and set the volume on it
-	if (USoundControlBus** ControlBusDblPtr = ControlBusMap.Find(TEXT("Music")))
+	if (TObjectPtr<USoundControlBus>* ControlBusDblPtr = ControlBusMap.Find(TEXT("Music")))
 	{
 		if (USoundControlBus* ControlBusPtr = *ControlBusDblPtr)
 		{
@@ -1012,7 +1014,7 @@ void ULyraSettingsLocal::SetSoundFXVolume(float InVolume)
 	ensureMsgf(bSoundControlBusMixLoaded, TEXT("UserControlBusMix Settings Failed to Load."));
 
 	// Locate the locally cached bus and set the volume on it
-	if (USoundControlBus** ControlBusDblPtr = ControlBusMap.Find(TEXT("SoundFX")))
+	if (TObjectPtr<USoundControlBus>* ControlBusDblPtr = ControlBusMap.Find(TEXT("SoundFX")))
 	{
 		if (USoundControlBus* ControlBusPtr = *ControlBusDblPtr)
 		{
@@ -1042,7 +1044,7 @@ void ULyraSettingsLocal::SetDialogueVolume(float InVolume)
 	ensureMsgf(bSoundControlBusMixLoaded, TEXT("UserControlBusMix Settings Failed to Load."));
 
 	// Locate the locally cached bus and set the volume on it
-	if (USoundControlBus** ControlBusDblPtr = ControlBusMap.Find(TEXT("Dialogue")))
+	if (TObjectPtr<USoundControlBus>* ControlBusDblPtr = ControlBusMap.Find(TEXT("Dialogue")))
 	{
 		if (USoundControlBus* ControlBusPtr = *ControlBusDblPtr)
 		{
@@ -1072,7 +1074,7 @@ void ULyraSettingsLocal::SetVoiceChatVolume(float InVolume)
 	ensureMsgf(bSoundControlBusMixLoaded, TEXT("UserControlBusMix Settings Failed to Load."));
 
 	// Locate the locally cached bus and set the volume on it
-	if (USoundControlBus** ControlBusDblPtr = ControlBusMap.Find(TEXT("VoiceChat")))
+	if (TObjectPtr<USoundControlBus>* ControlBusDblPtr = ControlBusMap.Find(TEXT("VoiceChat")))
 	{
 		if (USoundControlBus* ControlBusPtr = *ControlBusDblPtr)
 		{
@@ -1142,7 +1144,7 @@ void ULyraSettingsLocal::ApplyNonResolutionSettings()
 
 	// In this section, update each Control Bus to the currently cached UI settings
 	{
-		if (USoundControlBus** ControlBusDblPtr = ControlBusMap.Find(TEXT("Overall")))
+		if (TObjectPtr<USoundControlBus>* ControlBusDblPtr = ControlBusMap.Find(TEXT("Overall")))
 		{
 			if (USoundControlBus* ControlBusPtr = *ControlBusDblPtr)
 			{
@@ -1150,7 +1152,7 @@ void ULyraSettingsLocal::ApplyNonResolutionSettings()
 			}
 		}
 
-		if (USoundControlBus** ControlBusDblPtr = ControlBusMap.Find(TEXT("Music")))
+		if (TObjectPtr<USoundControlBus>* ControlBusDblPtr = ControlBusMap.Find(TEXT("Music")))
 		{
 			if (USoundControlBus* ControlBusPtr = *ControlBusDblPtr)
 			{
@@ -1158,7 +1160,7 @@ void ULyraSettingsLocal::ApplyNonResolutionSettings()
 			}
 		}
 
-		if (USoundControlBus** ControlBusDblPtr = ControlBusMap.Find(TEXT("SoundFX")))
+		if (TObjectPtr<USoundControlBus>* ControlBusDblPtr = ControlBusMap.Find(TEXT("SoundFX")))
 		{
 			if (USoundControlBus* ControlBusPtr = *ControlBusDblPtr)
 			{
@@ -1166,7 +1168,7 @@ void ULyraSettingsLocal::ApplyNonResolutionSettings()
 			}
 		}
 
-		if (USoundControlBus** ControlBusDblPtr = ControlBusMap.Find(TEXT("Dialogue")))
+		if (TObjectPtr<USoundControlBus>* ControlBusDblPtr = ControlBusMap.Find(TEXT("Dialogue")))
 		{
 			if (USoundControlBus* ControlBusPtr = *ControlBusDblPtr)
 			{
@@ -1174,7 +1176,7 @@ void ULyraSettingsLocal::ApplyNonResolutionSettings()
 			}
 		}
 
-		if (USoundControlBus** ControlBusDblPtr = ControlBusMap.Find(TEXT("VoiceChat")))
+		if (TObjectPtr<USoundControlBus>* ControlBusDblPtr = ControlBusMap.Find(TEXT("VoiceChat")))
 		{
 			if (USoundControlBus* ControlBusPtr = *ControlBusDblPtr)
 			{
@@ -1296,32 +1298,6 @@ int32 ULyraSettingsLocal::UnregisterInputConfig(const UPlayerMappableInputConfig
 	return INDEX_NONE;
 }
 
-void ULyraSettingsLocal::ActivateInputConfig(const UPlayerMappableInputConfig* Config)
-{
-	if (Config)
-	{
-		const int32 ExistingConfigIdx = RegisteredInputConfigs.IndexOfByPredicate( [&Config](const FLoadedMappableConfigPair& Pair) { return Pair.Config == Config; } );
-		if (ExistingConfigIdx != INDEX_NONE)
-		{
-			RegisteredInputConfigs[ExistingConfigIdx].bIsActive = true;
-			OnInputConfigActivated.Broadcast(RegisteredInputConfigs[ExistingConfigIdx]);
-		}
-	}
-}
-
-void ULyraSettingsLocal::DeactivateInputConfig(const UPlayerMappableInputConfig* Config)
-{
-	if (Config)
-	{
-		const int32 ExistingConfigIdx = RegisteredInputConfigs.IndexOfByPredicate( [&Config](const FLoadedMappableConfigPair& Pair) { return Pair.Config == Config; } );
-		if (ExistingConfigIdx != INDEX_NONE)
-		{
-			RegisteredInputConfigs[ExistingConfigIdx].bIsActive = false;
-			OnInputConfigDeactivated.Broadcast(RegisteredInputConfigs[ExistingConfigIdx]);
-		}
-	}
-}
-
 const UPlayerMappableInputConfig* ULyraSettingsLocal::GetInputConfigByName(FName ConfigName) const
 {
 	for (const FLoadedMappableConfigPair& Pair : RegisteredInputConfigs)
@@ -1354,6 +1330,42 @@ void ULyraSettingsLocal::GetRegisteredInputConfigsOfType(ECommonInputType Type, 
 	}
 }
 
+void ULyraSettingsLocal::GetAllMappingNamesFromKey(const FKey InKey, TArray<FName>& OutActionNames)
+{
+	if (InKey == EKeys::Invalid)
+	{
+		return;
+	}
+
+	// adding any names of actions that are bound to that key
+	for (const FLoadedMappableConfigPair& Pair : RegisteredInputConfigs)
+	{
+		if (Pair.Type == ECommonInputType::MouseAndKeyboard)
+		{
+			for (const FEnhancedActionKeyMapping& Mapping : Pair.Config->GetPlayerMappableKeys())
+			{
+				FName MappingName(Mapping.PlayerMappableOptions.DisplayName.ToString());
+				FName ActionName = Mapping.PlayerMappableOptions.Name;
+				// make sure it isn't custom bound as well
+				if (const FKey* MappingKey = CustomKeyboardConfig.Find(ActionName))
+				{
+					if (*MappingKey == InKey)
+					{
+						OutActionNames.Add(MappingName);
+					}
+				}
+				else
+				{
+					if (Mapping.Key == InKey)
+					{
+						OutActionNames.Add(MappingName);
+					}
+				}
+			}
+		}
+	}
+}
+
 void ULyraSettingsLocal::AddOrUpdateCustomKeyboardBindings(const FName MappingName, const FKey NewKey, ULyraLocalPlayer* LocalPlayer)
 {
 	if (MappingName == NAME_None)
@@ -1369,7 +1381,7 @@ void ULyraSettingsLocal::AddOrUpdateCustomKeyboardBindings(const FName MappingNa
 			for (const FEnhancedActionKeyMapping& Mapping : DefaultConfig->GetPlayerMappableKeys())
 			{
 				// Make sure that the mapping has a valid name, its possible to have an empty name
-				// if someone has marked a mapping as "Player Mappabe" but deleted the default field value
+				// if someone has marked a mapping as "Player Mappable" but deleted the default field value
 				if (Mapping.PlayerMappableOptions.Name != NAME_None)
 				{
 					CustomKeyboardConfig.Add(Mapping.PlayerMappableOptions.Name, Mapping.Key);
@@ -1394,6 +1406,22 @@ void ULyraSettingsLocal::AddOrUpdateCustomKeyboardBindings(const FName MappingNa
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer))
 	{
 		Subsystem->AddPlayerMappedKey(MappingName, NewKey);
+	}
+}
+
+void ULyraSettingsLocal::ResetKeybindingToDefault(const FName MappingName, ULyraLocalPlayer* LocalPlayer)
+{
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer))
+	{
+		Subsystem->RemovePlayerMappedKey(MappingName);
+	}
+}
+
+void ULyraSettingsLocal::ResetKeybindingsToDefault(ULyraLocalPlayer* LocalPlayer)
+{
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer))
+	{
+		Subsystem->RemoveAllPlayerMappedKeys();
 	}
 }
 
@@ -1736,3 +1764,4 @@ void ULyraSettingsLocal::UpdateDynamicResFrameTime(float TargetFPS)
 		}
 	}
 }
+

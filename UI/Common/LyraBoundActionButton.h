@@ -2,9 +2,15 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "CommonInputBaseTypes.h"
 #include "Input/CommonBoundActionButton.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraBoundActionButton.generated.h"
+
+class UCommonButtonStyle;
+class UObject;
 
 /**
  * 

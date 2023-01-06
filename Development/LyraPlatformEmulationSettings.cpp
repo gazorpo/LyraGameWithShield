@@ -10,6 +10,8 @@
 #include "DeviceProfiles/DeviceProfileManager.h"
 #include "DeviceProfiles/DeviceProfile.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraPlatformEmulationSettings)
+
 #define LOCTEXT_NAMESPACE "LyraCheats"
 
 ULyraPlatformEmulationSettings::ULyraPlatformEmulationSettings()
@@ -192,3 +194,4 @@ void ULyraPlatformEmulationSettings::PickReasonableBaseDeviceProfile()
 }
 
 #undef LOCTEXT_NAMESPACE
+

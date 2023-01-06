@@ -1,8 +1,21 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraInventoryItemInstance.h"
-#include "Net/UnrealNetwork.h"
+
+#include "Containers/Array.h"
+#include "GameplayTagContainer.h"
 #include "Inventory/LyraInventoryItemDefinition.h"
+#include "Misc/AssertionMacros.h"
+#include "Net/UnrealNetwork.h"
+#include "UObject/Class.h"
+
+#if UE_WITH_IRIS
+#include "Iris/ReplicationSystem/ReplicationFragmentUtil.h"
+#endif // UE_WITH_IRIS
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraInventoryItemInstance)
+
+class FLifetimeProperty;
 
 ULyraInventoryItemInstance::ULyraInventoryItemInstance(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -16,6 +29,18 @@ void ULyraInventoryItemInstance::GetLifetimeReplicatedProps(TArray<FLifetimeProp
 	DOREPLIFETIME(ThisClass, StatTags);
 	DOREPLIFETIME(ThisClass, ItemDef);
 }
+
+#if UE_WITH_IRIS
+void ULyraInventoryItemInstance::RegisterReplicationFragments(UE::Net::FFragmentRegistrationContext& Context, UE::Net::EFragmentRegistrationFlags RegistrationFlags)
+{
+	using namespace UE::Net;
+
+	Super::RegisterReplicationFragments(Context, RegistrationFlags);
+
+	// Build descriptors and allocate PropertyReplicationFragments for this object
+	FReplicationFragmentUtil::CreateAndRegisterFragmentsForObject(this, Context, RegistrationFlags);
+}
+#endif // UE_WITH_IRIS
 
 void ULyraInventoryItemInstance::AddStatTagStack(FGameplayTag Tag, int32 StackCount)
 {
@@ -51,4 +76,5 @@ const ULyraInventoryItemFragment* ULyraInventoryItemInstance::FindFragmentByClas
 
 	return nullptr;
 }
+
 

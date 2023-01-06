@@ -3,6 +3,8 @@
 #include "GameplayCueManager.h"
 #include "AbilitySystemGlobals.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(GameFeatureAction_AddGameplayCuePath)
+
 #define LOCTEXT_NAMESPACE "GameFeatures"
 
 UGameFeatureAction_AddGameplayCuePath::UGameFeatureAction_AddGameplayCuePath()
@@ -33,3 +35,4 @@ EDataValidationResult UGameFeatureAction_AddGameplayCuePath::IsDataValid(TArray<
 #endif	// WITH_EDITOR
 
 #undef LOCTEXT_NAMESPACE
+

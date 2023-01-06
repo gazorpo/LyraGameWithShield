@@ -2,4 +2,9 @@
 
 #include "LyraNotificationMessage.h"
 
+#include "UObject/NameTypes.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraNotificationMessage)
+
 UE_DEFINE_GAMEPLAY_TAG(TAG_Lyra_AddNotification_Message, "Lyra.AddNotification.Message");
+

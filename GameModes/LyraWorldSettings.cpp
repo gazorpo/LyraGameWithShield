@@ -10,6 +10,8 @@
 #include "LyraLogChannels.h"
 #include "Engine/AssetManager.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraWorldSettings)
+
 ALyraWorldSettings::ALyraWorldSettings(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {

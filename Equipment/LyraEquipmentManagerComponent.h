@@ -2,18 +2,33 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Net/Serialization/FastArraySerializer.h"
 #include "AbilitySystem/LyraAbilitySet.h"
 #include "Components/PawnComponent.h"
+#include "Containers/Array.h"
+#include "Containers/ArrayView.h"
+#include "Containers/Map.h"
+#include "Containers/Set.h"
+#include "Containers/SparseArray.h"
+#include "Containers/UnrealString.h"
+#include "HAL/Platform.h"
+#include "Net/Serialization/FastArraySerializer.h"
+#include "Templates/SubclassOf.h"
+#include "Templates/UnrealTemplate.h"
+#include "UObject/Class.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraEquipmentManagerComponent.generated.h"
 
+class UActorComponent;
+class ULyraAbilitySystemComponent;
 class ULyraEquipmentDefinition;
 class ULyraEquipmentInstance;
-class ULyraAbilitySystemComponent;
-struct FLyraEquipmentList;
 class ULyraEquipmentManagerComponent;
+class UObject;
+struct FFrame;
+struct FLyraEquipmentList;
+struct FNetDeltaSerializeInfo;
+struct FReplicationFlags;
 
 /** A single piece of applied equipment */
 USTRUCT(BlueprintType)
@@ -35,7 +50,7 @@ private:
 	TSubclassOf<ULyraEquipmentDefinition> EquipmentDefinition;
 
 	UPROPERTY()
-	ULyraEquipmentInstance* Instance = nullptr;
+	TObjectPtr<ULyraEquipmentInstance> Instance = nullptr;
 
 	// Authority-only list of granted handles
 	UPROPERTY(NotReplicated)
@@ -83,8 +98,8 @@ private:
 	UPROPERTY()
 	TArray<FLyraAppliedEquipmentEntry> Entries;
 
-	UPROPERTY()
-	UActorComponent* OwnerComponent;
+	UPROPERTY(NotReplicated)
+	TObjectPtr<UActorComponent> OwnerComponent;
 };
 
 template<>
@@ -127,6 +142,7 @@ public:
 	//virtual void EndPlay() override;
 	virtual void InitializeComponent() override;
 	virtual void UninitializeComponent() override;
+	virtual void ReadyForReplication() override;
 	//~End of UActorComponent interface
 
 	/** Returns the first equipped instance of a given type, or nullptr if none are found */

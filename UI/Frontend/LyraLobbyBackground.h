@@ -2,9 +2,14 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "UObject/SoftObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraLobbyBackground.generated.h"
+
+class UObject;
+class UWorld;
 
 /**
  * Developer settings / editor cheats

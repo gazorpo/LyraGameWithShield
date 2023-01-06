@@ -2,16 +2,30 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Components/ActorComponent.h"
+#include "Containers/Array.h"
+#include "Containers/ArrayView.h"
+#include "Containers/Map.h"
+#include "Containers/Set.h"
+#include "Containers/SparseArray.h"
+#include "Containers/UnrealString.h"
+#include "CoreTypes.h"
 #include "Net/Serialization/FastArraySerializer.h"
-#include "Components/PawnComponent.h"
+#include "Templates/SubclassOf.h"
+#include "Templates/UnrealTemplate.h"
+#include "UObject/Class.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraInventoryManagerComponent.generated.h"
 
 class ULyraInventoryItemDefinition;
 class ULyraInventoryItemInstance;
 class ULyraInventoryManagerComponent;
+class UObject;
+struct FFrame;
 struct FLyraInventoryList;
+struct FNetDeltaSerializeInfo;
+struct FReplicationFlags;
 
 /** A message when an item is added to the inventory */
 USTRUCT(BlueprintType)
@@ -21,10 +35,10 @@ struct FLyraInventoryChangeMessage
 
 	//@TODO: Tag based names+owning actors for inventories instead of directly exposing the component?
 	UPROPERTY(BlueprintReadOnly, Category=Inventory)
-	UActorComponent* InventoryOwner = nullptr;
+	TObjectPtr<UActorComponent> InventoryOwner = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, Category = Inventory)
-	ULyraInventoryItemInstance* Instance = nullptr;
+	TObjectPtr<ULyraInventoryItemInstance> Instance = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, Category=Inventory)
 	int32 NewCount = 0;
@@ -49,7 +63,7 @@ private:
 	friend ULyraInventoryManagerComponent;
 
 	UPROPERTY()
-	ULyraInventoryItemInstance* Instance = nullptr;
+	TObjectPtr<ULyraInventoryItemInstance> Instance = nullptr;
 
 	UPROPERTY()
 	int32 StackCount = 0;
@@ -104,8 +118,8 @@ private:
 	UPROPERTY()
 	TArray<FLyraInventoryEntry> Entries;
 
-	UPROPERTY()
-	UActorComponent* OwnerComponent;
+	UPROPERTY(NotReplicated)
+	TObjectPtr<UActorComponent> OwnerComponent;
 };
 
 template<>
@@ -127,7 +141,7 @@ struct TStructOpsTypeTraits<FLyraInventoryList> : public TStructOpsTypeTraitsBas
  * Manages an inventory
  */
 UCLASS(BlueprintType)
-class ULyraInventoryManagerComponent : public UActorComponent
+class LYRAGAME_API ULyraInventoryManagerComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -157,6 +171,7 @@ public:
 
 	//~UObject interface
 	virtual bool ReplicateSubobjects(class UActorChannel* Channel, class FOutBunch* Bunch, FReplicationFlags* RepFlags) override;
+	virtual void ReadyForReplication() override;
 	//~End of UObject interface
 
 private:

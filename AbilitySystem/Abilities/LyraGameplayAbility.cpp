@@ -3,6 +3,8 @@
 #include "LyraGameplayAbility.h"
 #include "LyraLogChannels.h"
 #include "AbilitySystem/LyraAbilitySystemComponent.h"
+#include "AbilitySystemLog.h"
+#include "HAL/PlatformStackWalk.h"
 #include "Player/LyraPlayerController.h"
 #include "Character/LyraCharacter.h"
 #include "LyraGameplayTags.h"
@@ -15,6 +17,20 @@
 #include "AbilitySystem/LyraAbilitySourceInterface.h"
 #include "AbilitySystem/LyraGameplayEffectContext.h"
 #include "Physics/PhysicalMaterialWithTags.h"
+#include "GameFramework/PlayerState.h"
+#include "HAL/PlatformStackWalk.h"
+#include "Camera/LyraCameraMode.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraGameplayAbility)
+
+#define ENSURE_ABILITY_IS_INSTANTIATED_OR_RETURN(FunctionName, ReturnValue)																				\
+{																																						\
+	if (!ensure(IsInstantiated()))																														\
+	{																																					\
+		ABILITY_LOG(Error, TEXT("%s: " #FunctionName " cannot be called on a non-instanced ability. Check the instancing policy."), *GetPathName());	\
+		return ReturnValue;																																\
+	}																																					\
+}
 
 UE_DEFINE_GAMEPLAY_TAG(TAG_ABILITY_SIMPLE_FAILURE_MESSAGE, "Ability.UserFacingSimpleActivateFail.Message");
 UE_DEFINE_GAMEPLAY_TAG(TAG_ABILITY_PLAY_MONTAGE_FAILURE_MESSAGE, "Ability.PlayMontageOnActivateFail.Message");
@@ -29,6 +45,8 @@ ULyraGameplayAbility::ULyraGameplayAbility(const FObjectInitializer& ObjectIniti
 
 	ActivationPolicy = ELyraAbilityActivationPolicy::OnInputTriggered;
 	ActivationGroup = ELyraAbilityActivationGroup::Independent;
+
+	bLogCancelation = false;
 
 	ActiveCameraMode = nullptr;
 }
@@ -179,6 +197,32 @@ void ULyraGameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 
 void ULyraGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
 {
+#if !UE_BUILD_SHIPPING
+	if (bWasCancelled && bLogCancelation)
+	{
+		UE_LOG(LogLyraAbilitySystem, Warning, TEXT("========  (%s) canceled with EndAbility (locally controlled? %i) ========"), *GetName(), IsLocallyControlled());
+
+		if (APlayerState* PS = Cast<APlayerState>(GetOwningActorFromActorInfo()))
+		{
+			UE_LOG(LogLyraAbilitySystem, Log, TEXT("Player Name: %s"), *PS->GetPlayerName());
+		}
+
+		PrintScriptCallstack();
+
+		const SIZE_T StackTraceSize = 65535;
+		ANSICHAR* StackTrace = (ANSICHAR*)FMemory::SystemMalloc(StackTraceSize);
+		if (StackTrace != nullptr)
+		{
+			StackTrace[0] = 0;
+			// Walk the stack and dump it to the allocated memory.
+			FPlatformStackWalk::StackWalkAndDump(StackTrace, StackTraceSize, 1);
+			UE_LOG(LogLyraAbilitySystem, Log, TEXT("Call Stack:\n%s"), ANSI_TO_TCHAR(StackTrace));
+			FMemory::SystemFree(StackTrace);
+		}
+	}
+#endif // !UE_BUILD_SHIPPING
+
+
 	ClearCameraMode();
 
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
@@ -530,3 +574,4 @@ void ULyraGameplayAbility::ClearCameraMode()
 		ActiveCameraMode = nullptr;
 	}
 }
+

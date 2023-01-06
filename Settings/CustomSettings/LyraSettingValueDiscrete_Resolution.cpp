@@ -1,11 +1,19 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraSettingValueDiscrete_Resolution.h"
-#include "GameFramework/GameUserSettings.h"
-#include "RHI.h"
-#include "Framework/Application/SlateApplication.h"
+
 #include "Engine/Engine.h"
+#include "Framework/Application/SlateApplication.h"
+#include "GameFramework/GameUserSettings.h"
+#include "GameSettingFilterState.h"
+#include "GenericPlatform/GenericApplication.h"
+#include "HAL/PlatformMisc.h"
+#include "Internationalization/Internationalization.h"
+#include "RHI.h"
+#include "Templates/Casts.h"
 #include "UnrealEngine.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraSettingValueDiscrete_Resolution)
 
 #define LOCTEXT_NAMESPACE "LyraSettings"
 

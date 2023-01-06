@@ -2,12 +2,15 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
+#include "Containers/Array.h"
 #include "GameSettingAction.h"
 #include "GameSettingValueScalarDynamic.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraSettingAction_SafeZoneEditor.generated.h"
+
+class UGameSetting;
+class UObject;
 
 
 UCLASS()
@@ -31,5 +34,5 @@ public:
 
 private:
 	UPROPERTY()
-	ULyraSettingValueScalarDynamic_SafeZoneValue* SafeZoneValueSetting;
+	TObjectPtr<ULyraSettingValueScalarDynamic_SafeZoneValue> SafeZoneValueSetting;
 };

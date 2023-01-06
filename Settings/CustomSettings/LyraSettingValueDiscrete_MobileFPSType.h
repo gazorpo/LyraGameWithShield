@@ -2,13 +2,18 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
-#include "GameSettingValueDiscrete.h"
+#include "Containers/Array.h"
 //#include "Settings/LyraMobilePerformance.h"
 #include "Containers/SortedMap.h"
+#include "GameSettingFilterState.h"
+#include "GameSettingValueDiscrete.h"
+#include "HAL/Platform.h"
+#include "Internationalization/Text.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraSettingValueDiscrete_MobileFPSType.generated.h"
+
+class UObject;
 
 UCLASS()
 class ULyraSettingValueDiscrete_MobileFPSType : public UGameSettingValueDiscrete

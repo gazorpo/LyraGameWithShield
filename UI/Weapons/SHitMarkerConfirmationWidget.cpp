@@ -1,7 +1,24 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "SHitMarkerConfirmationWidget.h"
+
+#include "Containers/Array.h"
+#include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
+#include "Layout/Geometry.h"
+#include "Layout/PaintGeometry.h"
+#include "Layout/SlateRect.h"
+#include "Math/Color.h"
+#include "Math/UnrealMathSSE.h"
+#include "Rendering/DrawElements.h"
+#include "Rendering/RenderingCommon.h"
+#include "Rendering/SlateLayoutTransform.h"
+#include "Rendering/SlateRenderTransform.h"
+#include "Styling/SlateBrush.h"
+#include "Styling/WidgetStyle.h"
 #include "Weapons/LyraWeaponStateComponent.h"
+
+class FPaintArgs;
 
 SHitMarkerConfirmationWidget::SHitMarkerConfirmationWidget()
 {

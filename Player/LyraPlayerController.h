@@ -2,18 +2,29 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
-#include "CommonPlayerController.h"
 #include "Camera/LyraCameraAssistInterface.h"
+#include "CommonPlayerController.h"
+#include "Containers/Set.h"
+#include "Containers/UnrealString.h"
+#include "Engine/EngineTypes.h"
+#include "GenericTeamAgentInterface.h"
+#include "Math/UnrealMathSSE.h"
 #include "Teams/LyraTeamAgentInterface.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraPlayerController.generated.h"
 
-class ULyraSettingsShared;
-class ALyraPlayerState;
-class ULyraAbilitySystemComponent;
 class ALyraHUD;
+class ALyraPlayerState;
 class APawn;
+class APlayerState;
+class FPrimitiveComponentId;
+class IInputInterface;
+class ULyraAbilitySystemComponent;
+class ULyraSettingsShared;
+class UObject;
+class UPlayer;
+struct FFrame;
 
 /**
  * ALyraPlayerController
@@ -21,7 +32,7 @@ class APawn;
  *	The base player controller class used by this project.
  */
 UCLASS(Config = Game, Meta = (ShortTooltip = "The base player controller class used by this project."))
-class ALyraPlayerController : public ACommonPlayerController, public ILyraCameraAssistInterface, public ILyraTeamAgentInterface
+class LYRAGAME_API ALyraPlayerController : public ACommonPlayerController, public ILyraCameraAssistInterface, public ILyraTeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -86,7 +97,7 @@ private:
 	FOnLyraTeamIndexChangedDelegate OnTeamChangedDelegate;
 
 	UPROPERTY()
-	APlayerState* LastSeenPlayerState;
+	TObjectPtr<APlayerState> LastSeenPlayerState;
 
 private:
 	UFUNCTION()

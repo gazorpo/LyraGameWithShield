@@ -1,12 +1,27 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraCharacterMovementComponent.h"
-#include "GameFramework/Character.h"
+
+#include "AbilitySystemComponent.h"
+#include "AbilitySystemGlobals.h"
+#include "CharacterMovementComponentAsync.h"
 #include "CollisionQueryParams.h"
 #include "Components/CapsuleComponent.h"
-#include "AbilitySystemGlobals.h"
+#include "Components/SceneComponent.h"
+#include "Containers/EnumAsByte.h"
+#include "CoreGlobals.h"
+#include "Engine/EngineTypes.h"
+#include "Engine/World.h"
+#include "GameFramework/Character.h"
+#include "HAL/IConsoleManager.h"
+#include "Math/Vector.h"
+#include "Misc/AssertionMacros.h"
 #include "NativeGameplayTags.h"
-#include "AbilitySystemComponent.h"
+#include "Stats/Stats2.h"
+#include "UObject/NameTypes.h"
+#include "UObject/ObjectPtr.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraCharacterMovementComponent)
 
 UE_DEFINE_GAMEPLAY_TAG(TAG_Gameplay_MovementStopped, "Gameplay.MovementStopped");
 

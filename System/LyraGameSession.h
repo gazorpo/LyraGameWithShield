@@ -2,9 +2,12 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "GameFramework/GameSession.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraGameSession.generated.h"
+
+class UObject;
 
 
 UCLASS(Config = Game)

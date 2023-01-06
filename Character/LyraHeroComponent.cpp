@@ -7,6 +7,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Player/LyraPlayerController.h"
 #include "Player/LyraPlayerState.h"
+#include "Player/LyraLocalPlayer.h"
 #include "Character/LyraPawnExtensionComponent.h"
 #include "Character/LyraPawnData.h"
 #include "Character/LyraCharacter.h"
@@ -20,6 +21,9 @@
 #include "Settings/LyraSettingsLocal.h"
 #include "System/LyraAssetManager.h"
 #include "PlayerMappableInputConfig.h"
+#include "Camera/LyraCameraMode.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraHeroComponent)
 
 #if WITH_EDITOR
 #include "Misc/UObjectToken.h"
@@ -32,12 +36,12 @@ namespace LyraHero
 };
 
 const FName ULyraHeroComponent::NAME_BindInputsNow("BindInputsNow");
+const FName ULyraHeroComponent::NAME_ActorFeatureName("Hero");
 
 ULyraHeroComponent::ULyraHeroComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	AbilityCameraMode = nullptr;
-	bPawnHasInitialized = false;
 	bReadyToBindInputs = false;
 }
 
@@ -45,14 +49,7 @@ void ULyraHeroComponent::OnRegister()
 {
 	Super::OnRegister();
 
-	if (const APawn* Pawn = GetPawn<APawn>())
-	{
-		if (ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
-		{
-			PawnExtComp->OnPawnReadyToInitialize_RegisterAndCall(FSimpleMulticastDelegate::FDelegate::CreateUObject(this, &ThisClass::OnPawnReadyToInitialize));
-		}
-	}
-	else
+	if (!GetPawn<APawn>())
 	{
 		UE_LOG(LogLyra, Error, TEXT("[ULyraHeroComponent::OnRegister] This component has been added to a blueprint whose base class is not a Pawn. To use this component, it MUST be placed on a Pawn Blueprint."));
 
@@ -70,116 +67,161 @@ void ULyraHeroComponent::OnRegister()
 		}
 #endif
 	}
+	else
+	{
+		// Register with the init state system early, this will only work if this is a game world
+		RegisterInitStateFeature();
+	}
 }
 
-bool ULyraHeroComponent::IsPawnComponentReadyToInitialize() const
+bool ULyraHeroComponent::CanChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState) const
 {
-	// The player state is required.
-	if (!GetPlayerState<ALyraPlayerState>())
-	{
-		return false;
-	}
+	check(Manager);
 
-	const APawn* Pawn = GetPawn<APawn>();
-
-	// A pawn is required.
-	if (!Pawn)
-	{
-		return false;
-	}
-
-	// If we're authority or autonomous, we need to wait for a controller with registered ownership of the player state.
-	if (Pawn->GetLocalRole() != ROLE_SimulatedProxy)
-	{
-		AController* Controller = GetController<AController>();
-
-		const bool bHasControllerPairedWithPS = (Controller != nullptr) && \
-												(Controller->PlayerState != nullptr) && \
-												(Controller->PlayerState->GetOwner() == Controller);
-
-		if (!bHasControllerPairedWithPS)
-		{
-			return false;
-		}
-	}
-	
-	const bool bIsLocallyControlled = Pawn->IsLocallyControlled();
-	const bool bIsBot = Pawn->IsBotControlled();
-
-	if (bIsLocallyControlled && !bIsBot)
-	{
-		// The input component is required when locally controlled.
-		if (!Pawn->InputComponent)
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
-void ULyraHeroComponent::OnPawnReadyToInitialize()
-{
-	if (!ensure(!bPawnHasInitialized))
-	{
-		// Don't initialize twice
-		return;
-	}
-
+	const FLyraGameplayTags& InitTags = FLyraGameplayTags::Get();
 	APawn* Pawn = GetPawn<APawn>();
-	if (!Pawn)
+
+	if (!CurrentState.IsValid() && DesiredState == InitTags.InitState_Spawned)
 	{
-		return;
-	}
-	const bool bIsLocallyControlled = Pawn->IsLocallyControlled();
-
-	ALyraPlayerState* LyraPS = GetPlayerState<ALyraPlayerState>();
-	check(LyraPS);
-
-	const ULyraPawnData* PawnData = nullptr;
-
-	if (ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
-	{
-		PawnData = PawnExtComp->GetPawnData<ULyraPawnData>();
-
-		// The player state holds the persistent data for this player (state that persists across deaths and multiple pawns).
-		// The ability system component and attribute sets live on the player state.
-		PawnExtComp->InitializeAbilitySystem(LyraPS->GetLyraAbilitySystemComponent(), LyraPS);
-	}
-
-	if (ALyraPlayerController* LyraPC = GetController<ALyraPlayerController>())
-	{
-		if (Pawn->InputComponent != nullptr)
+		// As long as we have a real pawn, let us transition
+		if (Pawn)
 		{
-			InitializePlayerInput(Pawn->InputComponent);
+			return true;
 		}
 	}
-
-	if (bIsLocallyControlled && PawnData)
+	else if (CurrentState == InitTags.InitState_Spawned && DesiredState == InitTags.InitState_DataAvailable)
 	{
-		if (ULyraCameraComponent* CameraComponent = ULyraCameraComponent::FindCameraComponent(Pawn))
+		// The player state is required.
+		if (!GetPlayerState<ALyraPlayerState>())
 		{
-			CameraComponent->DetermineCameraModeDelegate.BindUObject(this, &ThisClass::DetermineCameraMode);
+			return false;
 		}
+
+		// If we're authority or autonomous, we need to wait for a controller with registered ownership of the player state.
+		if (Pawn->GetLocalRole() != ROLE_SimulatedProxy)
+		{
+			AController* Controller = GetController<AController>();
+
+			const bool bHasControllerPairedWithPS = (Controller != nullptr) && \
+				(Controller->PlayerState != nullptr) && \
+				(Controller->PlayerState->GetOwner() == Controller);
+
+			if (!bHasControllerPairedWithPS)
+			{
+				return false;
+			}
+		}
+
+		const bool bIsLocallyControlled = Pawn->IsLocallyControlled();
+		const bool bIsBot = Pawn->IsBotControlled();
+
+		if (bIsLocallyControlled && !bIsBot)
+		{
+			ALyraPlayerController* LyraPC = GetController<ALyraPlayerController>();
+
+			// The input component and local player is required when locally controlled.
+			if (!Pawn->InputComponent || !LyraPC || !LyraPC->GetLocalPlayer())
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+	else if (CurrentState == InitTags.InitState_DataAvailable && DesiredState == InitTags.InitState_DataInitialized)
+	{
+		// Wait for player state and extension component
+		ALyraPlayerState* LyraPS = GetPlayerState<ALyraPlayerState>();
+
+		return LyraPS && Manager->HasFeatureReachedInitState(Pawn, ULyraPawnExtensionComponent::NAME_ActorFeatureName, InitTags.InitState_DataInitialized);
+	}
+	else if (CurrentState == InitTags.InitState_DataInitialized && DesiredState == InitTags.InitState_GameplayReady)
+	{
+		// TODO add ability initialization checks?
+		return true;
 	}
 
-	bPawnHasInitialized = true;
+	return false;
+}
+
+void ULyraHeroComponent::HandleChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState)
+{
+	const FLyraGameplayTags& InitTags = FLyraGameplayTags::Get();
+	if (CurrentState == FLyraGameplayTags::Get().InitState_DataAvailable && DesiredState == FLyraGameplayTags::Get().InitState_DataInitialized)
+	{
+		APawn* Pawn = GetPawn<APawn>();
+		ALyraPlayerState* LyraPS = GetPlayerState<ALyraPlayerState>();
+		if (!ensure(Pawn && LyraPS))
+		{
+			return;
+		}
+
+		const bool bIsLocallyControlled = Pawn->IsLocallyControlled();
+		const ULyraPawnData* PawnData = nullptr;
+
+		if (ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
+		{
+			PawnData = PawnExtComp->GetPawnData<ULyraPawnData>();
+
+			// The player state holds the persistent data for this player (state that persists across deaths and multiple pawns).
+			// The ability system component and attribute sets live on the player state.
+			PawnExtComp->InitializeAbilitySystem(LyraPS->GetLyraAbilitySystemComponent(), LyraPS);
+		}
+
+		if (ALyraPlayerController* LyraPC = GetController<ALyraPlayerController>())
+		{
+			if (Pawn->InputComponent != nullptr)
+			{
+				InitializePlayerInput(Pawn->InputComponent);
+			}
+		}
+
+		if (bIsLocallyControlled && PawnData)
+		{
+			if (ULyraCameraComponent* CameraComponent = ULyraCameraComponent::FindCameraComponent(Pawn))
+			{
+				CameraComponent->DetermineCameraModeDelegate.BindUObject(this, &ThisClass::DetermineCameraMode);
+			}
+		}
+	}
+}
+
+void ULyraHeroComponent::OnActorInitStateChanged(const FActorInitStateChangedParams& Params)
+{
+	if (Params.FeatureName == ULyraPawnExtensionComponent::NAME_ActorFeatureName)
+	{
+		if (Params.FeatureState == FLyraGameplayTags::Get().InitState_DataInitialized)
+		{
+			// If the extension component says all all other components are initialized, try to progress to next state
+			CheckDefaultInitialization();
+		}
+	}
+}
+
+void ULyraHeroComponent::CheckDefaultInitialization()
+{
+	const FLyraGameplayTags& InitTags = FLyraGameplayTags::Get();
+	static const TArray<FGameplayTag> StateChain = { InitTags.InitState_Spawned, InitTags.InitState_DataAvailable, InitTags.InitState_DataInitialized, InitTags.InitState_GameplayReady };
+
+	// This will try to progress from spawned (which is only set in BeginPlay) through the data initialization stages until it gets to gameplay ready
+	ContinueInitStateChain(StateChain);
 }
 
 void ULyraHeroComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Listen for when the pawn extension component changes init state
+	BindOnActorInitStateChanged(ULyraPawnExtensionComponent::NAME_ActorFeatureName, FGameplayTag(), false);
+
+	// Notifies that we are done spawning, then try the rest of initialization
+	ensure(TryToChangeInitState(FLyraGameplayTags::Get().InitState_Spawned));
+	CheckDefaultInitialization();
 }
 
 void ULyraHeroComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	if (const APawn* Pawn = GetPawn<APawn>())
-	{
-		if (ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
-		{
-			PawnExtComp->UninitializeAbilitySystem();
-		}	
-	}
+	UnregisterInitStateFeature();
 
 	Super::EndPlay(EndPlayReason);
 }
@@ -197,7 +239,7 @@ void ULyraHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCompo
 	const APlayerController* PC = GetController<APlayerController>();
 	check(PC);
 
-	const ULocalPlayer* LP = PC->GetLocalPlayer();
+	const ULyraLocalPlayer* LP = Cast<ULyraLocalPlayer>(PC->GetLocalPlayer());
 	check(LP);
 
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = LP->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
@@ -216,16 +258,17 @@ void ULyraHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCompo
 				// Register any default input configs with the settings so that they will be applied to the player during AddInputMappings
 				for (const FMappableConfigPair& Pair : DefaultInputConfigs)
 				{
-					FMappableConfigPair::ActivatePair(Pair);
+					if (Pair.bShouldActivateAutomatically && Pair.CanBeActivated())
+					{
+						FModifyContextOptions Options = {};
+						Options.bIgnoreAllPressedKeysUntilRelease = false;
+						// Actually add the config to the local player							
+						Subsystem->AddPlayerMappableConfig(Pair.Config.LoadSynchronous(), Options);	
+					}
 				}
 				
 				ULyraInputComponent* LyraIC = CastChecked<ULyraInputComponent>(PlayerInputComponent);
 				LyraIC->AddInputMappings(InputConfig, Subsystem);
-				if (ULyraSettingsLocal* LocalSettings = ULyraSettingsLocal::Get())
-				{
-					LocalSettings->OnInputConfigActivated.AddUObject(this, &ULyraHeroComponent::OnInputConfigActivated);
-					LocalSettings->OnInputConfigDeactivated.AddUObject(this, &ULyraHeroComponent::OnInputConfigDeactivated);
-				}
 
 				TArray<uint32> BindHandles;
 				LyraIC->BindAbilityActions(InputConfig, this, &ThisClass::Input_AbilityInputTagPressed, &ThisClass::Input_AbilityInputTagReleased, /*out*/ BindHandles);
@@ -243,49 +286,9 @@ void ULyraHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCompo
 	{
 		bReadyToBindInputs = true;
 	}
-
+ 
 	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(const_cast<APlayerController*>(PC), NAME_BindInputsNow);
 	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(const_cast<APawn*>(Pawn), NAME_BindInputsNow);
-}
-
-void ULyraHeroComponent::OnInputConfigActivated(const FLoadedMappableConfigPair& ConfigPair)
-{
-	if (ALyraPlayerController* LyraPC = GetController<ALyraPlayerController>())
-	{
-		if (APawn* Pawn = GetPawn<APawn>())
-		{
-			if (ULyraInputComponent* LyraIC = Cast<ULyraInputComponent>(Pawn->InputComponent))
-			{
-				if (const ULocalPlayer* LP = LyraPC->GetLocalPlayer())
-				{
-					if (UEnhancedInputLocalPlayerSubsystem* Subsystem = LP->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
-					{
-						LyraIC->AddInputConfig(ConfigPair, Subsystem);	
-					}	
-				}
-			}
-		}
-	}
-}
-
-void ULyraHeroComponent::OnInputConfigDeactivated(const FLoadedMappableConfigPair& ConfigPair)
-{
-	if (ALyraPlayerController* LyraPC = GetController<ALyraPlayerController>())
-	{
-		if (APawn* Pawn = GetPawn<APawn>())
-		{
-			if (ULyraInputComponent* LyraIC = Cast<ULyraInputComponent>(Pawn->InputComponent))
-			{
-				if (const ULocalPlayer* LP = LyraPC->GetLocalPlayer())
-				{
-					if (UEnhancedInputLocalPlayerSubsystem* Subsystem = LP->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
-					{
-						LyraIC->RemoveInputConfig(ConfigPair, Subsystem);
-					}
-				}
-			}
-		}
-	}
 }
 
 void ULyraHeroComponent::AddAdditionalInputConfig(const ULyraInputConfig* InputConfig)
@@ -319,11 +322,6 @@ void ULyraHeroComponent::AddAdditionalInputConfig(const ULyraInputConfig* InputC
 void ULyraHeroComponent::RemoveAdditionalInputConfig(const ULyraInputConfig* InputConfig)
 {
 	//@TODO: Implement me!
-}
-
-bool ULyraHeroComponent::HasPawnInitialized() const
-{
-	return bPawnHasInitialized;
 }
 
 bool ULyraHeroComponent::IsReadyToBindInputs() const
@@ -500,3 +498,4 @@ void ULyraHeroComponent::ClearAbilityCameraMode(const FGameplayAbilitySpecHandle
 		AbilityCameraModeOwningSpecHandle = FGameplayAbilitySpecHandle();
 	}
 }
+

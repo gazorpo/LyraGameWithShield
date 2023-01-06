@@ -3,8 +3,15 @@
 #pragma once
 
 #include "CommonButtonBase.h"
+#include "CommonInputBaseTypes.h"
+#include "HAL/Platform.h"
+#include "Internationalization/Text.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraButtonBase.generated.h"
+
+class UObject;
+struct FFrame;
 
 UCLASS(Abstract, BlueprintType, Blueprintable)
 class ULyraButtonBase : public UCommonButtonBase

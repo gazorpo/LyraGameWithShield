@@ -2,10 +2,20 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Abilities/GameplayAbility.h"
-#include "Engine/EngineTypes.h"
+#include "Containers/Array.h"
+#include "Engine/OverlapResult.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
+#include "UObject/ScriptInterface.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "InteractionStatics.generated.h"
+
+class AActor;
+class IInteractableTarget;
+class UObject;
+struct FFrame;
+struct FHitResult;
+struct FOverlapResult;
 
 /**  */
 UCLASS()

@@ -1,7 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraPerfStatWidgetBase.h"
+
+#include "Engine/GameInstance.h"
+#include "Engine/World.h"
 #include "Performance/LyraPerformanceStatSubsystem.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraPerfStatWidgetBase)
 
 //////////////////////////////////////////////////////////////////////
 // ULyraPerfStatWidgetBase
@@ -33,3 +38,4 @@ double ULyraPerfStatWidgetBase::FetchStatValue()
 		return 0.0;
 	}
 }
+

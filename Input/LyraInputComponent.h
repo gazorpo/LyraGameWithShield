@@ -2,13 +2,20 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Containers/Array.h"
 #include "EnhancedInputComponent.h"
-#include "EnhancedInputSubsystems.h"
-#include "LyraInputConfig.h"
 #include "GameplayTagContainer.h"
-#include "Input/LyraMappableConfigPair.h"
+#include "HAL/Platform.h"
+#include "InputTriggers.h"
+#include "LyraInputConfig.h"
+#include "Misc/AssertionMacros.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraInputComponent.generated.h"
+
+class UEnhancedInputLocalPlayerSubsystem;
+class UInputAction;
+class UObject;
 
 
 /**
@@ -35,9 +42,6 @@ public:
 	void BindAbilityActions(const ULyraInputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc, TArray<uint32>& BindHandles);
 
 	void RemoveBinds(TArray<uint32>& BindHandles);
-
-	void AddInputConfig(const FLoadedMappableConfigPair& ConfigPair, UEnhancedInputLocalPlayerSubsystem* InputSubsystem);
-	void RemoveInputConfig(const FLoadedMappableConfigPair& ConfigPair, UEnhancedInputLocalPlayerSubsystem* InputSubsystem);
 };
 
 

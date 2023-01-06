@@ -7,6 +7,8 @@
 #include "InputAction.h"
 #include "LyraLogChannels.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraSimulatedInputWidget)
+
 #define LOCTEXT_NAMESPACE "LyraSimulatedInputWidget"
 
 ULyraSimulatedInputWidget::ULyraSimulatedInputWidget(const FObjectInitializer& ObjectInitializer)

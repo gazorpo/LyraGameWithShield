@@ -5,6 +5,8 @@
 #include "Engine/World.h"
 #include "Engine/DemoNetDriver.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraReplaySubsystem)
+
 ULyraReplaySubsystem::ULyraReplaySubsystem()
 {
 }
@@ -57,3 +59,4 @@ UDemoNetDriver* ULyraReplaySubsystem::GetDemoDriver() const
 	}
 	return nullptr;
 }
+

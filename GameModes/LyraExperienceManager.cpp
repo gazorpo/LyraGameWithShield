@@ -6,6 +6,8 @@
 #include "GameModes/LyraExperienceManager.h"
 #include "Engine/Engine.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraExperienceManager)
+
 #if WITH_EDITOR
 
 void ULyraExperienceManager::OnPlayInEditorBegun()

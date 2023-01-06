@@ -1,12 +1,22 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraCameraMode.h"
-#include "LyraPlayerCameraManager.h"
-#include "LyraCameraComponent.h"
-#include "GameFramework/Pawn.h"
-#include "GameFramework/Character.h"
+
 #include "Components/CapsuleComponent.h"
+#include "Containers/UnrealString.h"
 #include "Engine/Canvas.h"
+#include "GameFramework/Actor.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/Pawn.h"
+#include "LyraCameraComponent.h"
+#include "LyraPlayerCameraManager.h"
+#include "Math/Color.h"
+#include "Misc/AssertionMacros.h"
+#include "Templates/Casts.h"
+#include "UObject/Class.h"
+#include "UObject/UnrealNames.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraCameraMode)
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -460,3 +470,4 @@ void ULyraCameraModeStack::GetBlendInfo(float& OutWeightOfTopLayer, FGameplayTag
 		OutTagOfTopLayer = TopEntry->GetCameraTypeTag();
 	}
 }
+

@@ -2,12 +2,17 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
-#include "AudioMixer.h"
 #include "AudioMixerBlueprintLibrary.h"
+#include "Containers/Array.h"
+#include "Containers/UnrealString.h"
 #include "GameSettingValueDiscreteDynamic.h"
+#include "HAL/Platform.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraSettingValueDiscreteDynamic_AudioOutputDevice.generated.h"
+
+class UObject;
+struct FFrame;
 
 enum class EAudioDeviceChangedRole : uint8;
 

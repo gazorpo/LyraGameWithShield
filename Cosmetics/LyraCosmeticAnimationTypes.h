@@ -2,14 +2,16 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Containers/Array.h"
 #include "GameplayTagContainer.h"
-#include "Animation/AnimInstance.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/ObjectPtr.h"
 
 #include "LyraCosmeticAnimationTypes.generated.h"
 
-class USkeletalMesh;
+class UAnimInstance;
 class UPhysicsAsset;
+class USkeletalMesh;
 
 //////////////////////////////////////////////////////////////////////
 

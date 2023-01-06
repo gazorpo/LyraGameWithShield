@@ -2,12 +2,21 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Containers/Map.h"
 #include "GameFeatureAction.h"
 #include "GameFeaturesSubsystem.h"
+#include "Misc/AssertionMacros.h"
+#include "Misc/CoreMiscDefines.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "GameFeatureAction_WorldActionBase.generated.h"
 
+class FDelegateHandle;
 class UGameInstance;
+class UObject;
+struct FGameFeatureActivatingContext;
+struct FGameFeatureDeactivatingContext;
+struct FGameFeatureStateChangeContext;
 struct FWorldContext;
 
 /**

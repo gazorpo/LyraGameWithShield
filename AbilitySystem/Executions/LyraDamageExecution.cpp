@@ -6,18 +6,17 @@
 #include "AbilitySystem/Attributes/LyraCombatSet.h"
 #include "AbilitySystem/LyraGameplayEffectContext.h"
 #include "AbilitySystem/LyraAbilitySourceInterface.h"
+#include "Engine/World.h"
 #include "Teams/LyraTeamSubsystem.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraDamageExecution)
 
 struct FDamageStatics
 {
-	FGameplayEffectAttributeCaptureDefinition HealthDef;
-	FGameplayEffectAttributeCaptureDefinition ShieldDef;
 	FGameplayEffectAttributeCaptureDefinition BaseDamageDef;
 
 	FDamageStatics()
 	{
-		HealthDef = FGameplayEffectAttributeCaptureDefinition(ULyraHealthSet::GetHealthAttribute(), EGameplayEffectAttributeCaptureSource::Target, false);
-		ShieldDef = FGameplayEffectAttributeCaptureDefinition(ULyraHealthSet::GetShieldAttribute(), EGameplayEffectAttributeCaptureSource::Target, false);
 		BaseDamageDef = FGameplayEffectAttributeCaptureDefinition(ULyraCombatSet::GetBaseDamageAttribute(), EGameplayEffectAttributeCaptureSource::Source, true);
 	}
 };
@@ -31,14 +30,7 @@ static FDamageStatics& DamageStatics()
 
 ULyraDamageExecution::ULyraDamageExecution()
 {
-	RelevantAttributesToCapture.Add(DamageStatics().HealthDef);
-	RelevantAttributesToCapture.Add(DamageStatics().ShieldDef);
 	RelevantAttributesToCapture.Add(DamageStatics().BaseDamageDef);
-
-#if WITH_EDITORONLY_DATA
-	InvalidScopedModifierAttributes.Add(DamageStatics().HealthDef);
-	InvalidScopedModifierAttributes.Add(DamageStatics().ShieldDef);
-#endif // #if WITH_EDITORONLY_DATA
 }
 
 void ULyraDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
@@ -55,16 +47,8 @@ void ULyraDamageExecution::Execute_Implementation(const FGameplayEffectCustomExe
 	EvaluateParameters.SourceTags = SourceTags;
 	EvaluateParameters.TargetTags = TargetTags;
 
-	float CurrentHealth = 0.0f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().HealthDef, EvaluateParameters, CurrentHealth);
-
-	float CurrentShield = 0.0f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ShieldDef, EvaluateParameters, CurrentShield);
-
 	float BaseDamage = 0.0f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BaseDamageDef, EvaluateParameters, BaseDamage);
-
-
 
 	const AActor* EffectCauser = TypedContext->GetEffectCauser();
 	const FHitResult* HitActorResult = TypedContext->GetHitResult();
@@ -111,7 +95,7 @@ void ULyraDamageExecution::Execute_Implementation(const FGameplayEffectCustomExe
 	}
 
 	// Determine distance
-	float Distance = WORLD_MAX;
+	double Distance = WORLD_MAX;
 
 	if (TypedContext->HasOrigin())
 	{
@@ -140,16 +124,14 @@ void ULyraDamageExecution::Execute_Implementation(const FGameplayEffectCustomExe
 	}
 	DistanceAttenuation = FMath::Max(DistanceAttenuation, 0.0f);
 
-	// This clamp prevents us from doing more damage than there is health and shield available.
-	const float DamageDone = FMath::Clamp(BaseDamage * DistanceAttenuation * PhysicalMaterialAttenuation * DamageInteractionAllowedMultiplier, 0.0f, CurrentHealth + CurrentShield);
+	// Clamping is done when damage is converted to -health
+	const float DamageDone = FMath::Max(BaseDamage * DistanceAttenuation * PhysicalMaterialAttenuation * DamageInteractionAllowedMultiplier, 0.0f);
 
 	if (DamageDone > 0.0f)
 	{
-		const float ShieldDamageDone = FMath::Clamp(DamageDone, 0.0f, CurrentShield);
-		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(ULyraHealthSet::GetShieldAttribute(), EGameplayModOp::Additive, -ShieldDamageDone));
-
-		const float HealthDamageDone = FMath::Clamp(DamageDone - ShieldDamageDone, 0.0f, CurrentHealth);
-		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(ULyraHealthSet::GetHealthAttribute(), EGameplayModOp::Additive, -HealthDamageDone));
+		// Apply a damage modifier, this gets turned into - health on the target
+		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(ULyraHealthSet::GetDamageAttribute(), EGameplayModOp::Additive, DamageDone));
 	}
 #endif // #if WITH_SERVER_CODE
 }
+

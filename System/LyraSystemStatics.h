@@ -2,12 +2,23 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Templates/SubclassOf.h"
+#include "Containers/Array.h"
+#include "Containers/UnrealString.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "Math/Color.h"
+#include "Math/MathFwd.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/NameTypes.h"
+#include "UObject/PrimaryAssetId.h"
+#include "UObject/SoftObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraSystemStatics.generated.h"
 
-class UMeshComponent;
+class AActor;
+class UActorComponent;
+class UObject;
+struct FFrame;
 
 UCLASS()
 class ULyraSystemStatics : public UBlueprintFunctionLibrary
@@ -39,6 +50,6 @@ public:
 	static void SetColorParameterValueOnAllMeshComponents(AActor* TargetActor, const FName ParameterName, const FLinearColor ParameterValue, bool bIncludeChildActors = true);
 
 	// Gets all the components that inherit from the given class
-	UFUNCTION(BlueprintCallable, Category = "Actor", meta=(DefaultToSelf="TargetActor", ComponentClass="ActorComponent", DeterminesOutputType="ComponentClass"))
+	UFUNCTION(BlueprintCallable, Category = "Actor", meta=(DefaultToSelf="TargetActor", ComponentClass="/Script/Engine.ActorComponent", DeterminesOutputType="ComponentClass"))
 	static TArray<UActorComponent*> FindComponentsByClass(AActor* TargetActor, TSubclassOf<UActorComponent> ComponentClass, bool bIncludeChildActors = true);
 };

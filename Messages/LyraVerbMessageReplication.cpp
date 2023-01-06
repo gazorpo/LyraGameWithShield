@@ -1,7 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraVerbMessageReplication.h"
+
 #include "GameFramework/GameplayMessageSubsystem.h"
+#include "Messages/LyraVerbMessage.h"
+#include "Misc/AssertionMacros.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraVerbMessageReplication)
 
 //////////////////////////////////////////////////////////////////////
 // FLyraVerbMessageReplicationEntry
@@ -53,3 +58,4 @@ void FLyraVerbMessageReplication::RebroadcastMessage(const FLyraVerbMessage& Mes
 	UGameplayMessageSubsystem& MessageSystem = UGameplayMessageSubsystem::Get(Owner);
 	MessageSystem.BroadcastMessage(Message.Verb, Message);
 }
+

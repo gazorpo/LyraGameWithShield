@@ -2,12 +2,16 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Containers/UnrealString.h"
 #include "Engine/DataAsset.h"
 #include "GameplayTagContainer.h"
+#include "Math/Color.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraDamagePopStyle.generated.h"
 
+class UObject;
 class UStaticMesh;
 
 UCLASS()

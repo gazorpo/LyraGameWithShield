@@ -1,23 +1,27 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "LyraGameSettingRegistry.h"
-
-#include "GameSetting.h"
-#include "GameSettingValueDiscreteDynamic.h"
-#include "GameSettingValueScalar.h"
-#include "GameSettingValueScalarDynamic.h"
+#include "CustomSettings/LyraSettingValueDiscreteDynamic_AudioOutputDevice.h"
+#include "DataSource/GameSettingDataSourceDynamic.h"
+#include "EditCondition/WhenCondition.h"
+#include "EditCondition/WhenPlatformHasTrait.h"
+#include "EditCondition/WhenPlayingAsPrimaryPlayer.h"
 #include "GameSettingCollection.h"
-#include "GameSettingAction.h"
-
-#include "Player/LyraLocalPlayer.h"
+#include "GameSettingFilterState.h"
+#include "GameSettingValueDiscreteDynamic.h"
+#include "GameSettingValueScalarDynamic.h"
+#include "HAL/Platform.h"
+#include "Internationalization/Internationalization.h"
+#include "LyraGameSettingRegistry.h"
 #include "LyraSettingsLocal.h"
 #include "LyraSettingsShared.h"
-
-#include "EditCondition/WhenPlayingAsPrimaryPlayer.h"
-#include "EditCondition/WhenPlatformHasTrait.h"
-#include "EditCondition/WhenCondition.h"
-#include "CustomSettings/LyraSettingValueDiscreteDynamic_AudioOutputDevice.h"
 #include "NativeGameplayTags.h"
+#include "Player/LyraLocalPlayer.h"
+#include "SubtitleDisplayOptions.h"
+#include "Templates/SharedPointer.h"
+#include "UObject/NameTypes.h"
+#include "UObject/UObjectGlobals.h"
+
+class ULocalPlayer;
 
 #define LOCTEXT_NAMESPACE "Lyra"
 

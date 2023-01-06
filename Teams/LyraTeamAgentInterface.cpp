@@ -1,7 +1,16 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "LyraTeamAgentInterface.h"
+#include "Teams/LyraTeamAgentInterface.h"
+
+#include "Containers/UnrealString.h"
+#include "HAL/Platform.h"
+#include "Logging/LogCategory.h"
+#include "Logging/LogMacros.h"
 #include "LyraLogChannels.h"
+#include "Trace/Detail/Channel.h"
+#include "UObject/UObjectBaseUtility.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraTeamAgentInterface)
 
 ULyraTeamAgentInterface::ULyraTeamAgentInterface(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -21,3 +30,4 @@ void ILyraTeamAgentInterface::ConditionalBroadcastTeamChanged(TScriptInterface<I
 		This.GetInterface()->GetTeamChangedDelegateChecked().Broadcast(ThisObj, OldTeamIndex, NewTeamIndex);
 	}
 }
+

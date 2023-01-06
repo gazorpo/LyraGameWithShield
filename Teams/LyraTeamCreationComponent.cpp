@@ -13,6 +13,8 @@
 #include "Engine/World.h"
 #include "GameModes/LyraGameMode.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraTeamCreationComponent)
+
 ULyraTeamCreationComponent::ULyraTeamCreationComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -186,3 +188,4 @@ int32 ULyraTeamCreationComponent::GetLeastPopulatedTeamID() const
 	return INDEX_NONE;
 }
 #endif	// WITH_SERVER_CODE
+

@@ -2,12 +2,16 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "CommonUserWidget.h"
+#include "Performance/LyraPerformanceStatTypes.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraPerfStatWidgetBase.generated.h"
 
 class ULyraPerformanceStatSubsystem;
+class UObject;
+struct FFrame;
 
 /**
  * ULyraPerfStatWidgetBase

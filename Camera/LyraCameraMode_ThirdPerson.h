@@ -39,7 +39,7 @@ protected:
 
 	// Curve that defines local-space offsets from the target using the view pitch to evaluate the curve.
 	UPROPERTY(EditDefaultsOnly, Category = "Third Person", Meta = (EditCondition = "!bUseRuntimeFloatCurves"))
-	const UCurveVector* TargetOffsetCurve;
+	TObjectPtr<const UCurveVector> TargetOffsetCurve;
 
 	// UE-103986: Live editing of RuntimeFloatCurves during PIE does not work (unlike curve assets).
 	// Once that is resolved this will become the default and TargetOffsetCurve will be removed.

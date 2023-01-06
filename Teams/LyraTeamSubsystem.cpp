@@ -1,16 +1,35 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "LyraTeamSubsystem.h"
-#include "Net/UnrealNetwork.h"
-#include "LyraTeamPublicInfo.h"
-#include "LyraTeamPrivateInfo.h"
-#include "GameFramework/Controller.h"
-#include "Player/LyraPlayerState.h"
-#include "GameFramework/Pawn.h"
+#include "Teams/LyraTeamSubsystem.h"
+
 #include "AbilitySystemGlobals.h"
-#include "LyraTeamCheats.h"
-#include "LyraTeamAgentInterface.h"
+#include "Containers/UnrealString.h"
+#include "CoreTypes.h"
+#include "GameFramework/Actor.h"
+#include "GameFramework/CheatManager.h"
+#include "GameFramework/Controller.h"
+#include "GameFramework/Pawn.h"
+#include "GameplayTagContainer.h"
+#include "GenericTeamAgentInterface.h"
+#include "Logging/LogCategory.h"
+#include "Logging/LogMacros.h"
 #include "LyraLogChannels.h"
+#include "LyraTeamAgentInterface.h"
+#include "LyraTeamCheats.h"
+#include "LyraTeamPrivateInfo.h"
+#include "LyraTeamPublicInfo.h"
+#include "Misc/AssertionMacros.h"
+#include "Player/LyraPlayerState.h"
+#include "System/GameplayTagStack.h"
+#include "Teams/LyraTeamInfoBase.h"
+#include "Templates/Casts.h"
+#include "Templates/Tuple.h"
+#include "Trace/Detail/Channel.h"
+#include "UObject/UObjectBaseUtility.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraTeamSubsystem)
+
+class FSubsystemCollectionBase;
 
 //////////////////////////////////////////////////////////////////////
 // FLyraTeamTrackingInfo
@@ -368,3 +387,4 @@ FOnLyraTeamDisplayAssetChangedDelegate& ULyraTeamSubsystem::GetTeamDisplayAssetC
 {
 	return TeamMap.FindOrAdd(TeamId).OnTeamDisplayAssetChanged;
 }
+

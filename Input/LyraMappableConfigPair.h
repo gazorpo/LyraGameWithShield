@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "CommonInputBaseTypes.h"
 #include "GameplayTagContainer.h"
+#include "UObject/SoftObjectPtr.h"
 
 #include "LyraMappableConfigPair.generated.h"
 
@@ -25,7 +25,7 @@ struct FLoadedMappableConfigPair
 
 	/** The player mappable input config that should be applied to the Enhanced Input subsystem */
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
-	const UPlayerMappableInputConfig* Config = nullptr;
+	TObjectPtr<const UPlayerMappableInputConfig> Config = nullptr;
 
 	/** The type of device that this mapping config should be applied to */
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
@@ -80,17 +80,12 @@ struct FMappableConfigPair
 	bool CanBeActivated() const;
 	
 	/**
-	 * Registers the given config mapping with the settings
+	 * Registers the given config mapping with the local settings
 	 */
 	static bool RegisterPair(const FMappableConfigPair& Pair);
 
 	/**
-	 * Activates the given config mapping in the settings. This will also register the mapping
-	 * if it hasn't been yet. 
+	 * Unregisters the given config mapping with the local settings
 	 */
-	static bool ActivatePair(const FMappableConfigPair& Pair);
-
-	static void DeactivatePair(const FMappableConfigPair& Pair);
-	
 	static void UnregisterPair(const FMappableConfigPair& Pair);
 };

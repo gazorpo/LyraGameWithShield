@@ -79,7 +79,7 @@ struct LYRAGAME_API FLyraContextEffectAnimNotifyPreviewSettings
 	TEnumAsByte<EPhysicalSurface> PreviewPhysicalSurface = EPhysicalSurface::SurfaceType_Default;
 
 	// Preview Library
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Preview, meta = (AllowedClasses = "LyraContextEffectsLibrary"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Preview, meta = (AllowedClasses = "/Script/LyraGame.LyraContextEffectsLibrary"))
 	FSoftObjectPath PreviewContextEffectsLibrary;
 
 	// Preview Context

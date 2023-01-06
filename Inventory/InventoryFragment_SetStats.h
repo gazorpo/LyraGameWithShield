@@ -2,11 +2,17 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Inventory/LyraInventoryItemDefinition.h"
+#include "Containers/Map.h"
 #include "GameplayTagContainer.h"
+#include "HAL/Platform.h"
+#include "Inventory/LyraInventoryItemDefinition.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "InventoryFragment_SetStats.generated.h"
+
+class ULyraInventoryItemInstance;
+class UObject;
+struct FGameplayTag;
 
 UCLASS()
 class UInventoryFragment_SetStats : public ULyraInventoryItemFragment

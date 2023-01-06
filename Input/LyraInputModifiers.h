@@ -1,11 +1,24 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+#pragma once
+
+#include "Containers/Array.h"
+#include "InputActionValue.h"
 #include "InputModifiers.h"
-#include "Settings/LyraSettingsShared.h"
+#include "Math/Color.h"
+#include "Math/UnrealMathSSE.h"
+#include "Math/Vector.h"
+#include "UObject/NameTypes.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
+#include "UObject/UnrealNames.h"
+
 #include "LyraInputModifiers.generated.h"
 
+class FProperty;
 class UEnhancedPlayerInput;
 class ULyraAimSensitivityData;
+class UObject;
 
 /** 
 *  Scales input basedon a double property in the SharedUserSettings
@@ -84,7 +97,7 @@ protected:
 	virtual FLinearColor GetVisualizationColor_Implementation(FInputActionValue SampleValue, FInputActionValue FinalValue) const override;
 };
 
-/** The type of targeting sensitity that should be  */
+/** The type of targeting sensitity that should be considered */
 UENUM()
 enum class ELyraTargetingType : uint8
 {

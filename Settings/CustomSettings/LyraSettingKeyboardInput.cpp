@@ -1,9 +1,23 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraSettingKeyboardInput.h"
+
 #include "../LyraSettingsLocal.h"
+#include "Containers/UnrealString.h"
+#include "Delegates/Delegate.h"
+#include "GameSetting.h"
+#include "GameSettingFilterState.h"
+#include "Internationalization/Internationalization.h"
+#include "Misc/AssertionMacros.h"
 #include "Player/LyraLocalPlayer.h"
 #include "PlayerMappableInputConfig.h"
+#include "Templates/Casts.h"
+#include "UObject/NameTypes.h"
+#include "UObject/UnrealNames.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraSettingKeyboardInput)
+
+class ULocalPlayer;
 
 #define LOCTEXT_NAMESPACE "LyraSettings"
 
@@ -136,4 +150,29 @@ bool ULyraSettingKeyboardInput::ChangeBinding(int32 InKeyBindSlot, FKey NewKey)
 	return false;
 }
 
+void ULyraSettingKeyboardInput::GetAllMappedActionsFromKey(int32 InKeyBindSlot, FKey Key, TArray<FName>& OutActionNames) const
+{
+	if (InKeyBindSlot == 1)
+	{
+		if (SecondaryMappableOption.InputMapping.Key == Key)
+		{
+			return;
+		}
+	}
+	else
+	{
+		if (FirstMappableOption.InputMapping.Key == Key)
+		{
+			return;
+		}
+	}
+
+	if (const ULyraLocalPlayer* LyraLocalPlayer = CastChecked<ULyraLocalPlayer>(LocalPlayer))
+	{
+		ULyraSettingsLocal* LocalSettings = LyraLocalPlayer->GetLocalSettings();
+		LocalSettings->GetAllMappingNamesFromKey(Key, OutActionNames);
+	}
+}
+
 #undef LOCTEXT_NAMESPACE
+

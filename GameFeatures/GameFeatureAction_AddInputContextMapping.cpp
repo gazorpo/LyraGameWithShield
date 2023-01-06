@@ -10,6 +10,8 @@
 #include "InputMappingContext.h"
 #include "Character/LyraHeroComponent.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(GameFeatureAction_AddInputContextMapping)
+
 #define LOCTEXT_NAMESPACE "GameFeatures"
 
 //////////////////////////////////////////////////////////////////////

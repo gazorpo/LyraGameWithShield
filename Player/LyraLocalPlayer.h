@@ -2,15 +2,25 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "CommonLocalPlayer.h"
 #include "AudioMixerBlueprintLibrary.h"
+#include "CommonLocalPlayer.h"
+#include "Containers/UnrealString.h"
+#include "GenericTeamAgentInterface.h"
+#include "HAL/Platform.h"
 #include "Teams/LyraTeamAgentInterface.h"
+#include "UObject/UObjectGlobals.h"
+#include "UObject/WeakObjectPtrTemplates.h"
+
 #include "LyraLocalPlayer.generated.h"
 
+class APlayerController;
+class UInputMappingContext;
 class ULyraSettingsLocal;
 class ULyraSettingsShared;
-class UInputMappingContext;
+class UObject;
+class UWorld;
+struct FFrame;
+struct FSwapAudioOutputResult;
 
 /**
  * ULyraLocalPlayer
@@ -64,10 +74,10 @@ private:
 
 private:
 	UPROPERTY(Transient)
-	mutable ULyraSettingsShared* SharedSettings;
+	mutable TObjectPtr<ULyraSettingsShared> SharedSettings;
 
 	UPROPERTY(Transient)
-	mutable const UInputMappingContext* InputMappingContext;
+	mutable TObjectPtr<const UInputMappingContext> InputMappingContext;
 
 	UPROPERTY()
 	FOnLyraTeamIndexChangedDelegate OnTeamChangedDelegate;

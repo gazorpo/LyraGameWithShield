@@ -2,21 +2,29 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "ModularPlayerState.h"
 #include "AbilitySystemInterface.h"
-#include "System/GameplayTagStack.h"
+#include "GenericTeamAgentInterface.h"
+#include "HAL/Platform.h"
 #include "Messages/LyraVerbMessage.h"
+#include "ModularPlayerState.h"
+#include "System/GameplayTagStack.h"
 #include "Teams/LyraTeamAgentInterface.h"
+#include "Templates/Casts.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraPlayerState.generated.h"
 
-
+class AController;
 class ALyraPlayerController;
-class ULyraAbilitySystemComponent;
+class APlayerState;
+class FName;
 class UAbilitySystemComponent;
-class ULyraPawnData;
+class ULyraAbilitySystemComponent;
 class ULyraExperienceDefinition;
+class ULyraPawnData;
+class UObject;
+struct FFrame;
+struct FGameplayTag;
 
 /** Defines the types of client connected */
 UENUM()
@@ -131,13 +139,13 @@ protected:
 protected:
 
 	UPROPERTY(ReplicatedUsing = OnRep_PawnData)
-	const ULyraPawnData* PawnData;
+	TObjectPtr<const ULyraPawnData> PawnData;
 
 private:
 
 	// The ability system component sub-object used by player characters.
 	UPROPERTY(VisibleAnywhere, Category = "Lyra|PlayerState")
-	ULyraAbilitySystemComponent* AbilitySystemComponent;
+	TObjectPtr<ULyraAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY(Replicated)
 	ELyraPlayerConnectionType MyPlayerConnectionType;

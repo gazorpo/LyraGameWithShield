@@ -1,10 +1,16 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraInputConfig.h"
+
+#include "Containers/UnrealString.h"
+#include "HAL/Platform.h"
+#include "Logging/LogCategory.h"
+#include "Logging/LogMacros.h"
 #include "LyraLogChannels.h"
-#include "InputMappingContext.h"
-#include "Settings/LyraSettingsLocal.h"
-#include "Player/LyraLocalPlayer.h"
+#include "Trace/Detail/Channel.h"
+#include "UObject/UObjectBaseUtility.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraInputConfig)
 
 
 ULyraInputConfig::ULyraInputConfig(const FObjectInitializer& ObjectInitializer)

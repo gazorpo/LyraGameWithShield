@@ -15,6 +15,8 @@
 #include "TimerManager.h"
 #include "HAL/MemoryMisc.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraHotfixManager)
+
 int32 ULyraHotfixManager::GameHotfixCounter = 0;
 
 ULyraHotfixManager::ULyraHotfixManager()
@@ -101,7 +103,7 @@ bool ULyraHotfixManager::HotfixIniFile(const FString& FileName, const FString& I
 	if (!bHasPendingDeviceProfileHotfix && FileName.EndsWith(TEXT("DEVICEPROFILES.INI"), ESearchCase::IgnoreCase))
 	{
 		FConfigFile DeviceProfileHotfixConfig;
-		DeviceProfileHotfixConfig.CombineFromBuffer(IniData);
+		DeviceProfileHotfixConfig.CombineFromBuffer(IniData, FileName);
 		TSet<FString> Keys;
 		for (const auto& DPSection : DeviceProfileHotfixConfig)
 		{
@@ -229,3 +231,4 @@ void ULyraHotfixManager::StartHotfixProcess()
 
 	Super::StartHotfixProcess();
 }
+

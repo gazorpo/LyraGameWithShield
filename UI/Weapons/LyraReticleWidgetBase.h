@@ -2,13 +2,16 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "CommonUserWidget.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraReticleWidgetBase.generated.h"
 
-class ULyraWeaponInstance;
 class ULyraInventoryItemInstance;
+class ULyraWeaponInstance;
+class UObject;
+struct FFrame;
 
 UCLASS(Abstract)
 class ULyraReticleWidgetBase : public UCommonUserWidget

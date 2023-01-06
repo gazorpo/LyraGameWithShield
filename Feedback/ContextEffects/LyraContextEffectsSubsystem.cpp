@@ -2,9 +2,21 @@
 
 
 #include "LyraContextEffectsSubsystem.h"
+
+#include "Engine/EngineTypes.h"
+#include "Feedback/ContextEffects/LyraContextEffectsLibrary.h"
+#include "GameplayTagContainer.h"
 #include "Kismet/GameplayStatics.h"
+#include "NiagaraCommon.h"
 #include "NiagaraFunctionLibrary.h"
-#include "LyraContextEffectsLibrary.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraContextEffectsSubsystem)
+
+class AActor;
+class UAudioComponent;
+class UNiagaraSystem;
+class USceneComponent;
+class USoundBase;
 
 void ULyraContextEffectsSubsystem::SpawnContextEffects(
 	const AActor* SpawningActor
@@ -21,7 +33,7 @@ void ULyraContextEffectsSubsystem::SpawnContextEffects(
 	, float AudioPitch)
 {
 	// First determine if this Actor has a matching Set of Libraries
-	if (ULyraContextEffectsSet** EffectsLibrariesSetPtr = ActiveActorEffectsMap.Find(SpawningActor))
+	if (TObjectPtr<ULyraContextEffectsSet>* EffectsLibrariesSetPtr = ActiveActorEffectsMap.Find(SpawningActor))
 	{
 		// Validate the pointers from the Map Find
 		if (ULyraContextEffectsSet* EffectsLibraries = *EffectsLibrariesSetPtr)
@@ -136,3 +148,4 @@ void ULyraContextEffectsSubsystem::UnloadAndRemoveContextEffectsLibraries(AActor
 	// Remove ref from Active Actor/Effects Set Map
 	ActiveActorEffectsMap.Remove(OwningActor);
 }
+

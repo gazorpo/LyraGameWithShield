@@ -2,13 +2,20 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Subsystems/GameInstanceSubsystem.h"
+#include "Containers/Array.h"
+#include "Containers/UnrealString.h"
+#include "HAL/Platform.h"
+#include "Misc/DateTime.h"
+#include "Misc/Timespan.h"
 #include "NetworkReplayStreaming.h"
+#include "Subsystems/GameInstanceSubsystem.h"
+#include "UObject/Object.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraReplaySubsystem.generated.h"
 
 class UDemoNetDriver;
+struct FFrame;
 
 // An available replay
 UCLASS(BlueprintType)
@@ -48,7 +55,7 @@ class ULyraReplayList : public UObject
 
 public:
 	UPROPERTY(BlueprintReadWrite, Category=Replays)
-	TArray<ULyraReplayListEntry*> Results;
+	TArray<TObjectPtr<ULyraReplayListEntry>> Results;
 };
 
 UCLASS()

@@ -18,6 +18,19 @@
 #include "Settings/LyraSettingsShared.h"
 #include "Development/LyraDeveloperSettings.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraPlayerController)
+
+namespace Lyra
+{
+	namespace Input
+	{
+		static int32 ShouldAlwaysPlayForceFeedback = 0;
+		static FAutoConsoleVariableRef CVarShouldAlwaysPlayForceFeedback(TEXT("LyraPC.ShouldAlwaysPlayForceFeedback"),
+			ShouldAlwaysPlayForceFeedback,
+			TEXT("Should force feedback effects be played, even if the last input device was not a gamepad?"));
+	}
+}
+
 ALyraPlayerController::ALyraPlayerController(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -298,7 +311,7 @@ void ALyraPlayerController::UpdateForceFeedback(IInputInterface* InputInterface,
 		if (const UCommonInputSubsystem* CommonInputSubsystem = UCommonInputSubsystem::Get(GetLocalPlayer()))
 		{
 			const ECommonInputType CurrentInputType = CommonInputSubsystem->GetCurrentInputType();
-			if (CurrentInputType == ECommonInputType::Gamepad || CurrentInputType == ECommonInputType::Touch)
+			if (Lyra::Input::ShouldAlwaysPlayForceFeedback || CurrentInputType == ECommonInputType::Gamepad || CurrentInputType == ECommonInputType::Touch)
 			{
 				InputInterface->SetForceFeedbackChannelValues(ControllerId, ForceFeedbackValues);
 				return;
@@ -406,3 +419,4 @@ void ALyraReplayPlayerController::SetPlayer(UPlayer* InPlayer)
 {
 	Super::SetPlayer(InPlayer);
 }
+

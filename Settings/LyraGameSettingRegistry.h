@@ -2,24 +2,24 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
+#include "DataSource/GameSettingDataSourceDynamic.h" // IWYU pragma: keep
 #include "GameSettingRegistry.h"
-#include "DataSource/GameSettingDataSourceDynamic.h"
+#include "Logging/LogMacros.h"
+#include "Misc/AssertionMacros.h"
+#include "Settings/LyraSettingsLocal.h" // IWYU pragma: keep
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraGameSettingRegistry.generated.h"
+
+class ULocalPlayer;
+class UObject;
 
 //--------------------------------------
 // ULyraGameSettingRegistry
 //--------------------------------------
 
-class ULyraLocalPlayer;
-class ULyraClientSettingsRecord;
-class ULyraGameUserSettings;
 class UGameSettingCollection;
-class UGameSetting;
-struct FGameSettingsFilterState;
-class ULyraContentControlSettingRegistry;
+class ULyraLocalPlayer;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogLyraGameSettingRegistry, Log, Log);
 
@@ -65,17 +65,17 @@ protected:
 	UGameSettingCollection* InitializeGamepadSettings(ULyraLocalPlayer* InLocalPlayer);
 
 	UPROPERTY()
-	UGameSettingCollection* VideoSettings;
+	TObjectPtr<UGameSettingCollection> VideoSettings;
 
 	UPROPERTY()
-	UGameSettingCollection* AudioSettings;
+	TObjectPtr<UGameSettingCollection> AudioSettings;
 
 	UPROPERTY()
-	UGameSettingCollection* GameplaySettings;
+	TObjectPtr<UGameSettingCollection> GameplaySettings;
 
 	UPROPERTY()
-	UGameSettingCollection* MouseAndKeyboardSettings;
+	TObjectPtr<UGameSettingCollection> MouseAndKeyboardSettings;
 
 	UPROPERTY()
-	UGameSettingCollection* GamepadSettings;
+	TObjectPtr<UGameSettingCollection> GamepadSettings;
 };

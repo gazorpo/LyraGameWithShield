@@ -8,6 +8,8 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/Character.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraCameraMode_ThirdPerson)
+
 namespace LyraCameraMode_ThirdPerson_Statics
 {
 	static const FName NAME_IgnoreCameraCollision = TEXT("IgnoreCameraCollision");
@@ -364,3 +366,4 @@ void ULyraCameraMode_ThirdPerson::UpdateCrouchOffset(float DeltaTime)
 		CrouchOffsetBlendPct = 1.0f;
 	}
 }
+

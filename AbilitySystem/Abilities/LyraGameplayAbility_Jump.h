@@ -2,9 +2,16 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "GameplayAbilitySpec.h"
 #include "LyraGameplayAbility.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraGameplayAbility_Jump.generated.h"
+
+class UObject;
+struct FFrame;
+struct FGameplayAbilityActorInfo;
+struct FGameplayTagContainer;
 
 
 /**

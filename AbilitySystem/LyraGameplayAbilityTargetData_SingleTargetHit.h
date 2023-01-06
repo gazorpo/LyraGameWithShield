@@ -3,8 +3,13 @@
 #pragma once
 
 #include "Abilities/GameplayAbilityTargetTypes.h"
+#include "HAL/Platform.h"
+#include "UObject/Class.h"
 
 #include "LyraGameplayAbilityTargetData_SingleTargetHit.generated.h"
+
+class FArchive;
+struct FGameplayEffectContextHandle;
 
 
 /** Game-specific additions to SingleTargetHit tracking */

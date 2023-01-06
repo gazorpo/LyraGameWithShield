@@ -2,13 +2,15 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
+#include "Containers/Array.h"
 #include "GameSettingValueDiscrete.h"
+#include "HAL/Platform.h"
+#include "Internationalization/Text.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraSettingValueDiscrete_OverallQuality.generated.h"
 
-struct FScreenOverallQualityRHI;
+class UObject;
 
 UCLASS()
 class ULyraSettingValueDiscrete_OverallQuality : public UGameSettingValueDiscrete

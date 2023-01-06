@@ -1,7 +1,18 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "IndicatorDescriptor.h"
+
 #include "Engine/LocalPlayer.h"
+#include "GameFramework/Actor.h"
+#include "Math/Box.h"
+#include "Math/BoxSphereBounds.h"
+#include "Math/Transform.h"
+#include "Misc/AssertionMacros.h"
+#include "Misc/Optional.h"
+#include "SceneView.h"
+#include "UI/IndicatorSystem/LyraIndicatorManagerComponent.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(IndicatorDescriptor)
 
 bool FIndicatorProjection::Project(const UIndicatorDescriptor& IndicatorDescriptor, const FSceneViewProjectionData& InProjectionData, const FVector2D& ScreenSize, FVector& OutScreenPositionWithDepth)
 {

@@ -1,13 +1,26 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "LyraGamePhaseSubsystem.h"
-#include "LyraGamePhaseAbility.h"
-#include "GameplayTagsManager.h"
-#include "GameFramework/GameState.h"
-#include "AbilitySystemComponent.h"
-#include "AbilitySystem/Abilities/LyraGameplayAbility.h"
+#include "AbilitySystem/Phases/LyraGamePhaseSubsystem.h"
+
 #include "AbilitySystem/LyraAbilitySystemComponent.h"
+#include "Containers/UnrealString.h"
+#include "Engine/World.h"
+#include "GameFramework/GameStateBase.h"
+#include "GameplayTagsManager.h"
+#include "Logging/LogCategory.h"
+#include "Logging/LogMacros.h"
+#include "LyraGamePhaseAbility.h"
 #include "LyraGamePhaseLog.h"
+#include "Misc/AssertionMacros.h"
+#include "Templates/Casts.h"
+#include "Templates/Tuple.h"
+#include "Trace/Detail/Channel.h"
+#include "UObject/UObjectBaseUtility.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraGamePhaseSubsystem)
+
+class ULyraGameplayAbility;
+class UObject;
 
 DEFINE_LOG_CATEGORY(LogLyraGamePhase);
 
@@ -132,7 +145,6 @@ bool ULyraGamePhaseSubsystem::IsPhaseActive(const FGameplayTag& PhaseTag) const
 void ULyraGamePhaseSubsystem::OnBeginPhase(const ULyraGamePhaseAbility* PhaseAbility, const FGameplayAbilitySpecHandle PhaseAbilityHandle)
 {
 	const FGameplayTag IncomingPhaseTag = PhaseAbility->GetGamePhaseTag();
-	const FGameplayTag IncomingPhaseParentTag = UGameplayTagsManager::Get().RequestGameplayTagDirectParent(IncomingPhaseTag);
 
 	UE_LOG(LogLyraGamePhase, Log, TEXT("Beginning Phase '%s' (%s)"), *IncomingPhaseTag.ToString(), *GetNameSafe(PhaseAbility));
 
@@ -162,7 +174,7 @@ void ULyraGamePhaseSubsystem::OnBeginPhase(const ULyraGamePhaseAbility* PhaseAbi
 			// Game.Playing phase will still be active, and if someone were to push another one, like,
 			// Game.Playing.ActualSuddenDeath, it would end Game.Playing.SuddenDeath phase, but Game.Playing would
 			// continue.  Similarly if we activated Game.GameOver, all the Game.Playing* phases would end.
-			if (!ActivePhaseTag.MatchesTag(IncomingPhaseTag) && ActivePhaseTag.MatchesTag(IncomingPhaseParentTag))
+			if (!IncomingPhaseTag.MatchesTag(ActivePhaseTag))
 			{
 				UE_LOG(LogLyraGamePhase, Log, TEXT("\tEnding Phase '%s' (%s)"), *ActivePhaseTag.ToString(), *GetNameSafe(ActivePhaseAbility));
 

@@ -1,7 +1,14 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "ApplyFrontendPerfSettingsAction.h"
+
+#include "Misc/AssertionMacros.h"
 #include "Settings/LyraSettingsLocal.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(ApplyFrontendPerfSettingsAction)
+
+struct FGameFeatureActivatingContext;
+struct FGameFeatureDeactivatingContext;
 
 //////////////////////////////////////////////////////////////////////
 // UApplyFrontendPerfSettingsAction
@@ -33,3 +40,4 @@ void UApplyFrontendPerfSettingsAction::OnGameFeatureDeactivating(FGameFeatureDea
 		ULyraSettingsLocal::Get()->SetShouldUseFrontendPerformanceSettings(false);
 	}
 }
+

@@ -2,7 +2,10 @@
 
 #include "LyraGamePhaseAbility.h"
 #include "AbilitySystemComponent.h"
+#include "Engine/World.h"
 #include "LyraGamePhaseSubsystem.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraGamePhaseAbility)
 
 #define LOCTEXT_NAMESPACE "ULyraGamePhaseAbility"
 

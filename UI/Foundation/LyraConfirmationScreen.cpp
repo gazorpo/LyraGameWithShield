@@ -15,6 +15,8 @@
 #include "CommonButtonBase.h"
 #include "LyraButtonBase.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraConfirmationScreen)
+
 void ULyraConfirmationScreen::SetupDialog(UCommonGameDialogDescriptor* Descriptor, FCommonMessagingResultDelegate ResultCallback)
 {
 	Super::SetupDialog(Descriptor, ResultCallback);

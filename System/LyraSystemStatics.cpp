@@ -8,6 +8,8 @@
 #include "Components/MeshComponent.h"
 #include "GameModes/LyraUserFacingExperienceDefinition.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraSystemStatics)
+
 TSoftObjectPtr<UObject> ULyraSystemStatics::GetTypedSoftObjectReferenceFromPrimaryAssetId(FPrimaryAssetId PrimaryAssetId, TSubclassOf<UObject> ExpectedAssetType)
 {
 	if (UAssetManager* Manager = UAssetManager::GetIfValid())
@@ -103,3 +105,4 @@ TArray<UActorComponent*> ULyraSystemStatics::FindComponentsByClass(AActor* Targe
 	}
 	return MoveTemp(Components);
 }
+

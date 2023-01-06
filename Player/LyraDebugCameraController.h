@@ -2,9 +2,12 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Engine/DebugCameraController.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraDebugCameraController.generated.h"
+
+class UObject;
 
 
 /**

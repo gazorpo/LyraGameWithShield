@@ -2,21 +2,20 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
-#include "UObject/WeakInterfacePtr.h"
-#include "Kismet/BlueprintAsyncActionBase.h"
+#include "CoreTypes.h"
+#include "Delegates/Delegate.h"
 #include "Engine/CancellableAsyncAction.h"
-#include "Engine/EngineTypes.h"
-#include "Teams/LyraTeamAgentInterface.h"
+#include "UObject/Object.h"
+#include "UObject/UObjectGlobals.h"
+#include "UObject/WeakInterfacePtr.h"
+#include "UObject/WeakObjectPtr.h"
+#include "UObject/WeakObjectPtrTemplates.h"
 
 #include "AsyncAction_ObserveTeamColors.generated.h"
 
-class AGameStateBase;
-class UGameInstance;
-class AController;
-class ALyraPlayerState;
+class ILyraTeamAgentInterface;
 class ULyraTeamDisplayAsset;
+struct FFrame;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTeamColorObservedAsyncDelegate, bool, bTeamSet, int32, TeamId, const ULyraTeamDisplayAsset*, DisplayAsset);
 

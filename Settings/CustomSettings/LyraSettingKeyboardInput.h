@@ -2,12 +2,16 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
-#include "GameSettingValue.h"
 #include "EnhancedActionKeyMapping.h"
+#include "GameSettingValue.h"
+#include "HAL/Platform.h"
+#include "InputCoreTypes.h"
+#include "Internationalization/Text.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraSettingKeyboardInput.generated.h"
+
+class UObject;
 
 //--------------------------------------
 // ULyraSettingKeyboardInput
@@ -56,6 +60,7 @@ public:
 	virtual void RestoreToInitial() override;
 
 	bool ChangeBinding(int32 InKeyBindSlot, FKey NewKey);
+	void GetAllMappedActionsFromKey(int32 InKeyBindSlot, FKey Key, TArray<FName>& OutActionNames) const;
 	
 	FText GetSettingDisplayName() const { return FirstMappableOption.InputMapping.PlayerMappableOptions.DisplayName; }
 	

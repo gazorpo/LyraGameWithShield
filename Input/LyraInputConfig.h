@@ -2,15 +2,16 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Containers/Array.h"
 #include "Engine/DataAsset.h"
 #include "GameplayTagContainer.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraInputConfig.generated.h"
 
-
 class UInputAction;
-class UInputMappingContext;
-class ULyraLocalPlayer;
+class UObject;
+struct FFrame;
 
 /**
  * FLyraInputAction
@@ -24,10 +25,10 @@ struct FLyraInputAction
 
 public:
 
-	UPROPERTY(EditDefaultsOnly)
-	const UInputAction* InputAction = nullptr;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<const UInputAction> InputAction = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Meta = (Categories = "InputTag"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (Categories = "InputTag"))
 	FGameplayTag InputTag;
 };
 
@@ -45,7 +46,10 @@ public:
 
 	ULyraInputConfig(const FObjectInitializer& ObjectInitializer);
 
+	UFUNCTION(BlueprintCallable, Category = "Lyra|Pawn")
 	const UInputAction* FindNativeInputActionForTag(const FGameplayTag& InputTag, bool bLogNotFound = true) const;
+
+	UFUNCTION(BlueprintCallable, Category = "Lyra|Pawn")
 	const UInputAction* FindAbilityInputActionForTag(const FGameplayTag& InputTag, bool bLogNotFound = true) const;
 
 public:

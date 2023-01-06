@@ -2,18 +2,36 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "AbilitySystemComponent.h"
+#include "Containers/Array.h"
+#include "Containers/Map.h"
+#include "GameplayAbilitySpec.h"
+#include "GameplayEffectTypes.h"
+#include "GameplayTagContainer.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraGameplayAbility.generated.h"
 
-
-class ULyraAbilitySystemComponent;
-class ALyraPlayerController;
+class AActor;
+class AController;
 class ALyraCharacter;
-class ULyraHeroComponent;
-class ULyraCameraMode;
-class ULyraAbilityCost;
+class ALyraPlayerController;
+class APlayerController;
+class FText;
 class ILyraAbilitySourceInterface;
+class UAnimMontage;
+class ULyraAbilityCost;
+class ULyraAbilitySystemComponent;
+class ULyraCameraMode;
+class ULyraHeroComponent;
+class UObject;
+struct FFrame;
+struct FGameplayAbilityActorInfo;
+struct FGameplayEffectSpec;
+struct FGameplayEventData;
 
 /**
  * ELyraAbilityActivationPolicy
@@ -63,14 +81,14 @@ struct FLyraAbilityMontageFailureMessage
 public:
 	
 	UPROPERTY(BlueprintReadWrite)
-	APlayerController* PlayerController = nullptr;
+	TObjectPtr<APlayerController> PlayerController = nullptr;
 
 	// All the reasons why this ability has failed
 	UPROPERTY(BlueprintReadWrite)
 	FGameplayTagContainer FailureTags;
 
 	UPROPERTY(BlueprintReadWrite)
-	UAnimMontage* FailureMontage = nullptr;
+	TObjectPtr<UAnimMontage> FailureMontage = nullptr;
 };
 
 /**
@@ -79,7 +97,7 @@ public:
  *	The base gameplay ability class used by this project.
  */
 UCLASS(Abstract, HideCategories = Input, Meta = (ShortTooltip = "The base gameplay ability class used by this project."))
-class ULyraGameplayAbility : public UGameplayAbility
+class LYRAGAME_API ULyraGameplayAbility : public UGameplayAbility
 {
 	GENERATED_BODY()
 	friend class ULyraAbilitySystemComponent;
@@ -189,7 +207,11 @@ protected:
 
 	// Map of failure tags to anim montages that should be played with them
 	UPROPERTY(EditDefaultsOnly, Category = "Advanced")
-	TMap<FGameplayTag, UAnimMontage*> FailureTagToAnimMontage;
+	TMap<FGameplayTag, TObjectPtr<UAnimMontage>> FailureTagToAnimMontage;
+
+	// If true, extra information should be logged when this ability is canceled. This is temporary, used for tracking a bug.
+	UPROPERTY(EditDefaultsOnly, Category = "Advanced")
+	bool bLogCancelation;
 
 	// Current camera mode set by the ability.
 	TSubclassOf<ULyraCameraMode> ActiveCameraMode;

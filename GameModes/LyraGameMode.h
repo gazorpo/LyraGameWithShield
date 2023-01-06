@@ -2,13 +2,26 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Containers/UnrealString.h"
+#include "Delegates/Delegate.h"
+#include "Math/Rotator.h"
+#include "Math/Transform.h"
 #include "ModularGameMode.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraGameMode.generated.h"
 
-
-class ULyraPawnData;
+class AActor;
+class AController;
+class AGameModeBase;
+class APawn;
+class APlayerController;
+class UClass;
 class ULyraExperienceDefinition;
+class ULyraPawnData;
+class UObject;
+struct FFrame;
+struct FPrimaryAssetId;
 
 /**
  * Post login event, triggered when a player joins the game as well as after non-seamless ServerTravel
@@ -31,6 +44,7 @@ public:
 
 	ALyraGameMode(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+	UFUNCTION(BlueprintCallable, Category = "Lyra|Pawn")
 	const ULyraPawnData* GetPawnDataForController(const AController* InController) const;
 
 	//~AGameModeBase interface

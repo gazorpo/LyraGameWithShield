@@ -1,11 +1,20 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraInputModifiers.h"
-#include "Settings/LyraSettingsShared.h"
-#include "Player/LyraLocalPlayer.h"
+
 #include "EnhancedPlayerInput.h"
 #include "GameFramework/PlayerController.h"
 #include "Input/LyraAimSensitivityData.h"
+#include "Logging/LogMacros.h"
+#include "Math/Vector2D.h"
+#include "Misc/AssertionMacros.h"
+#include "Player/LyraLocalPlayer.h"
+#include "Settings/LyraSettingsShared.h"
+#include "Templates/Casts.h"
+#include "UObject/Class.h"
+#include "UObject/UnrealType.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraInputModifiers)
 
 DEFINE_LOG_CATEGORY_STATIC(LogLyraInputModifiers, Log, All);
 

@@ -2,14 +2,18 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Components/GameFrameworkComponent.h"
-#include "Character/LyraPawnComponent.h"
-#include "LyraHealthComponent.generated.h"
+#include "Delegates/Delegate.h"
+#include "GameFramework/Actor.h"
+#include "HAL/Platform.h"
+#include "UObject/UObjectGlobals.h"
 
+#include "LyraHealthComponent.generated.h"
 
 class ULyraAbilitySystemComponent;
 class ULyraHealthSet;
+class UObject;
+struct FFrame;
 struct FGameplayEffectSpec;
 struct FOnAttributeChangeData;
 
@@ -62,25 +66,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Lyra|Health")
 	float GetHealth() const;
 
-	// Returns the current shield value.
-	UFUNCTION(BlueprintCallable, Category = "Lyra|Health")
-	float GetShield() const;
-
 	// Returns the current maximum health value.
 	UFUNCTION(BlueprintCallable, Category = "Lyra|Health")
 	float GetMaxHealth() const;
 
-	// Returns the current maximum shield value.
-	UFUNCTION(BlueprintCallable, Category = "Lyra|Health")
-	float GetMaxShield() const;
-
 	// Returns the current health in the range [0.0, 1.0].
 	UFUNCTION(BlueprintCallable, Category = "Lyra|Health")
 	float GetHealthNormalized() const;
-
-	// Returns the current shield in the range [0.0, 1.0].
-	UFUNCTION(BlueprintCallable, Category = "Lyra|Health")
-	float GetShieldNormalized() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Lyra|Health")
 	ELyraDeathState GetDeathState() const { return DeathState; }
@@ -103,17 +95,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FLyraHealth_AttributeChanged OnHealthChanged;
 
-	// Delegate fired when the shield value has changed.
-	UPROPERTY(BlueprintAssignable)
-	FLyraHealth_AttributeChanged OnShieldChanged;
-
 	// Delegate fired when the max health value has changed.
 	UPROPERTY(BlueprintAssignable)
 	FLyraHealth_AttributeChanged OnMaxHealthChanged;
-
-	// Delegate fired when the max shield value has changed.
-	UPROPERTY(BlueprintAssignable)
-	FLyraHealth_AttributeChanged OnMaxShieldChanged;
 
 	// Delegate fired when the death sequence has started.
 	UPROPERTY(BlueprintAssignable)
@@ -130,11 +114,8 @@ protected:
 	void ClearGameplayTags();
 
 	virtual void HandleHealthChanged(const FOnAttributeChangeData& ChangeData);
-	virtual void HandleShieldChanged(const FOnAttributeChangeData& ChangeData);
 	virtual void HandleMaxHealthChanged(const FOnAttributeChangeData& ChangeData);
-	virtual void HandleMaxShieldChanged(const FOnAttributeChangeData& ChangeData);
 	virtual void HandleOutOfHealth(AActor* DamageInstigator, AActor* DamageCauser, const FGameplayEffectSpec& DamageEffectSpec, float DamageMagnitude);
-	virtual void HandleOutOfShield(AActor* DamageInstigator, AActor* DamageCauser, const FGameplayEffectSpec& DamageEffectSpec, float DamageMagnitude);
 
 	UFUNCTION()
 	virtual void OnRep_DeathState(ELyraDeathState OldDeathState);
@@ -143,11 +124,11 @@ protected:
 
 	// Ability system used by this component.
 	UPROPERTY()
-	ULyraAbilitySystemComponent* AbilitySystemComponent;
+	TObjectPtr<ULyraAbilitySystemComponent> AbilitySystemComponent;
 
 	// Health set used by this component.
 	UPROPERTY()
-	const ULyraHealthSet* HealthSet;
+	TObjectPtr<const ULyraHealthSet> HealthSet;
 
 	// Replicated state used to handle dying.
 	UPROPERTY(ReplicatedUsing = OnRep_DeathState)

@@ -2,15 +2,20 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
-#include "UObject/Object.h"
-#include "Engine/PlatformSettings.h"
+#include "Containers/Array.h"
+#include "Containers/Set.h"
+#include "Containers/UnrealString.h"
 #include "Engine/DeveloperSettingsBackedByCVars.h"
-#include "Performance/LyraPerformanceStatTypes.h"
+#include "Engine/PlatformSettings.h"
 #include "GameplayTagContainer.h"
+#include "HAL/Platform.h"
+#include "Internationalization/Text.h"
+#include "Performance/LyraPerformanceStatTypes.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraPerformanceSettings.generated.h"
+
+class UObject;
 
 // Describes one platform-specific device profile variant that the user can choose from in the UI
 USTRUCT()

@@ -2,6 +2,7 @@
 
 
 #include "AnimNotify_LyraContextEffects.h"
+#include "Feedback/ContextEffects/LyraContextEffectsLibrary.h"
 #include "LyraContextEffectComponent.h"
 #include "LyraContextEffectsInterface.h"
 #include "UObject/UObjectBaseUtility.h"
@@ -13,8 +14,9 @@
 #include "LyraContextEffectsSubsystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
-#include "LyraContextEffectsLibrary.h"
 #include "Kismet/GameplayStatics.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(AnimNotify_LyraContextEffects)
 
 
 
@@ -227,3 +229,4 @@ void UAnimNotify_LyraContextEffects::SetParameters(FGameplayTag EffectIn, FVecto
 
 }
 #endif
+

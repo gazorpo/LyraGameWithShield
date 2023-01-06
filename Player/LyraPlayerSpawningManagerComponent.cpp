@@ -11,6 +11,8 @@
 #include "Engine/PlayerStartPIE.h"
 #include "LyraPlayerStart.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraPlayerSpawningManagerComponent)
+
 DEFINE_LOG_CATEGORY_STATIC(LogPlayerSpawning, Log, All);
 
 ULyraPlayerSpawningManagerComponent::ULyraPlayerSpawningManagerComponent(const FObjectInitializer& ObjectInitializer)
@@ -210,3 +212,4 @@ APlayerStart* ULyraPlayerSpawningManagerComponent::GetFirstRandomUnoccupiedPlaye
 
 	return nullptr;
 }
+

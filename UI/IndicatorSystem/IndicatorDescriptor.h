@@ -2,17 +2,30 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "LyraIndicatorManagerComponent.h"
-#include "Widgets/SWidget.h"
-#include "Widgets/SNullWidget.h"
-#include "SceneView.h"
-#include "UObject/WeakInterfacePtr.h"
+#include "Components/SceneComponent.h"
+#include "Containers/EnumAsByte.h"
+#include "Math/UnrealMathSSE.h"
+#include "Math/Vector.h"
+#include "Math/Vector2D.h"
+#include "Templates/SharedPointer.h"
+#include "Types/SlateEnums.h"
+#include "UObject/NameTypes.h"
+#include "UObject/Object.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/SoftObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
+#include "UObject/UnrealNames.h"
+#include "UObject/WeakObjectPtr.h"
+#include "UObject/WeakObjectPtrTemplates.h"
 
 #include "IndicatorDescriptor.generated.h"
 
+class SWidget;
 class UIndicatorDescriptor;
 class ULyraIndicatorManagerComponent;
+class UUserWidget;
+struct FFrame;
+struct FSceneViewProjectionData;
 
 struct FIndicatorProjection
 {

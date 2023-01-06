@@ -10,6 +10,8 @@
 #include "AbilitySystem/LyraAbilitySystemComponent.h"
 #include "Player/LyraPlayerState.h" //@TODO: For the fname
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(GameFeatureAction_AddAbilities)
+
 #define LOCTEXT_NAMESPACE "GameFeatures"
 
 //////////////////////////////////////////////////////////////////////
@@ -234,7 +236,7 @@ void UGameFeatureAction_AddAbilities::RemoveActorAbilities(AActor* Actor, FPerCo
 		{
 			for (UAttributeSet* AttribSetInstance : ActorExtensions->Attributes)
 			{
-				AbilitySystemComponent->GetSpawnedAttributes_Mutable().Remove(AttribSetInstance);
+				AbilitySystemComponent->RemoveSpawnedAttribute(AttribSetInstance);
 			}
 
 			for (FGameplayAbilitySpecHandle AbilityHandle : ActorExtensions->Abilities)
@@ -293,3 +295,4 @@ UActorComponent* UGameFeatureAction_AddAbilities::FindOrAddComponentForActor(UCl
 }
 
 #undef LOCTEXT_NAMESPACE
+

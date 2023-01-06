@@ -2,10 +2,13 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
+#include "CoreTypes.h"
+#include "Delegates/Delegate.h"
 #include "GenericTeamAgentInterface.h"
+#include "Misc/AssertionMacros.h"
+#include "UObject/Object.h"
 #include "UObject/ScriptInterface.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraTeamAgentInterface.generated.h"
 

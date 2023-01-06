@@ -14,6 +14,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "Character/LyraHealthComponent.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraBotCreationComponent)
+
 ULyraBotCreationComponent::ULyraBotCreationComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -121,7 +123,7 @@ void ULyraBotCreationComponent::SpawnOneBot()
 		{
 			if (ULyraPawnExtensionComponent* PawnExtComponent = NewController->GetPawn()->FindComponentByClass<ULyraPawnExtensionComponent>())
 			{
-				PawnExtComponent->CheckPawnReadyToInitialize();
+				PawnExtComponent->CheckDefaultInitialization();
 			}
 		}
 

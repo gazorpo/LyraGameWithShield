@@ -2,16 +2,32 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Subsystems/WorldSubsystem.h"
+#include "Chaos/ChaosEngineInterface.h"
+#include "Containers/Array.h"
+#include "Containers/EnumAsByte.h"
+#include "Containers/Map.h"
+#include "Containers/Set.h"
 #include "Engine/DeveloperSettings.h"
 #include "GameplayTagContainer.h"
-#include "PhysicalMaterials/PhysicalMaterial.h"
+#include "Math/MathFwd.h"
+#include "Math/Rotator.h"
+#include "Math/Vector.h"
+#include "Subsystems/WorldSubsystem.h"
+#include "UObject/NameTypes.h"
+#include "UObject/Object.h"
+#include "UObject/SoftObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraContextEffectsSubsystem.generated.h"
 
+class AActor;
+class UAudioComponent;
 class ULyraContextEffectsLibrary;
 class UNiagaraComponent;
+class USceneComponent;
+struct FFrame;
+struct FGameplayTag;
+struct FGameplayTagContainer;
 
 /**
  *
@@ -37,7 +53,7 @@ class LYRAGAME_API ULyraContextEffectsSet : public UObject
 
 public:
 	UPROPERTY(Transient)
-	TSet<ULyraContextEffectsLibrary*> LyraContextEffectsLibraries;
+	TSet<TObjectPtr<ULyraContextEffectsLibrary>> LyraContextEffectsLibraries;
 };
 
 
@@ -81,6 +97,6 @@ public:
 private:
 
 	UPROPERTY(Transient)
-	TMap<AActor*, ULyraContextEffectsSet*> ActiveActorEffectsMap;
+	TMap<TObjectPtr<AActor>, TObjectPtr<ULyraContextEffectsSet>> ActiveActorEffectsMap;
 
 };

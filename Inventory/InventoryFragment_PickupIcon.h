@@ -2,11 +2,15 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Internationalization/Text.h"
 #include "Inventory/LyraInventoryItemDefinition.h"
+#include "Math/Color.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "InventoryFragment_PickupIcon.generated.h"
 
+class UObject;
 class USkeletalMesh;
 
 UCLASS()

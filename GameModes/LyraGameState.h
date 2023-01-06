@@ -2,16 +2,20 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "ModularGameState.h"
 #include "AbilitySystemInterface.h"
+#include "Engine/EngineTypes.h"
 #include "Messages/LyraVerbMessage.h"
+#include "ModularGameState.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraGameState.generated.h"
 
-class ULyraExperienceManagerComponent;
-class ULyraAbilitySystemComponent;
+class APlayerState;
 class UAbilitySystemComponent;
+class ULyraAbilitySystemComponent;
+class ULyraExperienceManagerComponent;
+class UObject;
+struct FFrame;
 
 /**
  * ALyraGameState
@@ -59,11 +63,11 @@ public:
 
 private:
 	UPROPERTY()
-	ULyraExperienceManagerComponent* ExperienceManagerComponent;
+	TObjectPtr<ULyraExperienceManagerComponent> ExperienceManagerComponent;
 
 	// The ability system component subobject for game-wide things (primarily gameplay cues)
 	UPROPERTY(VisibleAnywhere, Category = "Lyra|GameState")
-	ULyraAbilitySystemComponent* AbilitySystemComponent;
+	TObjectPtr<ULyraAbilitySystemComponent> AbilitySystemComponent;
 
 
 protected:

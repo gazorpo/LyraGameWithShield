@@ -2,19 +2,42 @@
 
 
 #include "LyraWeaponSpawner.h"
-#include "Net/UnrealNetwork.h"
-#include "Components/StaticMeshComponent.h"
-#include "Components/CapsuleComponent.h"
-#include "Equipment/LyraEquipmentDefinition.h"
-#include "Equipment/LyraEquipmentManagerComponent.h"
-#include "Equipment/LyraPickupDefinition.h"
+
 #include "AbilitySystemBlueprintLibrary.h"
-#include "NiagaraFunctionLibrary.h"
-#include "Kismet/GameplayStatics.h"
-#include "Inventory/LyraInventoryItemDefinition.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/PrimitiveComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Containers/Array.h"
+#include "Containers/UnrealString.h"
+#include "Delegates/Delegate.h"
+#include "Engine/EngineBaseTypes.h"
+#include "Engine/World.h"
+#include "Equipment/LyraPickupDefinition.h"
+#include "GameFramework/Pawn.h"
+#include "GameplayTagContainer.h"
 #include "Inventory/InventoryFragment_SetStats.h"
-#include "TimerManager.h"
+#include "Inventory/LyraInventoryItemDefinition.h"
+#include "Kismet/GameplayStatics.h"
+#include "Logging/LogCategory.h"
+#include "Logging/LogMacros.h"
 #include "LyraLogChannels.h"
+#include "Math/Rotator.h"
+#include "Misc/AssertionMacros.h"
+#include "Net/UnrealNetwork.h"
+#include "NiagaraFunctionLibrary.h"
+#include "Templates/Casts.h"
+#include "Templates/ChooseClass.h"
+#include "TimerManager.h"
+#include "Trace/Detail/Channel.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectBaseUtility.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraWeaponSpawner)
+
+class FLifetimeProperty;
+class UNiagaraSystem;
+class USoundBase;
+struct FHitResult;
 
 // Sets default values
 ALyraWeaponSpawner::ALyraWeaponSpawner()

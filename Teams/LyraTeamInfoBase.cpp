@@ -1,9 +1,18 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraTeamInfoBase.h"
-#include "Net/UnrealNetwork.h"
-#include "LyraTeamSubsystem.h"
+
+#include "Containers/Array.h"
+#include "CoreTypes.h"
 #include "Engine/World.h"
+#include "Misc/AssertionMacros.h"
+#include "Net/UnrealNetwork.h"
+#include "Teams/LyraTeamSubsystem.h"
+#include "UObject/CoreNetTypes.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraTeamInfoBase)
+
+class FLifetimeProperty;
 
 ALyraTeamInfoBase::ALyraTeamInfoBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -70,3 +79,4 @@ void ALyraTeamInfoBase::OnRep_TeamId()
 {
 	TryRegisterWithTeamSubsystem();
 }
+

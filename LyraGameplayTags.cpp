@@ -1,9 +1,15 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraGameplayTags.h"
-#include "LyraLogChannels.h"
-#include "GameplayTagsManager.h"
+
+#include "Containers/Array.h"
 #include "Engine/EngineTypes.h"
+#include "GameplayTagsManager.h"
+#include "Logging/LogCategory.h"
+#include "Logging/LogMacros.h"
+#include "LyraLogChannels.h"
+#include "Trace/Detail/Channel.h"
+#include "UObject/NameTypes.h"
 
 FLyraGameplayTags FLyraGameplayTags::GameplayTags;
 
@@ -34,6 +40,11 @@ void FLyraGameplayTags::AddAllTags(UGameplayTagsManager& Manager)
 	AddTag(InputTag_Look_Stick, "InputTag.Look.Stick", "Look (stick) input.");
 	AddTag(InputTag_Crouch, "InputTag.Crouch", "Crouch input.");
 	AddTag(InputTag_AutoRun, "InputTag.AutoRun", "Auto-run input.");
+
+	AddTag(InitState_Spawned, "InitState.Spawned", "1: Actor/component has initially spawned and can be extended");
+	AddTag(InitState_DataAvailable, "InitState.DataAvailable", "2: All required data has been loaded/replicated and is ready for initialization");
+	AddTag(InitState_DataInitialized, "InitState.DataInitialized", "3: The available data has been initialized for this actor/component, but it is not ready for full gameplay");
+	AddTag(InitState_GameplayReady, "InitState.GameplayReady", "4: The actor/component is fully ready for active gameplay");
 
 	AddTag(GameplayEvent_Death, "GameplayEvent.Death", "Event that fires on death. This event only fires on the server.");
 	AddTag(GameplayEvent_Reset, "GameplayEvent.Reset", "Event that fires once a player reset is executed.");

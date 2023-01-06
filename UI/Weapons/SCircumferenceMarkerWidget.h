@@ -2,13 +2,25 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Styling/SlateBrush.h"
-#include "Widgets/DeclarativeSyntaxSupport.h"
-#include "Widgets/SCompoundWidget.h"
-#include "Widgets/SLeafWidget.h"
+#include "Containers/Array.h"
+#include "HAL/Platform.h"
+#include "Math/Vector2D.h"
+#include "Misc/Attribute.h"
+#include "Rendering/SlateRenderTransform.h"
 #include "Styling/CoreStyle.h"
+#include "Styling/ISlateStyle.h"
+#include "Styling/SlateColor.h"
+#include "Widgets/DeclarativeSyntaxSupport.h"
+#include "Widgets/SLeafWidget.h"
+
 #include "SCircumferenceMarkerWidget.generated.h"
+
+class FPaintArgs;
+class FSlateRect;
+class FSlateWindowElementList;
+class FWidgetStyle;
+struct FGeometry;
+struct FSlateBrush;
 
 USTRUCT(BlueprintType)
 struct FCircumferenceMarkerEntry

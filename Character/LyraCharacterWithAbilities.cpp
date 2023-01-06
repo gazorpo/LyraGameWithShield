@@ -1,10 +1,15 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraCharacterWithAbilities.h"
-#include "AbilitySystem/LyraAbilitySystemComponent.h"
-#include "AbilitySystem/LyraAbilitySet.h"
-#include "AbilitySystem/Attributes/LyraHealthSet.h"
+
 #include "AbilitySystem/Attributes/LyraCombatSet.h"
+#include "AbilitySystem/Attributes/LyraHealthSet.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
+#include "AbilitySystemComponent.h"
+#include "HAL/Platform.h"
+#include "Misc/AssertionMacros.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraCharacterWithAbilities)
 
 ALyraCharacterWithAbilities::ALyraCharacterWithAbilities(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -32,3 +37,4 @@ UAbilitySystemComponent* ALyraCharacterWithAbilities::GetAbilitySystemComponent(
 {
 	return AbilitySystemComponent;
 }
+

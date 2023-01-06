@@ -1,11 +1,30 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "LyraPawnComponent_CharacterParts.h"
-#include "GameFramework/Character.h"
-#include "Components/SkeletalMeshComponent.h"
+#include "Cosmetics/LyraPawnComponent_CharacterParts.h"
+
 #include "Components/ChildActorComponent.h"
-#include "Net/UnrealNetwork.h"
+#include "Components/SceneComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Cosmetics/LyraCharacterPartTypes.h"
+#include "Engine/EngineBaseTypes.h"
+#include "GameFramework/Actor.h"
+#include "GameFramework/Character.h"
 #include "GameplayTagAssetInterface.h"
+#include "HAL/Platform.h"
+#include "Math/Transform.h"
+#include "Misc/AssertionMacros.h"
+#include "Net/UnrealNetwork.h"
+#include "Templates/Casts.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/NameTypes.h"
+#include "UObject/UObjectBaseUtility.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraPawnComponent_CharacterParts)
+
+class FLifetimeProperty;
+class UPhysicsAsset;
+class USkeletalMesh;
+class UWorld;
 
 //////////////////////////////////////////////////////////////////////
 
@@ -336,4 +355,5 @@ void ULyraPawnComponent_CharacterParts::BroadcastChanged()
 	// Let observers know, e.g., if they need to apply team coloring or similar
 	OnCharacterPartsChanged.Broadcast(this);
 }
+
 

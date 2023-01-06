@@ -2,11 +2,14 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Internationalization/Text.h"
 #include "Inventory/LyraInventoryItemDefinition.h"
 #include "Styling/SlateBrush.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "InventoryFragment_QuickBarIcon.generated.h"
+
+class UObject;
 
 UCLASS()
 class UInventoryFragment_QuickBarIcon : public ULyraInventoryItemFragment

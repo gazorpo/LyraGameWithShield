@@ -5,6 +5,8 @@
 #include "GameFramework/GameStateBase.h"
 #include "GameModes/LyraBotCreationComponent.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraBotCheats)
+
 //////////////////////////////////////////////////////////////////////
 // ULyraBotCheats
 
@@ -54,3 +56,4 @@ ULyraBotCreationComponent* ULyraBotCheats::GetBotComponent() const
 
 	return nullptr;
 }
+

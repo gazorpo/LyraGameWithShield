@@ -2,9 +2,16 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/LyraGameplayAbility.h"
+#include "GameplayAbilitySpec.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraGameplayAbility_Reset.generated.h"
+
+class AActor;
+class UObject;
+struct FGameplayAbilityActorInfo;
+struct FGameplayEventData;
 
 /**
  * ULyraGameplayAbility_Reset
@@ -35,5 +42,5 @@ struct FLyraPlayerResetMessage
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadOnly)
-	AActor* OwnerPlayerState = nullptr;
+	TObjectPtr<AActor> OwnerPlayerState = nullptr;
 };

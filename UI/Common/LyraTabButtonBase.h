@@ -2,14 +2,17 @@
 
 #pragma once
 
-#include "CommonButtonBase.h"
 #include "LyraTabListWidgetBase.h"
 #include "UI/Foundation/LyraButtonBase.h"
+#include "UObject/SoftObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraTabButtonBase.generated.h"
 
 class UCommonLazyImage;
-class UCommonTextBlock;
+class UObject;
+struct FFrame;
+struct FSlateBrush;
 
 UCLASS(Abstract, Blueprintable, meta = (DisableNativeTick))
 class LYRAGAME_API ULyraTabButtonBase : public ULyraButtonBase, public ILyraTabButtonInterface
@@ -29,5 +32,5 @@ protected:
 private:
 
 	UPROPERTY(meta = (BindWidgetOptional))
-	UCommonLazyImage* LazyImage_Icon;
+	TObjectPtr<UCommonLazyImage> LazyImage_Icon;
 };

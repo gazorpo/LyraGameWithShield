@@ -1,12 +1,21 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "Settings/Widgets/LyraSettingsListEntrySetting_KeyboardInput.h"
+
+#include "CommonActivatableWidget.h"
 #include "CommonButtonBase.h"
 #include "CommonUIExtensions.h"
+#include "Delegates/Delegate.h"
+#include "GameSetting.h"
+#include "Misc/AssertionMacros.h"
 #include "NativeGameplayTags.h"
-#include "Widgets/Misc/GameSettingPressAnyKey.h"
 #include "Settings/CustomSettings/LyraSettingKeyboardInput.h"
+#include "Templates/Casts.h"
 #include "UI/Foundation/LyraButtonBase.h"
+#include "UObject/NameTypes.h"
+#include "Widgets/Misc/GameSettingPressAnyKey.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraSettingsListEntrySetting_KeyboardInput)
 
 #define LOCTEXT_NAMESPACE "LyraSettings"
 
@@ -58,12 +67,63 @@ void ULyraSettingsListEntrySetting_KeyboardInput::HandleSecondaryKeySelected(FKe
 	ChangeBinding(1, InKey);
 }
 
+void ULyraSettingsListEntrySetting_KeyboardInput::HandlePrimaryDuplicateKeySelected(FKey InKey, UKeyAlreadyBoundWarning* DuplicateKeyPressAnyKeyPanel) const
+{
+	DuplicateKeyPressAnyKeyPanel->OnKeySelected.RemoveAll(this);
+	KeyboardInputSetting->ChangeBinding(0, OriginalKeyToBind);
+}
+
+void ULyraSettingsListEntrySetting_KeyboardInput::HandleSecondaryDuplicateKeySelected(FKey InKey, UKeyAlreadyBoundWarning* DuplicateKeyPressAnyKeyPanel) const
+{
+	DuplicateKeyPressAnyKeyPanel->OnKeySelected.RemoveAll(this);
+	KeyboardInputSetting->ChangeBinding(1, OriginalKeyToBind);
+}
+
 void ULyraSettingsListEntrySetting_KeyboardInput::ChangeBinding(int32 InKeyBindSlot, FKey InKey)
 {
-	KeyboardInputSetting->ChangeBinding(InKeyBindSlot, InKey);
+	OriginalKeyToBind = InKey;
+	TArray<FName> ActionsForKey;
+	KeyboardInputSetting->GetAllMappedActionsFromKey(InKeyBindSlot, InKey, ActionsForKey);
+	if (!ActionsForKey.IsEmpty())
+	{
+		UKeyAlreadyBoundWarning* KeyAlreadyBoundWarning = CastChecked<UKeyAlreadyBoundWarning>(
+		UCommonUIExtensions::PushContentToLayer_ForPlayer(GetOwningLocalPlayer(), PressAnyKeyLayer, KeyAlreadyBoundWarningPanelClass));
+
+		FString ActionNames;
+		for (FName ActionName : ActionsForKey)
+		{
+			ActionNames += ActionName.ToString() += ", ";
+		}
+
+		FFormatNamedArguments Args;
+		Args.Add(TEXT("InKey"), InKey.GetDisplayName());
+		Args.Add(TEXT("ActionNames"), FText::FromString(ActionNames));
+
+		KeyAlreadyBoundWarning->SetWarningText(FText::Format(LOCTEXT("WarningText", "{InKey} is already bound to {ActionNames} are you sure you want to rebind it?"), Args));
+		KeyAlreadyBoundWarning->SetCancelText(FText::Format(LOCTEXT("CancelText", "Press escape to cancel, or press {InKey} again to confirm rebinding."), Args));
+
+		if (InKeyBindSlot == 1)
+		{
+			KeyAlreadyBoundWarning->OnKeySelected.AddUObject(this, &ThisClass::HandleSecondaryDuplicateKeySelected, KeyAlreadyBoundWarning);
+		}
+		else
+		{
+			KeyAlreadyBoundWarning->OnKeySelected.AddUObject(this, &ThisClass::HandlePrimaryDuplicateKeySelected, KeyAlreadyBoundWarning);
+		}
+		KeyAlreadyBoundWarning->OnKeySelectionCanceled.AddUObject(this, &ThisClass::HandleKeySelectionCanceled, KeyAlreadyBoundWarning);
+	}
+	else
+	{
+		KeyboardInputSetting->ChangeBinding(InKeyBindSlot, InKey);
+	}
 }
 
 void ULyraSettingsListEntrySetting_KeyboardInput::HandleKeySelectionCanceled(UGameSettingPressAnyKey* PressAnyKeyPanel)
+{
+	PressAnyKeyPanel->OnKeySelectionCanceled.RemoveAll(this);
+}
+
+void ULyraSettingsListEntrySetting_KeyboardInput::HandleKeySelectionCanceled(UKeyAlreadyBoundWarning* PressAnyKeyPanel)
 {
 	PressAnyKeyPanel->OnKeySelectionCanceled.RemoveAll(this);
 }

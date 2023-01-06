@@ -1,10 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "LyraControllerComponent_CharacterParts.h"
-#include "LyraPawnComponent_CharacterParts.h"
+#include "Cosmetics/LyraControllerComponent_CharacterParts.h"
+#include "Cosmetics/LyraPawnComponent_CharacterParts.h"
 #include "GameFramework/Controller.h"
 #include "LyraCosmeticDeveloperSettings.h"
 #include "GameFramework/CheatManager.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraControllerComponent_CharacterParts)
 
 //////////////////////////////////////////////////////////////////////
 
@@ -218,3 +220,4 @@ void ULyraControllerComponent_CharacterParts::SetSuppressionOnNaturalParts(bool 
 	}
 #endif
 }
+

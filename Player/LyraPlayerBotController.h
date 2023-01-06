@@ -2,11 +2,19 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "GenericTeamAgentInterface.h"
+#include "HAL/Platform.h"
 #include "ModularAIController.h"
 #include "Teams/LyraTeamAgentInterface.h"
-#include "Perception/AIPerceptionComponent.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraPlayerBotController.generated.h"
+
+class APlayerState;
+class UAIPerceptionComponent;
+class UObject;
+struct FFrame;
 
 /**
  * ALyraPlayerBotController
@@ -61,5 +69,5 @@ private:
 	FOnLyraTeamIndexChangedDelegate OnTeamChangedDelegate;
 
 	UPROPERTY()
-	APlayerState* LastSeenPlayerState;
+	TObjectPtr<APlayerState> LastSeenPlayerState;
 };

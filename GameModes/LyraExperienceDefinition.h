@@ -45,7 +45,7 @@ public:
 
 	// List of actions to perform as this experience is loaded/activated/deactivated/unloaded
 	UPROPERTY(EditDefaultsOnly, Instanced, Category="Actions")
-	TArray<UGameFeatureAction*> Actions;
+	TArray<TObjectPtr<UGameFeatureAction>> Actions;
 
 	// List of additional action sets to compose into this experience
 	UPROPERTY(EditDefaultsOnly, Category=Gameplay)

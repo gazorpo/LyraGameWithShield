@@ -1,8 +1,18 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraGlobalAbilitySystem.h"
-#include "Net/UnrealNetwork.h"
+
+#include "Abilities/GameplayAbility.h"
 #include "AbilitySystem/LyraAbilitySystemComponent.h"
+#include "GameplayAbilitySpec.h"
+#include "GameplayEffect.h"
+#include "GameplayEffectTypes.h"
+#include "Misc/AssertionMacros.h"
+#include "Templates/ChooseClass.h"
+#include "Templates/Tuple.h"
+#include "Templates/TypeHash.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraGlobalAbilitySystem)
 
 void FGlobalAppliedAbilityList::AddToASC(TSubclassOf<UGameplayAbility> Ability, ULyraAbilitySystemComponent* ASC)
 {
@@ -151,3 +161,4 @@ void ULyraGlobalAbilitySystem::UnregisterASC(ULyraAbilitySystemComponent* ASC)
 
 	RegisteredASCs.Remove(ASC);
 }
+

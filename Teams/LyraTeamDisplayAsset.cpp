@@ -6,8 +6,9 @@
 #include "NiagaraComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Engine/Texture.h"
+#include "Teams/LyraTeamSubsystem.h"
 
-#include "LyraTeamSubsystem.h"
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraTeamDisplayAsset)
 
 void ULyraTeamDisplayAsset::ApplyToMaterial(UMaterialInstanceDynamic* Material)
 {

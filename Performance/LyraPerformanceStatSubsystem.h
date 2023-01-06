@@ -3,12 +3,17 @@
 #pragma once
 
 #include "ChartCreation.h"
-#include "Subsystems/GameInstanceSubsystem.h"
 #include "LyraPerformanceStatTypes.h"
+#include "Subsystems/GameInstanceSubsystem.h"
+#include "Templates/SharedPointer.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraPerformanceStatSubsystem.generated.h"
 
+class FSubsystemCollectionBase;
 class ULyraPerformanceStatSubsystem;
+class UObject;
+struct FFrame;
 
 //////////////////////////////////////////////////////////////////////
 

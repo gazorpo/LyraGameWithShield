@@ -2,10 +2,15 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Containers/Array.h"
+#include "Engine/EngineTypes.h"
 #include "GameFramework/HUD.h"
-#include "GameplayTagContainer.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "LyraHUD.generated.h"
+
+class AActor;
+class UObject;
 
 /**
  * ALyraHUD

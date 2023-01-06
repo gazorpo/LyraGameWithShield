@@ -2,23 +2,35 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "ModularCharacter.h"
-#include "Teams/LyraTeamAgentInterface.h"
 #include "AbilitySystemInterface.h"
+#include "Containers/Array.h"
+#include "Engine/EngineTypes.h"
 #include "GameplayCueInterface.h"
 #include "GameplayTagAssetInterface.h"
+#include "GenericTeamAgentInterface.h"
+#include "HAL/Platform.h"
+#include "ModularCharacter.h"
+#include "Teams/LyraTeamAgentInterface.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraCharacter.generated.h"
 
-
+class AActor;
+class AController;
 class ALyraPlayerController;
 class ALyraPlayerState;
-class ULyraAbilitySystemComponent;
+class FLifetimeProperty;
+class IRepChangedPropertyTracker;
 class UAbilitySystemComponent;
-class ULyraPawnExtensionComponent;
-class ULyraHealthComponent;
+class UInputComponent;
+class ULyraAbilitySystemComponent;
 class ULyraCameraComponent;
+class ULyraHealthComponent;
+class ULyraPawnExtensionComponent;
+class UObject;
+struct FFrame;
+struct FGameplayTag;
+struct FGameplayTagContainer;
 
 
 /**
@@ -48,7 +60,7 @@ struct FLyraReplicatedAcceleration
  *	New behavior should be added via pawn components when possible.
  */
 UCLASS(Config = Game, Meta = (ShortTooltip = "The base character pawn class used by this project."))
-class ALyraCharacter : public AModularCharacter, public IAbilitySystemInterface, public IGameplayCueInterface, public IGameplayTagAssetInterface, public ILyraTeamAgentInterface
+class LYRAGAME_API ALyraCharacter : public AModularCharacter, public IAbilitySystemInterface, public IGameplayCueInterface, public IGameplayTagAssetInterface, public ILyraTeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -136,13 +148,13 @@ protected:
 private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
-	ULyraPawnExtensionComponent* PawnExtComponent;
+	TObjectPtr<ULyraPawnExtensionComponent> PawnExtComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
-	ULyraHealthComponent* HealthComponent;
+	TObjectPtr<ULyraHealthComponent> HealthComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
-	ULyraCameraComponent* CameraComponent;
+	TObjectPtr<ULyraCameraComponent> CameraComponent;
 
 	UPROPERTY(Transient, ReplicatedUsing = OnRep_ReplicatedAcceleration)
 	FLyraReplicatedAcceleration ReplicatedAcceleration;

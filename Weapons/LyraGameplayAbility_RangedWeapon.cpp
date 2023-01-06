@@ -16,6 +16,8 @@
 #include "AbilitySystem/LyraGameplayAbilityTargetData_SingleTargetHit.h"
 #include "DrawDebugHelpers.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraGameplayAbility_RangedWeapon)
+
 namespace LyraConsoleVariables
 {
 	static float DrawBulletTracesDuration = 0.0f;
@@ -599,3 +601,4 @@ void ULyraGameplayAbility_RangedWeapon::StartRangedWeaponTargeting()
 	// Process the target data immediately
 	OnTargetDataReadyCallback(TargetData, FGameplayTag());
 }
+

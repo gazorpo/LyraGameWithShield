@@ -2,6 +2,8 @@
 
 #include "LyraTaggedActor.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraTaggedActor)
+
 ALyraTaggedActor::ALyraTaggedActor(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -24,3 +26,4 @@ bool ALyraTaggedActor::CanEditChange(const FProperty* InProperty) const
 	return Super::CanEditChange(InProperty);
 }
 #endif
+

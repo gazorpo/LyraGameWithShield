@@ -1,7 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraAssetManagerStartupJob.h"
+
+#include "HAL/Platform.h"
+#include "Logging/LogCategory.h"
+#include "Logging/LogMacros.h"
 #include "LyraLogChannels.h"
+#include "Trace/Detail/Channel.h"
 
 TSharedPtr<FStreamableHandle> FLyraAssetManagerStartupJob::DoJob() const
 {

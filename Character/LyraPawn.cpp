@@ -1,10 +1,25 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraPawn.h"
-#include "Net/UnrealNetwork.h"
-#include "LyraLogChannels.h"
-#include "GameFramework/PlayerState.h"
+
+#include "Containers/Array.h"
+#include "Containers/UnrealString.h"
+#include "Delegates/Delegate.h"
 #include "GameFramework/Controller.h"
+#include "Logging/LogCategory.h"
+#include "Logging/LogMacros.h"
+#include "LyraLogChannels.h"
+#include "Misc/AssertionMacros.h"
+#include "Net/UnrealNetwork.h"
+#include "Templates/Casts.h"
+#include "Trace/Detail/Channel.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectBaseUtility.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraPawn)
+
+class FLifetimeProperty;
+class UObject;
 
 ALyraPawn::ALyraPawn(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -103,3 +118,4 @@ void ALyraPawn::OnRep_MyTeamID(FGenericTeamId OldTeamID)
 {
 	ConditionalBroadcastTeamChanged(this, OldTeamID, MyTeamID);
 }
+

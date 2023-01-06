@@ -2,14 +2,15 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
-#include "Engine/EngineTypes.h"
-#include "UObject/ScriptInterface.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "IndicatorLibrary.generated.h"
 
+class AController;
 class ULyraIndicatorManagerComponent;
+class UObject;
+struct FFrame;
 
 UCLASS()
 class LYRAGAME_API UIndicatorLibrary : public UBlueprintFunctionLibrary

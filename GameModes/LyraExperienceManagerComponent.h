@@ -79,7 +79,7 @@ private:
 
 private:
 	UPROPERTY(ReplicatedUsing=OnRep_CurrentExperience)
-	const ULyraExperienceDefinition* CurrentExperience;
+	TObjectPtr<const ULyraExperienceDefinition> CurrentExperience;
 
 	ELyraExperienceLoadState LoadState = ELyraExperienceLoadState::Unloaded;
 

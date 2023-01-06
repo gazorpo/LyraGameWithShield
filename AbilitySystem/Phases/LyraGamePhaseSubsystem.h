@@ -2,13 +2,24 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Subsystems/WorldSubsystem.h"
-#include "GameplayTagContainer.h"
+#include "Containers/Array.h"
+#include "Containers/Map.h"
+#include "Delegates/Delegate.h"
+#include "Engine/EngineTypes.h"
 #include "GameplayAbilitySpec.h"
+#include "GameplayTagContainer.h"
+#include "HAL/Platform.h"
+#include "Subsystems/WorldSubsystem.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/UObjectGlobals.h"
+#include "UObject/WeakObjectPtr.h"
+
 #include "LyraGamePhaseSubsystem.generated.h"
 
 class ULyraGamePhaseAbility;
+class UObject;
+struct FFrame;
+struct FGameplayAbilitySpecHandle;
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FLyraGamePhaseDynamicDelegate, const ULyraGamePhaseAbility*, Phase);
 DECLARE_DELEGATE_OneParam(FLyraGamePhaseDelegate, const ULyraGamePhaseAbility* Phase);
@@ -30,7 +41,13 @@ enum class EPhaseTagMatchType : uint8
 };
 
 
-/**  */
+/** Subsystem for managing Lyra's game phases using gameplay tags in a nested manner, which allows parent and child 
+ * phases to be active at the same time, but not sibling phases.
+ * Example:  Game.Playing and Game.Playing.WarmUp can coexist, but Game.Playing and Game.ShowingScore cannot. 
+ * When a new phase is started, any active phases that are not ancestors will be ended.
+ * Example: if Game.Playing and Game.Playing.CaptureTheFlag are active when Game.Playing.PostGame is started, 
+ *     Game.Playing will remain active, while Game.Playing.CaptureTheFlag will end.
+ */
 UCLASS()
 class ULyraGamePhaseSubsystem : public UWorldSubsystem
 {

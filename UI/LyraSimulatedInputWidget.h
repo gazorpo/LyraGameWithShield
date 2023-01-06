@@ -74,11 +74,11 @@ protected:
 
 	/** The common visiblity border will allow you to specifiy UI for only specific platorms if desired */
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UCommonHardwareVisibilityBorder* CommonVisibilityBorder = nullptr;
+	TObjectPtr<UCommonHardwareVisibilityBorder> CommonVisibilityBorder = nullptr;
 	
 	/** The associated input action that we should simulate input for */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	const UInputAction* AssociatedAction = nullptr;
+	TObjectPtr<const UInputAction> AssociatedAction = nullptr;
 
 	/** The Key to simulate input for in the case where none are currently bound to the associated action */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)

@@ -1,7 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraUserFacingExperienceDefinition.h"
+
 #include "CommonSessionSubsystem.h"
+#include "Containers/UnrealString.h"
+#include "UObject/NameTypes.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraUserFacingExperienceDefinition)
 
 UCommonSession_HostSessionRequest* ULyraUserFacingExperienceDefinition::CreateHostingRequest() const
 {
@@ -23,3 +28,4 @@ UCommonSession_HostSessionRequest* ULyraUserFacingExperienceDefinition::CreateHo
 
 	return Result;
 }
+

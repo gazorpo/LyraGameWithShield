@@ -2,12 +2,19 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
+#include "Containers/Array.h"
 #include "GameSettingValueDiscrete.h"
+#include "GenericPlatform/GenericWindow.h"
+#include "Internationalization/Text.h"
+#include "Math/IntPoint.h"
+#include "Math/UnrealMathSSE.h"
+#include "Misc/Optional.h"
+#include "Templates/SharedPointer.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraSettingValueDiscrete_Resolution.generated.h"
 
+class UObject;
 struct FScreenResolutionRHI;
 
 UCLASS()

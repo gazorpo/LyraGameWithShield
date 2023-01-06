@@ -2,8 +2,12 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Containers/UnrealString.h"
+#include "Delegates/Delegate.h"
 #include "Engine/StreamableManager.h"
+#include "HAL/PlatformTime.h"
+#include "Templates/Function.h"
+#include "Templates/SharedPointer.h"
 
 DECLARE_DELEGATE_OneParam(FLyraAssetManagerStartupJobSubstepProgress, float /*NewProgress*/);
 

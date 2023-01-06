@@ -1,15 +1,41 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraAbilitySystemComponent.h"
-#include "LyraLogChannels.h"
-#include "System/LyraGameData.h"
-#include "System/LyraAssetManager.h"
-#include "LyraGlobalAbilitySystem.h"
-#include "GameplayTagContainer.h"
-#include "GameplayAbilitySpec.h"
+
+#include "Abilities/GameplayAbility.h"
+#include "Abilities/GameplayAbilityTargetTypes.h"
+#include "Abilities/GameplayAbilityTypes.h"
 #include "Abilities/LyraGameplayAbility.h"
-#include "Animation/LyraAnimInstance.h"
 #include "AbilitySystem/LyraAbilityTagRelationshipMapping.h"
+#include "Animation/LyraAnimInstance.h"
+#include "Containers/UnrealString.h"
+#include "Engine/World.h"
+#include "GameFramework/Actor.h"
+#include "GameFramework/Pawn.h"
+#include "GameplayAbilitySpec.h"
+#include "GameplayEffect.h"
+#include "GameplayEffectTypes.h"
+#include "GameplayTagContainer.h"
+#include "HAL/PlatformMath.h"
+#include "HAL/UnrealMemory.h"
+#include "Logging/LogCategory.h"
+#include "Logging/LogMacros.h"
+#include "LyraGlobalAbilitySystem.h"
+#include "LyraLogChannels.h"
+#include "Misc/AssertionMacros.h"
+#include "System/LyraAssetManager.h"
+#include "System/LyraGameData.h"
+#include "Templates/Casts.h"
+#include "Templates/SharedPointer.h"
+#include "Templates/SubclassOf.h"
+#include "Trace/Detail/Channel.h"
+#include "UObject/NameTypes.h"
+#include "UObject/SoftObjectPtr.h"
+#include "UObject/UObjectBaseUtility.h"
+#include "UObject/WeakObjectPtr.h"
+#include "UObject/WeakObjectPtrTemplates.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraAbilitySystemComponent)
 
 UE_DEFINE_GAMEPLAY_TAG(TAG_Gameplay_AbilityInputBlocked, "Gameplay.AbilityInputBlocked");
 
@@ -29,6 +55,8 @@ void ULyraAbilitySystemComponent::EndPlay(const EEndPlayReason::Type EndPlayReas
 	{
 		GlobalAbilitySystem->UnregisterASC(this);
 	}
+
+	Super::EndPlay(EndPlayReason);
 }
 
 void ULyraAbilitySystemComponent::InitAbilityActorInfo(AActor* InOwnerActor, AActor* InAvatarActor)
@@ -136,7 +164,7 @@ void ULyraAbilitySystemComponent::CancelAbilitiesByFunc(TShouldCancelAbilityFunc
 
 void ULyraAbilitySystemComponent::CancelInputActivatedAbilities(bool bReplicateCancelAbility)
 {
-	TShouldCancelAbilityFunc ShouldCancelFunc = [this](const ULyraGameplayAbility* LyraAbility, FGameplayAbilitySpecHandle Handle)
+	auto ShouldCancelFunc = [this](const ULyraGameplayAbility* LyraAbility, FGameplayAbilitySpecHandle Handle)
 	{
 		const ELyraAbilityActivationPolicy ActivationPolicy = LyraAbility->GetActivationPolicy();
 		return ((ActivationPolicy == ELyraAbilityActivationPolicy::OnInputTriggered) || (ActivationPolicy == ELyraAbilityActivationPolicy::WhileInputActive));
@@ -458,7 +486,7 @@ void ULyraAbilitySystemComponent::RemoveAbilityFromActivationGroup(ELyraAbilityA
 
 void ULyraAbilitySystemComponent::CancelActivationGroupAbilities(ELyraAbilityActivationGroup Group, ULyraGameplayAbility* IgnoreLyraAbility, bool bReplicateCancelAbility)
 {
-	TShouldCancelAbilityFunc ShouldCancelFunc = [this, Group, IgnoreLyraAbility](const ULyraGameplayAbility* LyraAbility, FGameplayAbilitySpecHandle Handle)
+	auto ShouldCancelFunc = [this, Group, IgnoreLyraAbility](const ULyraGameplayAbility* LyraAbility, FGameplayAbilitySpecHandle Handle)
 	{
 		return ((LyraAbility->GetActivationGroup() == Group) && (LyraAbility != IgnoreLyraAbility));
 	};
@@ -512,3 +540,4 @@ void ULyraAbilitySystemComponent::GetAbilityTargetData(const FGameplayAbilitySpe
 		OutTargetDataHandle = ReplicatedData->TargetData;
 	}
 }
+

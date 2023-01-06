@@ -1,13 +1,26 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "AbilitySystem/Abilities/LyraGameplayAbility_Reset.h"
-#include "TimerManager.h"
-#include "LyraLogChannels.h"
+
+#include "Abilities/GameplayAbility.h"
+#include "Abilities/GameplayAbilityTypes.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
+#include "AbilitySystemComponent.h"
+#include "Character/LyraCharacter.h"
+#include "Containers/Array.h"
+#include "Containers/EnumAsByte.h"
+#include "Delegates/Delegate.h"
+#include "GameFramework/Actor.h"
+#include "GameFramework/GameplayMessageSubsystem.h"
+#include "GameplayTagContainer.h"
 #include "GameplayTagsManager.h"
 #include "LyraGameplayTags.h"
-#include "AbilitySystem/LyraAbilitySystemComponent.h"
-#include "GameFramework/GameplayMessageSubsystem.h"
-#include "Character/LyraCharacter.h"
+#include "Misc/AssertionMacros.h"
+#include "Templates/Casts.h"
+#include "UObject/WeakObjectPtr.h"
+#include "UObject/WeakObjectPtrTemplates.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraGameplayAbility_Reset)
 
 ULyraGameplayAbility_Reset::ULyraGameplayAbility_Reset(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -44,11 +57,6 @@ void ULyraGameplayAbility_Reset::ActivateAbility(const FGameplayAbilitySpecHandl
 
 	SetCanBeCanceled(false);
 
-	if (!ChangeActivationGroup(ELyraAbilityActivationGroup::Exclusive_Blocking))
-	{
-		UE_LOG(LogLyraAbilitySystem, Error, TEXT("ULyraGameplayAbility_Reset::ActivateAbility: Ability [%s] failed to change activation group to blocking."), *GetName());
-	}
-
 	// Execute the reset from the character
 	if (ALyraCharacter* LyraChar = Cast<ALyraCharacter>(CurrentActorInfo->AvatarActor.Get()))
 	{
@@ -67,3 +75,4 @@ void ULyraGameplayAbility_Reset::ActivateAbility(const FGameplayAbilitySpecHandl
 	const bool bWasCanceled = false;
 	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, bReplicateEndAbility, bWasCanceled);
 }
+

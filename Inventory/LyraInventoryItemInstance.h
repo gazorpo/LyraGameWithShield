@@ -2,11 +2,18 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "HAL/Platform.h"
 #include "System/GameplayTagStack.h"
-#include "LyraInventoryItemDefinition.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/Object.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraInventoryItemInstance.generated.h"
+
+class ULyraInventoryItemDefinition;
+class ULyraInventoryItemFragment;
+struct FFrame;
+struct FGameplayTag;
 
 /**
  * ULyraInventoryItemInstance
@@ -54,6 +61,11 @@ public:
 	}
 
 private:
+#if UE_WITH_IRIS
+	/** Register all replication fragments */
+	virtual void RegisterReplicationFragments(UE::Net::FFragmentRegistrationContext& Context, UE::Net::EFragmentRegistrationFlags RegistrationFlags) override;
+#endif // UE_WITH_IRIS
+
 	void SetItemDef(TSubclassOf<ULyraInventoryItemDefinition> InDef);
 
 	friend struct FLyraInventoryList;

@@ -1,26 +1,42 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "LyraGameSettingRegistry.h"
-#include "Player/LyraLocalPlayer.h"
-
+#include "Containers/Array.h"
+#include "Containers/UnrealString.h"
+#include "CustomSettings/LyraSettingAction_SafeZoneEditor.h"
+#include "CustomSettings/LyraSettingValueDiscrete_MobileFPSType.h"
+#include "CustomSettings/LyraSettingValueDiscrete_OverallQuality.h"
+#include "CustomSettings/LyraSettingValueDiscrete_Resolution.h"
+#include "DataSource/GameSettingDataSourceDynamic.h"
+#include "EditCondition/WhenCondition.h"
+#include "EditCondition/WhenPlatformHasTrait.h"
+#include "EditCondition/WhenPlayingAsPrimaryPlayer.h"
+#include "Engine/LocalPlayer.h"
+#include "Framework/Application/SlateApplication.h"
 #include "GameSetting.h"
-#include "GameSettingValueDiscreteDynamic.h"
-#include "GameSettingValueScalar.h"
-#include "GameSettingValueScalarDynamic.h"
-#include "GameSettingCollection.h"
 #include "GameSettingAction.h"
+#include "GameSettingCollection.h"
+#include "GameSettingFilterState.h"
+#include "GameSettingValueDiscreteDynamic.h"
+#include "GameSettingValueScalarDynamic.h"
+#include "GenericPlatform/GenericApplication.h"
+#include "GenericPlatform/GenericWindow.h"
+#include "HAL/PlatformMisc.h"
+#include "Internationalization/Internationalization.h"
+#include "Internationalization/Text.h"
+#include "LyraGameSettingRegistry.h"
 #include "LyraSettingsLocal.h"
 #include "LyraSettingsShared.h"
-#include "EditCondition/WhenCondition.h"
-#include "EditCondition/WhenPlayingAsPrimaryPlayer.h"
-#include "EditCondition/WhenPlatformHasTrait.h"
-#include "CustomSettings/LyraSettingAction_SafeZoneEditor.h"
-#include "CustomSettings/LyraSettingValueDiscrete_Resolution.h"
-#include "CustomSettings/LyraSettingValueDiscrete_OverallQuality.h"
-#include "CustomSettings/LyraSettingValueDiscrete_MobileFPSType.h"
+#include "Math/Range.h"
+#include "Math/UnrealMathSSE.h"
+#include "Math/Vector2D.h"
+#include "Math/Vector4.h"
 #include "NativeGameplayTags.h"
-#include "Framework/Application/SlateApplication.h"
 #include "Performance/LyraPerformanceSettings.h"
+#include "Player/LyraLocalPlayer.h"
+#include "Templates/Casts.h"
+#include "Templates/SharedPointer.h"
+#include "UObject/NameTypes.h"
+#include "UObject/UObjectGlobals.h"
 
 #define LOCTEXT_NAMESPACE "Lyra"
 
@@ -611,22 +627,6 @@ UGameSettingCollection* ULyraGameSettingRegistry::InitializeVideoSettings(ULyraL
 
 			AdvancedGraphics->AddSetting(Setting);
 		}
-		//----------------------------------------------------------------------------------
-	}
-
-	// Ray Tracing
-	////////////////////////////////////////////////////////////////////////////////////
-	{
-//@TODO: Ray tracing setting: Implement me or delete me!
-// 		UGameSettingCollection* RayTracing = NewObject<UGameSettingCollection>();
-// 		RayTracing->SetDevName(TEXT("RayTracingCollection"));
-// 		RayTracing->SetDisplayName(LOCTEXT("RayTracing_Collection_Name", "Ray Tracing"));
-// 		Screen->AddSetting(RayTracing);
-
-		//----------------------------------------------------------------------------------
-		{
-		}
-		//----------------------------------------------------------------------------------
 	}
 
 	return Screen;

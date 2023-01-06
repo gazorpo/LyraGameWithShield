@@ -54,7 +54,7 @@ protected:
 	template <typename GameDataClass>
 	const GameDataClass& GetOrLoadTypedGameData(const TSoftObjectPtr<GameDataClass>& DataPath)
 	{
-		if (const UPrimaryDataAsset* const * pResult = GameDataMap.Find(GameDataClass::StaticClass()))
+		if (TObjectPtr<UPrimaryDataAsset> const * pResult = GameDataMap.Find(GameDataClass::StaticClass()))
 		{
 			return *CastChecked<GameDataClass>(*pResult);
 		}
@@ -87,7 +87,7 @@ protected:
 
 	// Loaded version of the game data
 	UPROPERTY(Transient)
-	TMap<UClass*, UPrimaryDataAsset*> GameDataMap;
+	TMap<TObjectPtr<UClass>, TObjectPtr<UPrimaryDataAsset>> GameDataMap;
 
 	// Pawn data used when spawning player pawns if there isn't one set on the player state.
 	UPROPERTY(Config)
@@ -111,7 +111,7 @@ private:
 	
 	// Assets loaded and tracked by the asset manager.
 	UPROPERTY()
-	TSet<const UObject*> LoadedAssets;
+	TSet<TObjectPtr<const UObject>> LoadedAssets;
 
 	// Used for a scope lock when modifying the list of load assets.
 	FCriticalSection LoadedAssetsCritical;

@@ -4,6 +4,7 @@
 #include "LyraPlayerController.h"
 #include "LyraDebugCameraController.h"
 #include "Engine/Engine.h"
+#include "Engine/GameViewportClient.h"
 #include "Engine/World.h"
 #include "Engine/Console.h"
 #include "GameFramework/HUD.h"
@@ -17,6 +18,8 @@
 #include "Character/LyraPawnExtensionComponent.h"
 #include "System/LyraSystemStatics.h"
 #include "Development/LyraDeveloperSettings.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraCheatManager)
 
 DEFINE_LOG_CATEGORY(LogLyraCheat);
 
@@ -360,9 +363,9 @@ void ULyraCheatManager::DamageSelfDestruct()
 {
 	if (ALyraPlayerController* LyraPC = Cast<ALyraPlayerController>(GetOuterAPlayerController()))
 	{
-		if (const ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(LyraPC->GetPawn()))
+ 		if (const ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(LyraPC->GetPawn()))
 		{
-			if (PawnExtComp->IsPawnReadyToInitialize())
+			if (PawnExtComp->HasReachedInitState(FLyraGameplayTags::Get().InitState_GameplayReady))
 			{
 				if (ULyraHealthComponent* HealthComponent = ULyraHealthComponent::FindHealthComponent(LyraPC->GetPawn()))
 				{
@@ -421,3 +424,4 @@ void ULyraCheatManager::UnlimitedHealth(int32 Enabled)
 		}
 	}
 }
+

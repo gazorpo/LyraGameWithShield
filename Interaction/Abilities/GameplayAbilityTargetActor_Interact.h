@@ -2,10 +2,14 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Abilities/GameplayAbilityTargetActor.h"
 #include "Abilities/GameplayAbilityTargetActor_Trace.h"
+#include "Engine/HitResult.h"
+#include "UObject/UObjectGlobals.h"
+
 #include "GameplayAbilityTargetActor_Interact.generated.h"
+
+class AActor;
+class UObject;
 
 
 /** Intermediate base class for all interaction target actors. */

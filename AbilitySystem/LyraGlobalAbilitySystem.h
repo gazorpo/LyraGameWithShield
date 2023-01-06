@@ -2,19 +2,23 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Subsystems/WorldSubsystem.h"
-#include "AbilitySystemInterface.h"
-#include "GameplayTagContainer.h"
+#include "Containers/Array.h"
+#include "Containers/Map.h"
+#include "Containers/SparseArray.h"
 #include "GameplayAbilitySpec.h"
-#include "GameplayEffectTypes.h"
+#include "Subsystems/WorldSubsystem.h"
+#include "Templates/SubclassOf.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraGlobalAbilitySystem.generated.h"
 
-class ULyraAbilitySystemComponent;
-class UAbilitySystemComponent;
-class UGameplayEffect;
 class UGameplayAbility;
+class UGameplayEffect;
+class ULyraAbilitySystemComponent;
+class UObject;
+struct FActiveGameplayEffectHandle;
+struct FFrame;
+struct FGameplayAbilitySpecHandle;
 
 USTRUCT()
 struct FGlobalAppliedAbilityList
@@ -22,7 +26,7 @@ struct FGlobalAppliedAbilityList
 	GENERATED_BODY()
 
 	UPROPERTY()
-	TMap<ULyraAbilitySystemComponent*, FGameplayAbilitySpecHandle> Handles;
+	TMap<TObjectPtr<ULyraAbilitySystemComponent>, FGameplayAbilitySpecHandle> Handles;
 
 	void AddToASC(TSubclassOf<UGameplayAbility> Ability, ULyraAbilitySystemComponent* ASC);
 	void RemoveFromASC(ULyraAbilitySystemComponent* ASC);
@@ -35,7 +39,7 @@ struct FGlobalAppliedEffectList
 	GENERATED_BODY()
 
 	UPROPERTY()
-	TMap<ULyraAbilitySystemComponent*, FActiveGameplayEffectHandle> Handles;
+	TMap<TObjectPtr<ULyraAbilitySystemComponent>, FActiveGameplayEffectHandle> Handles;
 
 	void AddToASC(TSubclassOf<UGameplayEffect> Effect, ULyraAbilitySystemComponent* ASC);
 	void RemoveFromASC(ULyraAbilitySystemComponent* ASC);
@@ -76,5 +80,5 @@ private:
 	TMap<TSubclassOf<UGameplayEffect>, FGlobalAppliedEffectList> AppliedEffects;
 
 	UPROPERTY()
-	TArray<ULyraAbilitySystemComponent*> RegisteredASCs;
+	TArray<TObjectPtr<ULyraAbilitySystemComponent>> RegisteredASCs;
 };

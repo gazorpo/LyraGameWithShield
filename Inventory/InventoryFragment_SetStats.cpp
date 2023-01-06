@@ -1,7 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "InventoryFragment_SetStats.h"
+
+#include "GameplayTagContainer.h"
 #include "Inventory/LyraInventoryItemInstance.h"
+#include "Templates/Tuple.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(InventoryFragment_SetStats)
 
 void UInventoryFragment_SetStats::OnInstanceCreated(ULyraInventoryItemInstance* Instance) const
 {

@@ -6,6 +6,8 @@
 #include "LyraControllerComponent_CharacterParts.h"
 #include "System/LyraDevelopmentStatics.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraCosmeticCheats)
+
 //////////////////////////////////////////////////////////////////////
 // ULyraCosmeticCheats
 
@@ -65,3 +67,4 @@ ULyraControllerComponent_CharacterParts* ULyraCosmeticCheats::GetCosmeticCompone
 
 	return nullptr;
 }
+

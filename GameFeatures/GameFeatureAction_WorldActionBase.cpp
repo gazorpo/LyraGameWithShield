@@ -1,9 +1,16 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "GameFeatureAction_WorldActionBase.h"
-#include "GameFeaturesSubsystemSettings.h"
-#include "Engine/World.h"
+
+#include "Containers/Array.h"
+#include "Containers/IndirectArray.h"
+#include "Delegates/Delegate.h"
 #include "Engine/Engine.h"
+#include "Engine/GameInstance.h"
+#include "Engine/World.h"
+#include "GameFeaturesSubsystem.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(GameFeatureAction_WorldActionBase)
 
 void UGameFeatureAction_WorldActionBase::OnGameFeatureActivating(FGameFeatureActivatingContext& Context)
 {
@@ -40,3 +47,4 @@ void UGameFeatureAction_WorldActionBase::HandleGameInstanceStart(UGameInstance* 
 		}
 	}
 }
+

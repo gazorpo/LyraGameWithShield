@@ -2,6 +2,11 @@
 
 #include "LyraAimSensitivityData.h"
 
+#include "Containers/Set.h"
+#include "initializer_list"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraAimSensitivityData)
+
 ULyraAimSensitivityData::ULyraAimSensitivityData(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -29,3 +34,4 @@ const float ULyraAimSensitivityData::SensitivtyEnumToFloat(const ELyraGamepadSen
 
 	return 1.0f;
 }
+

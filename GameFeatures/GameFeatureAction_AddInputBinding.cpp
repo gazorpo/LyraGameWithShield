@@ -12,6 +12,8 @@
 #include "Character/LyraHeroComponent.h"
 #include "Input/LyraInputConfig.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(GameFeatureAction_AddInputBinding)
+
 #define LOCTEXT_NAMESPACE "GameFeatures"
 
 //////////////////////////////////////////////////////////////////////
@@ -166,3 +168,4 @@ void UGameFeatureAction_AddInputBinding::RemoveInputMapping(APawn* Pawn, FPerCon
 }
 
 #undef LOCTEXT_NAMESPACE
+

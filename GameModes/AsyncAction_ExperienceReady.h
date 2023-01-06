@@ -2,15 +2,18 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
+#include "Delegates/Delegate.h"
 #include "Kismet/BlueprintAsyncActionBase.h"
+#include "UObject/Object.h"
+#include "UObject/UObjectGlobals.h"
+#include "UObject/WeakObjectPtrTemplates.h"
 
 #include "AsyncAction_ExperienceReady.generated.h"
 
 class AGameStateBase;
-class UGameInstance;
 class ULyraExperienceDefinition;
+class UWorld;
+struct FFrame;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FExperienceReadyAsyncDelegate);
 

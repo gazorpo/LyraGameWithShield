@@ -3,6 +3,8 @@
 #include "LyraExperienceDefinition.h"
 #include "GameFeatureAction.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraExperienceDefinition)
+
 #define LOCTEXT_NAMESPACE "LyraSystem"
 
 ULyraExperienceDefinition::ULyraExperienceDefinition()
@@ -73,3 +75,4 @@ void ULyraExperienceDefinition::UpdateAssetBundleData()
 #endif // WITH_EDITORONLY_DATA
 
 #undef LOCTEXT_NAMESPACE
+

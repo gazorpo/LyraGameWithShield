@@ -2,14 +2,18 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Engine/EngineTypes.h"
 #include "GameFramework/Info.h"
+#include "HAL/Platform.h"
 #include "System/GameplayTagStack.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraTeamInfoBase.generated.h"
 
 class ULyraTeamCreationComponent;
 class ULyraTeamSubsystem;
+class UObject;
+struct FFrame;
 
 UCLASS(Abstract)
 class ALyraTeamInfoBase : public AInfo

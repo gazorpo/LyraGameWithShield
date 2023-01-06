@@ -1,21 +1,54 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraCharacter.h"
-#include "LyraCharacterMovementComponent.h"
-#include "LyraLogChannels.h"
-#include "LyraGameplayTags.h"
+
+#include "AI/Navigation/NavigationTypes.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
+#include "AbilitySystemComponent.h"
+#include "Camera/LyraCameraComponent.h"
+#include "Character/LyraHealthComponent.h"
 #include "Character/LyraPawnExtensionComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "Components/InputComponent.h"
-#include "Camera/LyraCameraComponent.h"
-#include "AbilitySystem/LyraAbilitySystemComponent.h"
-#include "Character/LyraHealthComponent.h"
+#include "Containers/EnumAsByte.h"
+#include "Containers/Map.h"
+#include "Containers/UnrealString.h"
+#include "Delegates/Delegate.h"
+#include "Engine/EngineBaseTypes.h"
+#include "Engine/World.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Controller.h"
+#include "GameplayTagContainer.h"
+#include "Logging/LogCategory.h"
+#include "Logging/LogMacros.h"
+#include "LyraCharacterMovementComponent.h"
+#include "LyraGameplayTags.h"
+#include "LyraLogChannels.h"
+#include "Math/Rotator.h"
+#include "Math/UnrealMathSSE.h"
+#include "Math/Vector.h"
+#include "Misc/AssertionMacros.h"
+#include "Net/UnrealNetwork.h"
 #include "Player/LyraPlayerController.h"
 #include "Player/LyraPlayerState.h"
+#include "SignificanceManager.h"
 #include "System/LyraSignificanceManager.h"
-#include "Net/UnrealNetwork.h"
+#include "Templates/Casts.h"
 #include "TimerManager.h"
+#include "Trace/Detail/Channel.h"
+#include "UObject/CoreNetTypes.h"
+#include "UObject/NameTypes.h"
+#include "UObject/Object.h"
+#include "UObject/ObjectPtr.h"
+#include "UObject/UObjectBaseUtility.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraCharacter)
+
+class AActor;
+class FLifetimeProperty;
+class IRepChangedPropertyTracker;
+class UInputComponent;
 
 static FName NAME_LyraCharacterCollisionProfile_Capsule(TEXT("LyraPawnCapsule"));
 static FName NAME_LyraCharacterCollisionProfile_Mesh(TEXT("LyraPawnMesh"));
@@ -515,3 +548,4 @@ void ALyraCharacter::OnRep_MyTeamID(FGenericTeamId OldTeamID)
 {
 	ConditionalBroadcastTeamChanged(this, OldTeamID, MyTeamID);
 }
+

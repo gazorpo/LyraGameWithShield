@@ -2,10 +2,24 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Containers/Array.h"
+#include "Containers/Map.h"
+#include "Containers/Set.h"
 #include "GameplayCueManager.h"
+#include "GameplayTagContainer.h"
+#include "HAL/CriticalSection.h"
+#include "UObject/SoftObjectPath.h"
+#include "UObject/UObjectGlobals.h"
+#include "UObject/WeakObjectPtr.h"
+#include "UObject/WeakObjectPtrTemplates.h"
 
 #include "LyraGameplayCueManager.generated.h"
+
+class FString;
+class UClass;
+class UObject;
+class UWorld;
+struct FObjectKey;
 
 /**
  * ULyraGameplayCueManager
@@ -61,12 +75,12 @@ private:
 private:
 	// Cues that were preloaded on the client due to being referenced by content
 	UPROPERTY(transient)
-	TSet<UClass*> PreloadedCues;
+	TSet<TObjectPtr<UClass>> PreloadedCues;
 	TMap<FObjectKey, TSet<FObjectKey>> PreloadedCueReferencers;
 
 	// Cues that were preloaded on the client and will always be loaded (code referenced or explicitly always loaded)
 	UPROPERTY(transient)
-	TSet<UClass*> AlwaysLoadedCues;
+	TSet<TObjectPtr<UClass>> AlwaysLoadedCues;
 
 	TArray<FLoadedGameplayTagToProcessData> LoadedGameplayTagsToProcess;
 	FCriticalSection LoadedGameplayTagsToProcessCS;

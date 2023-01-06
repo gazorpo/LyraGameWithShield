@@ -1,9 +1,15 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraAbilityCost_PlayerTagStack.h"
-#include "Player/LyraPlayerState.h"
+
+#include "Abilities/GameplayAbilityTypes.h"
+#include "GameFramework/Controller.h"
 #include "LyraGameplayAbility.h"
-#include "GameFramework/PlayerController.h"
+#include "Math/UnrealMathSSE.h"
+#include "Player/LyraPlayerState.h"
+#include "Templates/Casts.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraAbilityCost_PlayerTagStack)
 
 ULyraAbilityCost_PlayerTagStack::ULyraAbilityCost_PlayerTagStack()
 {
@@ -45,3 +51,4 @@ void ULyraAbilityCost_PlayerTagStack::ApplyCost(const ULyraGameplayAbility* Abil
 		}
 	}
 }
+

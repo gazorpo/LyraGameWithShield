@@ -1,7 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "GameplayMessageProcessor.h"
+
+#include "Engine/World.h"
 #include "GameFramework/GameStateBase.h"
+#include "Templates/UnrealTemplate.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(GameplayMessageProcessor)
 
 void UGameplayMessageProcessor::BeginPlay()
 {
@@ -50,3 +55,4 @@ double UGameplayMessageProcessor::GetServerTime() const
 		return 0.0;
 	}
 }
+

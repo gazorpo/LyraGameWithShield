@@ -3,10 +3,17 @@
 #pragma once
 
 #include "GameplayEffectTypes.h"
+#include "HAL/Platform.h"
+#include "UObject/Class.h"
+#include "UObject/WeakObjectPtr.h"
+#include "UObject/WeakObjectPtrTemplates.h"
+
 #include "LyraGameplayEffectContext.generated.h"
 
-class UAbilitySystemComponent;
+class AActor;
+class FArchive;
 class ILyraAbilitySourceInterface;
+class UObject;
 class UPhysicalMaterial;
 
 USTRUCT()

@@ -2,18 +2,22 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/Interface.h"
-#include "Engine/GameInstance.h"
-#include "UObject/PrimaryAssetId.h"
+#include "Containers/Map.h"
 #include "Engine/DataAsset.h"
+#include "HAL/Platform.h"
+#include "Internationalization/Text.h"
+#include "UObject/PrimaryAssetId.h"
+#include "UObject/SoftObjectPtr.h"
+#include "UObject/UObjectGlobals.h"
 
 #include "LyraUserFacingExperienceDefinition.generated.h"
 
-class UWorld;
+class FString;
 class UCommonSession_HostSessionRequest;
+class UObject;
 class UTexture2D;
 class UUserWidget;
+struct FFrame;
 
 /** Description of settings used to display experiences in the UI and start a new session */
 UCLASS(BlueprintType)
@@ -48,7 +52,7 @@ public:
 
 	/** Icon used in the UI */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category=Experience)
-	UTexture2D* TileIcon;
+	TObjectPtr<UTexture2D> TileIcon;
 
 	/** The loading screen widget to show when loading into (or back out of) a given experience */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category=LoadingScreen)

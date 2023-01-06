@@ -12,6 +12,8 @@
 #include "LyraControllerComponent_CharacterParts.h"
 #include "EngineUtils.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraCosmeticDeveloperSettings)
+
 #define LOCTEXT_NAMESPACE "LyraCheats"
 
 ULyraCosmeticDeveloperSettings::ULyraCosmeticDeveloperSettings()
@@ -92,3 +94,4 @@ void ULyraCosmeticDeveloperSettings::OnPlayInEditorStarted() const
 #endif // WITH_EDITOR
 
 #undef LOCTEXT_NAMESPACE
+

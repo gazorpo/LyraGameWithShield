@@ -1,11 +1,25 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraSettingsShared.h"
+
+#include "CoreGlobals.h"
 #include "Framework/Application/SlateApplication.h"
-#include "Engine/LocalPlayer.h"
-#include "Kismet/GameplayStatics.h"
-#include "Player/LyraLocalPlayer.h"
+#include "HAL/IConsoleManager.h"
 #include "Internationalization/Culture.h"
+#include "Internationalization/CulturePointer.h"
+#include "Internationalization/Internationalization.h"
+#include "Kismet/GameplayStatics.h"
+#include "Math/UnrealMathSSE.h"
+#include "Misc/App.h"
+#include "Misc/AssertionMacros.h"
+#include "Misc/ConfigCacheIni.h"
+#include "Player/LyraLocalPlayer.h"
+#include "Rendering/RenderingCommon.h"
+#include "Rendering/SlateRenderer.h"
+#include "SubtitleDisplaySubsystem.h"
+#include "Templates/Casts.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraSettingsShared)
 
 static FString SHARED_SETTINGS_SLOT_NAME = TEXT("SharedGameSettings");
 
@@ -222,3 +236,4 @@ void ULyraSettingsShared::ApplyInputSensitivity()
 {
 	
 }
+

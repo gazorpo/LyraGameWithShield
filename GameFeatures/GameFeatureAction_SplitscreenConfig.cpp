@@ -1,10 +1,15 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "GameFeatureAction_SplitscreenConfig.h"
-#include "Components/GameFrameworkComponentManager.h"
-#include "GameFeaturesSubsystemSettings.h"
-#include "Engine/AssetManager.h"
+
 #include "Engine/Engine.h"
+#include "Engine/GameInstance.h"
+#include "Engine/GameViewportClient.h"
+#include "GameFeaturesSubsystem.h"
+#include "Templates/Casts.h"
+#include "UObject/ObjectPtr.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(GameFeatureAction_SplitscreenConfig)
 
 #define LOCTEXT_NAMESPACE "LyraGameFeatures"
 
@@ -73,3 +78,4 @@ void UGameFeatureAction_SplitscreenConfig::AddToWorld(const FWorldContext& World
 }
 
 #undef LOCTEXT_NAMESPACE
+

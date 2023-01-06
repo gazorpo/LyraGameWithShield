@@ -1,8 +1,15 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraActorUtilities.h"
-#include "GameFramework/Actor.h"
+
 #include "Components/ActorComponent.h"
+#include "Engine/EngineBaseTypes.h"
+#include "GameFramework/Actor.h"
+#include "Misc/AssertionMacros.h"
+#include "Templates/Casts.h"
+#include "UObject/Object.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(LyraActorUtilities)
 
 EBlueprintExposedNetMode ULyraActorUtilities::SwitchOnNetMode(const UObject* WorldContextObject)
 {
@@ -36,3 +43,4 @@ EBlueprintExposedNetMode ULyraActorUtilities::SwitchOnNetMode(const UObject* Wor
 		return EBlueprintExposedNetMode::Standalone;
 	}
 }
+
