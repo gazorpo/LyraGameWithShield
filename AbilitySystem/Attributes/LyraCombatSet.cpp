@@ -14,6 +14,7 @@ class FLifetimeProperty;
 ULyraCombatSet::ULyraCombatSet()
 	: BaseDamage(0.0f)
 	, BaseHeal(0.0f)
+	, BaseShieldRecharge(0.0f)
 {
 }
 
@@ -33,5 +34,10 @@ void ULyraCombatSet::OnRep_BaseDamage(const FGameplayAttributeData& OldValue)
 void ULyraCombatSet::OnRep_BaseHeal(const FGameplayAttributeData& OldValue)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(ULyraCombatSet, BaseHeal, OldValue);
+}
+
+void ULyraCombatSet::OnRep_BaseShieldRecharge(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(ULyraCombatSet, BaseShieldRecharge, OldValue);
 }
 

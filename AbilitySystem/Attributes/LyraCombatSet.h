@@ -32,6 +32,7 @@ public:
 
 	ATTRIBUTE_ACCESSORS(ULyraCombatSet, BaseDamage);
 	ATTRIBUTE_ACCESSORS(ULyraCombatSet, BaseHeal);
+	ATTRIBUTE_ACCESSORS(ULyraCombatSet, BaseShieldRecharge);
 
 protected:
 
@@ -40,6 +41,9 @@ protected:
 
 	UFUNCTION()
 	void OnRep_BaseHeal(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	void OnRep_BaseShieldRecharge(const FGameplayAttributeData& OldValue);
 
 private:
 
@@ -50,4 +54,8 @@ private:
 	// The base amount of healing to apply in the heal execution.
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_BaseHeal, Category = "Lyra|Combat", Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData BaseHeal;
+
+	// The base amount of shield recharge to apply in the shield recharge execution.
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_BaseShieldRecharge, Category = "Lyra|Combat", Meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData BaseShieldRecharge;
 };
