@@ -29,3 +29,5 @@ Make sure they are connected up like the old health ones. Then go to Plugins > S
 Finally, search W_Shieldbar in the Palette and drag it onto the HUD layout.
 
 <img width="1019" alt="" src="https://user-images.githubusercontent.com/89604529/211082393-28af6394-e0dc-4083-ad58-e2104f3c0ebe.png">
+
+Optional idea: make it look distinct by playing around with W_Shieldbar and its positioning in W_ShooterHUDLayout.
